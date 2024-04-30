@@ -72,8 +72,8 @@
                                                         <Image url="@assets/Schneider-Electric-logo-jpg-.png" />
                                                     </image>
                                                 </ImageView>
-                                    <Button layoutX="742.0" layoutY="483.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
-                                    <Button layoutX="669.0" layoutY="483.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add" />
+                                    <Button layoutX="737.0" layoutY="647.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
+                                    <Button layoutX="664.0" layoutY="647.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add" />
                                     <AnchorPane layoutX="128.0" layoutY="89.0" prefHeight="475.0" prefWidth="322.0" styleClass="table-borders" stylesheets="@../css/MainView.css">
                                        <children>
                                           <HBox prefHeight="382.0" prefWidth="311.0">
@@ -194,8 +194,8 @@
                                           </HBox>
                                        </children>
                                     </AnchorPane>
-                                    <Button layoutX="885.0" layoutY="483.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Clear" />
-                                    <Button layoutX="812.0" layoutY="483.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Save" />
+                                    <Button layoutX="880.0" layoutY="647.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Clear" />
+                                    <Button layoutX="807.0" layoutY="647.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Save" />
                                     <Button layoutX="224.0" layoutY="584.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
                                     <Button layoutX="151.0" layoutY="584.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add" />
                                     <Button layoutX="367.0" layoutY="584.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Clear" />
