@@ -50,13 +50,14 @@
                      <center>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                            <children>
-                              <AnchorPane layoutX="183.0" layoutY="164.0" prefHeight="564.6666666666666" prefWidth="1100.0" styleClass="white-bg" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <AnchorPane layoutX="183.0" layoutY="164.0" prefHeight="557.3333333333334" prefWidth="1100.0" styleClass="white-bg" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane layoutX="120.0" layoutY="81.0" prefHeight="405.0" prefWidth="249.0" styleClass="white-bg" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="90.0">
+                                    <AnchorPane layoutX="120.0" layoutY="81.0" prefHeight="377.0" prefWidth="328.0" styleClass="white-bg" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="200.0" AnchorPane.topAnchor="90.0">
                                        <children>
-                                          <TableView layoutX="25.0" layoutY="51.0" prefHeight="384.66666666666663" prefWidth="249.33333333333334" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView layoutX="25.0" layoutY="51.0" prefHeight="377.0" prefWidth="250.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                              <TableColumn prefWidth="247.33328247070312" text="Country" />
+                                                <TableColumn prefWidth="166.66673278808594" text="Name" />
+                                              <TableColumn prefWidth="156.66659545898438" text="Hourly rate" />
                                             </columns>
                                              <styleClass>
                                                 <String fx:value="table-borders" />
