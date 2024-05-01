@@ -11,6 +11,7 @@ public class Employees {
     private double workingHours;
     private double utilizationPercentage;
     private double overheadCost;
+    private double hourlyRate;
 
 
     public int getId() {
@@ -33,7 +34,7 @@ public class Employees {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(Double salary) {
         this.salary = salary;
     }
 
@@ -41,7 +42,7 @@ public class Employees {
         return multiplier;
     }
 
-    public void setMultiplier(int multiplier) {
+    public void setMultiplier(Double multiplier) {
         this.multiplier = multiplier;
     }
 
@@ -49,7 +50,7 @@ public class Employees {
         return configurableAmount;
     }
 
-    public void setConfigurableAmount(int configurableAmount) {
+    public void setConfigurableAmount(Double configurableAmount) {
         this.configurableAmount = configurableAmount;
     }
 
@@ -73,7 +74,7 @@ public class Employees {
         return workingHours;
     }
 
-    public void setWorkingHours(int workingHours) {
+    public void setWorkingHours(Double workingHours) {
         this.workingHours = workingHours;
     }
 
@@ -81,7 +82,7 @@ public class Employees {
         return utilizationPercentage;
     }
 
-    public void setUtilizationPercentage(int utilizationPercentage) {
+    public void setUtilizationPercentage(Double utilizationPercentage) {
         this.utilizationPercentage = utilizationPercentage;
     }
 
@@ -89,18 +90,24 @@ public class Employees {
         return overheadCost;
     }
 
-    public void setOverheadCost(int overheadCost) {
+    public void setOverheadCost(Double overheadCost) {
         this.overheadCost = overheadCost;
     }
 
-    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, String country, String team, double workingHours, double utilizationPercentage, double overheadCost) {
+    public double getHourlyRate() {
+        return hourlyRate;
+    }
+
+    public void setHourlyRate(double hourlyRate) {
+        this.hourlyRate = hourlyRate;
+    }
+
+    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost) {
         this.id = id;
         this.employeeName = employeeName;
         this.salary = salary;
         this.multiplier = multiplier;
         this.configurableAmount = configurableAmount;
-        this.country = country;
-        this.team = team;
         this.workingHours = workingHours;
         this.utilizationPercentage = utilizationPercentage;
         this.overheadCost = overheadCost;
@@ -108,6 +115,6 @@ public class Employees {
 
     @Override
     public String toString(){
-        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + country + "" + team + "" + workingHours + "" + utilizationPercentage + "" + overheadCost;
+        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + workingHours + "" + utilizationPercentage + "" + overheadCost;
     }
 }

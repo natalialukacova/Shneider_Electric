@@ -12,11 +12,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TableColumn;
 import java.awt.event.ActionEvent;
 import java.util.List;
-import java.util.Objects;
 
 public class editUpdate {
 
     private TableView<Employees> employeesTableView;
+    public String employeeName;
     @FXML
     public TextField nameTxtField;
     @FXML
@@ -25,10 +25,6 @@ public class editUpdate {
     public TextField multiplierTxtField;
     @FXML
     public TextField configurableAmountTxtField;
-    @FXML
-    public TextField countryTxtField;
-    @FXML
-    public TextField teamTxtField;
     @FXML
     public TextField workingHoursTxtField;
     @FXML
@@ -50,40 +46,41 @@ public class editUpdate {
         // Clear existing columns
         //employeesTableView.getColumns().clear();
 
-        // Define columns using a loop
-        String[] columnProperties = {"employeeName", "salary", "multiplier", "configurableAmount", "country", "team", "workingHours", "utilizationPercentage", "overheadCost"};
-        String[] columnHeaders = {"Name", "Salary", "Multiplier", "Configurable Amount", "Country", "Team", "Working Hours", "Utilization Percentage", "Overhead Cost"};
-        for (int i = 0; i < columnProperties.length; i++) {
-            final int columnIndex = i;
-            TableColumn<Employees, String> column = new TableColumn<>(columnHeaders[i]);
-            column.setCellValueFactory(cellData -> {
-                try {
-                    Object value = cellData.getValue().getClass().getMethod("get" + columnProperties[columnIndex].substring(0, 1).toUpperCase() + columnProperties[columnIndex].substring(1)).invoke(cellData.getValue());
-                    return new SimpleStringProperty(value.toString());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return new SimpleStringProperty("");
-                }
-            });
-            employeesTableView.getColumns().add(column);
-        }
+        // Define columns for employee name and hourly rate
+        TableColumn<Employees, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
+
+        TableColumn<Employees, Double> hourlyRateColumn = new TableColumn<>("Hourly Rate");
+        hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getSalary()).asObject());
+
+        // Add columns to the table view
+        employeesTableView.getColumns().addAll(nameColumn, hourlyRateColumn);
 
     }
 
     public void addEmployee(ActionEvent event) {
-        String employeeName = nameTxtField.getText();
+        employeeName = nameTxtField.getText();
         double salary = Double.parseDouble(salaryTxtField.getText());
         double multiplier = Double.parseDouble(multiplierTxtField.getText());
         double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
-        String country = countryTxtField.getText();
-        String team = teamTxtField.getText();
+
         double workingHours = Double.parseDouble(workingHoursTxtField.getText());
         double utilizationPercentage = Double.parseDouble(utilizationPercentageTxtField.getText());
         double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
 
-        if (employeeName.isEmpty() || country.isEmpty() || team.isEmpty()) {
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost);
+
+        EmployeesDAO employeeDAO = new EmployeesDAO();
+        employeeDAO.addEmployee(newEmployee);
+
+        setEmployeesTable();
+        clearInputFields();
+    }
+
+    private boolean validateInput() {
+        if (employeeName.isEmpty()) {
             showAlert("Please fill in all required fields.");
-            return;
+            return false;
         }
         try {
             Double.parseDouble(salaryTxtField.getText());
@@ -94,16 +91,9 @@ public class editUpdate {
             Double.parseDouble(overheadCostTxtField.getText());
         } catch (NumberFormatException e) {
             showAlert("Please enter valid numbers for numeric fields.");
-            return;
+            return false;
         }
-
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, country, team, workingHours, utilizationPercentage, overheadCost);
-
-        EmployeesDAO employeeDAO = new EmployeesDAO();
-        employeeDAO.addEmployee(newEmployee);
-
-        setEmployeesTable();
-        clearInputFields();
+        return true;
     }
 
     private void showAlert(String message) {
@@ -120,8 +110,7 @@ public class editUpdate {
         salaryTxtField.clear();
         multiplierTxtField.clear();
         configurableAmountTxtField.clear();
-        countryTxtField.clear();
-        teamTxtField.clear();
+
         workingHoursTxtField.clear();
         utilizationPercentageTxtField.clear();
         overheadCostTxtField.clear();
@@ -139,11 +128,22 @@ public class editUpdate {
         salaryTxtField.clear();
         multiplierTxtField.clear();
         configurableAmountTxtField.clear();
-        countryTxtField.clear();
-        teamTxtField.clear();
+
         workingHoursTxtField.clear();
         utilizationPercentageTxtField.clear();
         overheadCostTxtField.clear();
+    }
+
+    private Employees fillEmployeeData(Employees employee) {
+        nameTxtField.setText(employee.getEmployeeName());
+        salaryTxtField.setText(String.valueOf(employee.getSalary()));
+        multiplierTxtField.setText(String.valueOf(employee.getMultiplier()));
+        configurableAmountTxtField.setText(String.valueOf(employee.getConfigurableAmount()));
+
+        workingHoursTxtField.setText(String.valueOf(employee.getWorkingHours()));
+        utilizationPercentageTxtField.setText(String.valueOf(employee.getUtilizationPercentage()));
+        overheadCostTxtField.setText(String.valueOf(employee.getOverheadCost()));
+        return employee;
     }
 
     public void editSelectedEmployee() {
@@ -153,6 +153,33 @@ public class editUpdate {
             return;
         }
 
+        fillEmployeeData(selectedEmployee);
+    }
+
+    public void updateEmployee(ActionEvent event) {
+        if (!validateInput()) {
+            return;
+        }
+
+        Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
+        if (selectedEmployee == null) {
+            showAlert("No employee selected for update.");
+            return;
+        }
+
+        try {
+            Employees updatedEmployee = fillEmployeeData(selectedEmployee);
+            updatedEmployee.setId(selectedEmployee.getId());  // Preserve the existing ID
+
+            EmployeesDAO employeeDAO = new EmployeesDAO();
+            employeeDAO.updateEmployee(updatedEmployee);
+
+            setEmployeesTable();  // Refresh the table
+            clearInputFields();
+            showAlert("Employee updated successfully.");
+        } catch (NumberFormatException e) {
+            showAlert("Error parsing numeric fields. Please check your inputs.");
+        }
     }
 
 

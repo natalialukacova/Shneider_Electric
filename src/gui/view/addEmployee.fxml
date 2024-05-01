@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="752.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="752.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.addEmployeeController">
     <children>
         <StackPane layoutX="144.0" layoutY="150.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -59,10 +50,10 @@
                                             <children>
                                                 <AnchorPane layoutX="675.0" layoutY="60.0" prefHeight="414.0" prefWidth="359.0" styleClass="table-borders" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="83.0" AnchorPane.rightAnchor="118.0" AnchorPane.topAnchor="60.0">
                                        <children>
-                                          <TableView layoutX="50.0" layoutY="27.0" prefHeight="413.3333333333334" prefWidth="359.3333333333333" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="employeesTableView" layoutX="50.0" layoutY="27.0" prefHeight="413.3333333333334" prefWidth="359.3333333333333" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                             <columns>
-                                              <TableColumn prefWidth="174.66668713092804" text="Name" />
-                                              <TableColumn prefWidth="181.33331298828125" text="Hourly Rate" />
+                                              <TableColumn fx:id="nameColumn" prefWidth="174.66668713092804" text="Name" />
+                                              <TableColumn fx:id="hourlyRateColumn" prefWidth="181.33331298828125" text="Hourly Rate" />
                                             </columns>
                                           </TableView>
                                        </children>
@@ -148,12 +139,22 @@
                                                 </VBox>
                                                 <VBox prefHeight="443.0" prefWidth="139.0">
                                                    <children>
-                                                      <TextField alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                                      <TextField fx:id="nameTxtField" alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                                          <VBox.margin>
                                                             <Insets left="40.0" top="35.0" />
                                                          </VBox.margin>
                                                       </TextField>
-                                                      <TextField alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                                      <TextField fx:id="salaryTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                                         <VBox.margin>
+                                                            <Insets left="40.0" top="30.0" />
+                                                         </VBox.margin>
+                                                      </TextField>
+                                                      <TextField fx:id="multiplierTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                                         <VBox.margin>
+                                                            <Insets left="40.0" top="30.0" />
+                                                         </VBox.margin>
+                                                      </TextField>
+                                                      <TextField fx:id="configurableAmountTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                                          <VBox.margin>
                                                             <Insets left="40.0" top="30.0" />
                                                          </VBox.margin>
@@ -163,27 +164,17 @@
                                                             <Insets left="40.0" top="30.0" />
                                                          </VBox.margin>
                                                       </TextField>
-                                                      <TextField alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                                      <TextField fx:id="workingHoursTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                                          <VBox.margin>
                                                             <Insets left="40.0" top="30.0" />
                                                          </VBox.margin>
                                                       </TextField>
-                                                      <TextField alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                                      <TextField fx:id="utilizationPercentageTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                                          <VBox.margin>
                                                             <Insets left="40.0" top="30.0" />
                                                          </VBox.margin>
                                                       </TextField>
-                                                      <TextField alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
-                                                         <VBox.margin>
-                                                            <Insets left="40.0" top="30.0" />
-                                                         </VBox.margin>
-                                                      </TextField>
-                                                      <TextField alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
-                                                         <VBox.margin>
-                                                            <Insets left="40.0" top="30.0" />
-                                                         </VBox.margin>
-                                                      </TextField>
-                                                      <TextField alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                                      <TextField fx:id="overheadCostTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                                          <VBox.margin>
                                                             <Insets left="40.0" top="30.0" />
                                                          </VBox.margin>
@@ -196,10 +187,10 @@
                                     </AnchorPane>
                                     <Button layoutX="880.0" layoutY="647.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Clear" />
                                     <Button layoutX="807.0" layoutY="647.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Save" />
-                                    <Button layoutX="224.0" layoutY="584.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
-                                    <Button layoutX="151.0" layoutY="584.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add" />
-                                    <Button layoutX="367.0" layoutY="584.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Clear" />
-                                    <Button layoutX="294.0" layoutY="584.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Save" />
+                                    <Button layoutX="224.0" layoutY="584.0" mnemonicParsing="false" onAction="#updateEmployee" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
+                                    <Button layoutX="151.0" layoutY="584.0" mnemonicParsing="false" onAction="#addEmployee" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add" />
+                                    <Button layoutX="367.0" layoutY="584.0" mnemonicParsing="false" onAction="#clearInputFields" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Clear" />
+                                    <Button layoutX="294.0" layoutY="584.0" mnemonicParsing="false" onAction="#saveEditedEmployee" prefHeight="30.0" prefWidth="60.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Save" />
                                             </children>
                                         </AnchorPane>
                                     </children>

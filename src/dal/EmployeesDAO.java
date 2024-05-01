@@ -32,8 +32,6 @@ public class EmployeesDAO implements IEmployeesDAO {
                         resultSet.getInt("salary"),
                         resultSet.getInt("multiplier"),
                         resultSet.getInt("configurableAmount"),
-                        resultSet.getString("country"),
-                        resultSet.getString("team"),
                         resultSet.getInt("workingHours"),
                         resultSet.getInt("utilizationPercentage"),
                         resultSet.getInt("overheadCost")
@@ -51,18 +49,18 @@ public class EmployeesDAO implements IEmployeesDAO {
     @Override
     public void addEmployee(Employees employees){
         try {
-            String sql = "INSERT INTO employees(employeeName, salary, multiplier, configurableAmount, country, team, workingHours, utilizationPercentage, overheadCost) VALUES(?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO employees(employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost) VALUES(?,?,?,?,?,?,?)";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, employees.getEmployeeName());
             preparedStatement.setDouble(2, employees.getSalary());
             preparedStatement.setDouble(3, employees.getMultiplier());
             preparedStatement.setDouble(4, employees.getConfigurableAmount());
-            preparedStatement.setString(5, employees.getCountry());
-            preparedStatement.setString(6, employees.getTeam());
-            preparedStatement.setDouble(7, employees.getWorkingHours());
-            preparedStatement.setDouble(8, employees.getUtilizationPercentage());
-            preparedStatement.setDouble(9, employees.getOverheadCost());
+            preparedStatement.setDouble(5, employees.getWorkingHours());
+            preparedStatement.setDouble(6, employees.getUtilizationPercentage());
+            preparedStatement.setDouble(7, employees.getOverheadCost());
+
+            preparedStatement.execute();
 
         } catch (SQLServerException e) {
             throw new RuntimeException(e);
@@ -73,23 +71,25 @@ public class EmployeesDAO implements IEmployeesDAO {
 
     @Override
     public void updateEmployee(Employees employees) {
+        if (employees == null) {
+            throw new IllegalArgumentException("Employee object cannot be null.");
+        }
         try {
-            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, country = ?, team = ?, workingHours = ?, utilizationPercentage = ?, overheadCost = ?)";
-            Connection conn = preparedStatement.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, workingHours = ?, utilizationPercentage = ?, overheadCost = ?";
+            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, employees.getEmployeeName());
             preparedStatement.setDouble(2, employees.getSalary());
             preparedStatement.setDouble(3, employees.getMultiplier());
             preparedStatement.setDouble(4, employees.getConfigurableAmount());
-            preparedStatement.setString(5, employees.getCountry());
-            preparedStatement.setString(6, employees.getTeam());
-            preparedStatement.setDouble(7, employees.getWorkingHours());
-            preparedStatement.setDouble(8, employees.getUtilizationPercentage());
-            preparedStatement.setDouble(9, employees.getOverheadCost());
+            preparedStatement.setDouble(5, employees.getWorkingHours());
+            preparedStatement.setDouble(6, employees.getUtilizationPercentage());
+            preparedStatement.setDouble(7, employees.getOverheadCost());
 
             preparedStatement.executeUpdate();
 
+        } catch (SQLServerException e){
+            throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
