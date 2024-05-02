@@ -12,13 +12,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="537.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainViewController">
+<AnchorPane prefHeight="507.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainViewController">
     <children>
         <StackPane layoutX="144.0" layoutY="150.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
                 <AnchorPane prefHeight="600.0" prefWidth="1067.0">
                     <children>
-                        <BorderPane prefHeight="686.0" prefWidth="376.0" AnchorPane.bottomAnchor="-148.66666666666663" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <BorderPane prefHeight="488.0" prefWidth="376.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                             <top>
 
                                 <AnchorPane prefHeight="35.0" prefWidth="376.0" styleClass="top-form" stylesheets="@../css/MainView.css" BorderPane.alignment="CENTER">
@@ -32,7 +32,7 @@
                                                     </graphic>
                                                 </Button>
                         
-                                                <Button layoutX="987.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css" AnchorPane.rightAnchor="67.66666666666674" AnchorPane.topAnchor="5.0">
+                                                <Button fx:id="minimizeWindow" layoutX="987.0" layoutY="10.0" mnemonicParsing="false" onAction="#minimizeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css" AnchorPane.rightAnchor="67.66666666666674" AnchorPane.topAnchor="5.0">
                         
                                                     <graphic>
                                                         <FontAwesomeIcon glyphName="MINUS" size="1.2EM" />
@@ -44,9 +44,9 @@
                                 </AnchorPane>
                             </top>
                      <right>
-                        <AnchorPane prefHeight="474.0" prefWidth="376.0" BorderPane.alignment="CENTER">
+                        <AnchorPane prefHeight="492.0" prefWidth="376.0" BorderPane.alignment="CENTER">
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="393.0" prefWidth="376.0">
+                              <HBox alignment="CENTER_LEFT" layoutY="-16.0" prefHeight="383.0" prefWidth="376.0">
                                  <children>
                                     <VBox prefHeight="406.0" prefWidth="149.0">
                                        <children>
@@ -108,7 +108,7 @@
                                           </Label>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="443.0" prefWidth="139.0">
+                                    <VBox prefHeight="393.0" prefWidth="190.0">
                                        <children>
                                           <TextField alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                              <VBox.margin>
@@ -149,6 +149,8 @@
                                     </VBox>
                                  </children>
                               </HBox>
+                              <Button layoutX="108.0" layoutY="414.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
+                              <Button layoutX="201.0" layoutY="414.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
                            </children>
                         </AnchorPane>
                      </right>
