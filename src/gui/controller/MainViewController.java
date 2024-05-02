@@ -21,11 +21,13 @@ public class MainViewController {
 
     @FXML
     private Button closeWindow;
+    @FXML
+    private Button minimizeWindow;
 
     @FXML
-    void addCountryPopUp(ActionEvent event) {
+    void addEmplooyeePopUp(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addCountry.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addEmplooyee.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -51,4 +53,11 @@ public class MainViewController {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
+
+    @FXML
+    void minimizeWindow(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setIconified(true);
+    }
+
 }

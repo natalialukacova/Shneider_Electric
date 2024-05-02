@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="241.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainViewController">
+<AnchorPane prefHeight="195.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainViewController">
     <children>
         <StackPane layoutX="144.0" layoutY="150.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -29,7 +29,7 @@
                                                     </graphic>
                                                 </Button>
 
-                                                <Button layoutX="987.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css" AnchorPane.rightAnchor="67.66666666666674" AnchorPane.topAnchor="5.0">
+                                                <Button fx:id="minimizeWindow" layoutX="987.0" layoutY="10.0" mnemonicParsing="false" onAction="#minimizeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css" AnchorPane.rightAnchor="67.66666666666674" AnchorPane.topAnchor="5.0">
 
                                                     <graphic>
                                                         <FontAwesomeIcon glyphName="MINUS" size="1.2EM" />
@@ -43,10 +43,10 @@
                             <center>
                                 <AnchorPane prefHeight="194.0" prefWidth="372.0" BorderPane.alignment="CENTER">
                                     <children>
-                                        <TextField alignment="CENTER" layoutX="172.0" layoutY="64.0" prefHeight="28.0" prefWidth="161.0" styleClass="table-view" stylesheets="@../css/MainView.css" />
-                                        <Button alignment="CENTER" layoutX="95.0" layoutY="146.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
-                                        <Button alignment="CENTER" layoutX="207.0" layoutY="146.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
-                                        <Label alignment="CENTER" layoutX="43.0" layoutY="69.0" text="Name of Team">
+                                        <TextField alignment="CENTER" layoutX="195.0" layoutY="53.0" prefHeight="28.0" prefWidth="137.0" styleClass="table-view" stylesheets="@../css/MainView.css" />
+                                        <Button alignment="CENTER" layoutX="110.0" layoutY="108.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
+                                        <Button alignment="CENTER" layoutX="199.0" layoutY="108.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
+                                        <Label alignment="CENTER" layoutX="66.0" layoutY="58.0" text="Name of Team">
                                             <font>
                                                 <Font name="Arial Rounded MT Bold" size="14.0" />
                                             </font>

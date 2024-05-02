@@ -79,7 +79,7 @@
 }
 
 .textfield{
-    -fx-background-color: #f9f9f9;
+    -fx-background-color: Transparent;
     -fx-border-color:linear-gradient(to bottom, #009e4d, #009e4d) ;
     -fx-border-width: 0px 0px 0.8px 0px;
     -fx-font-size: 13px;
@@ -92,20 +92,22 @@
     -fx-border-width: 0px 0px 1.5 0px;
 }
 
-.combo-box{
+.combo-box {
     -fx-background-color: #fff;
     -fx-background-radius: 5px;
-    -fx-border-color: to right, #444857, #537e90;
+    -fx-border-color: #009e4d; /* Single color for the border */
     -fx-border-width: 0.8px;
     -fx-border-radius: 0.5px;
     -fx-font-size: 13px;
-    -fx-font-family: "Tahoma";
+    -fx-font-family: "Arial MT Bold", Arial, sans-serif;
 }
 
-.combo-box:focused{
-    -fx-border-color:linear-gradient(to bottom right, #009e4d, #cad5b8);
+.combo-box:focused {
+    -fx-border-color: #009e4d; /* Border color when focused */
     -fx-border-width: 1.5px;
 }
+
+
 
 #label1{
     -fx-text-fill: black;
