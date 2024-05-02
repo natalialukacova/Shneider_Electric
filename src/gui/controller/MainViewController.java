@@ -14,7 +14,7 @@ import java.io.IOException;
 public class MainViewController {
 
     @FXML
-    private Button addCountryBtn;
+    private Button addEmplooyeeBtn;
 
     @FXML
     private Button addTeamBtn;
