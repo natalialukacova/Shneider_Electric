@@ -74,7 +74,6 @@ public class AddEmployeeController extends MainViewController {
         Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost);
 
         employeesDAO.addEmployee(newEmployee);
-        clearInputFields(event);
         mainController.loadAllEmployees();
         stage.close();
     }
@@ -94,14 +93,14 @@ public class AddEmployeeController extends MainViewController {
             return;
         }
 
-        selectedEmployee.setEmployeeName(nameTxtField.getText());
+       /* selectedEmployee.setEmployeeName(nameTxtField.getText());
         selectedEmployee.setSalary(Double.parseDouble(salaryTxtField.getText()));
         selectedEmployee.setMultiplier(Double.parseDouble(multiplierTxtField.getText()));
         selectedEmployee.setConfigurableAmount(Double.parseDouble(configurableAmountTxtField.getText()));
         selectedEmployee.setWorkingHours(Double.parseDouble(workingHoursTxtField.getText()));
         selectedEmployee.setUtilizationPercentage(Double.parseDouble(utilizationPercentageTxtField.getText()));
         selectedEmployee.setOverheadCost(Double.parseDouble(overheadCostTxtField.getText()));
-
+*/
         employeesDAO.updateEmployee(selectedEmployee);
         mainController.loadAllEmployees();
 

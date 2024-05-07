@@ -5,10 +5,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.IEmployeesDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -90,11 +87,42 @@ public class EmployeesDAO implements IEmployeesDAO {
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLServerException e){
+        } catch (SQLServerException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
+
+       /* public void getEmployeeById(int id) {
+            Employees employee = null;
+            String sql = "SELECT * FROM employees WHERE id = ?";
+
+            try (Connection conn = DriverManager.getConnection(sql);
+                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+
+                preparedStatement.setInt(1, id);
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    Employees.add(new Employees(
+                            resultSet.getInt("id"),
+                            resultSet.getString("employeeName"),
+                            resultSet.getInt("salary"),
+                            resultSet.getInt("multiplier"),
+                            resultSet.getInt("configurableAmount"),
+                            resultSet.getInt("workingHours"),
+                            resultSet.getInt("utilizationPercentage"),
+                            resultSet.getInt("overheadCost")
+                    ));
+                }
+            } catch (SQLException e) {
+                System.out.println("Error when fetching employee: " + e.getMessage());
+                e.printStackTrace();
+            }
+            return employee;
+        }*/
+
 
 }

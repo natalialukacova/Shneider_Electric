@@ -1,7 +1,13 @@
 package gui.controller;
 
+import be.Countries;
 import be.Employees;
+import be.Teams;
+import be.TeamsCountry;
+import dal.CountriesDAO;
 import dal.EmployeesDAO;
+import dal.TeamsCountriesDAO;
+import dal.TeamsDAO;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -20,35 +26,38 @@ import java.util.List;
 
 public class MainViewController {
 
-    @FXML
-    private Button addEmplooyeeBtn;
-
-    @FXML
-    private Button addTeamBtn;
-
-    @FXML
-    private Button closeWindow;
-    @FXML
-    private Button minimizeWindow;
     private EmployeesDAO employeesDAO;
+    @FXML
+    private TableView<Teams> teamsTableView;
+    @FXML
+    private TableColumn<Teams, String> teamNameCol;
     @FXML
     private TableView<Employees> employeesTableView;
     @FXML
     public TableColumn<Employees, String> nameColumn;
     @FXML
     public TableColumn<Employees, Double> hourlyRateColumn;
+    @FXML
+    private ComboBox<Countries> countryComboBox;
+    private final CountriesDAO countriesDAO = new CountriesDAO();
+    private TeamsDAO teamsDAO = new TeamsDAO();
+    private TeamsCountriesDAO teamsCountriesDAO = new TeamsCountriesDAO();
 
 
 
     public void initialize() {
         employeesDAO = new EmployeesDAO();
         setEmployeesTable(employeesTableView);
+        loadCountries();
+        setTeamsTable(teamsTableView);
+        loadTeams();
+
     }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
-        List<Employees> data = employeesDAO.getAllEmployees();
-        ObservableList<Employees> observableData = FXCollections.observableArrayList(data);
-        employeesTableView.setItems(observableData);
+        List<Employees> employees = employeesDAO.getAllEmployees();
+        ObservableList<Employees> observableList = FXCollections.observableArrayList(employees);
+        employeesTableView.setItems(observableList);
 
         // Clear existing columns
         employeesTableView.getColumns().clear();
@@ -58,7 +67,14 @@ public class MainViewController {
         employeesTableView.getColumns().addAll(nameColumn, hourlyRateColumn);
     }
 
-
+    public void setTeamsTable(TableView<Teams> teamsTableView) {
+        List<Teams> teamsOfCountry = teamsCountriesDAO.getAllTeamsOfCountry();
+        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+        teamsTableView.setItems(observableList);
+        teamsTableView.getColumns().clear();
+        teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
+        teamsTableView.getColumns().addAll(teamNameCol);
+    }
 
     @FXML
     void addEmplooyeePopUp(ActionEvent event)  {
@@ -110,9 +126,32 @@ public class MainViewController {
         employeesTableView.getItems().setAll(allEmployees);
     }
 
-    public void updateEmployeeList(ObservableList<Employees> updatedList) {
-        employeesTableView.setItems(updatedList);
+    public void loadCountries(){
+        ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
+        countryComboBox.setItems(countries);
     }
+
+    public void loadTeams(){
+        System.out.println("Attempting to load teams...");
+        if (teamsTableView == null) {
+            System.err.println("TableView not initialized");
+            return;
+        }
+
+        try {
+            List<Teams> teamsOfCountry = teamsCountriesDAO.getAllTeamsOfCountry();
+            ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+
+            // Update the TableView on the JavaFX Application Thread
+            javafx.application.Platform.runLater(() -> {
+                teamsTableView.setItems(observableList);
+            });
+        } catch (Exception e) {
+            System.err.println("Error loading teams: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     void addTeamPopUp(ActionEvent event) {

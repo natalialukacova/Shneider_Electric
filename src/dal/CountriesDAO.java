@@ -1,6 +1,7 @@
 package dal;
 
 import be.Countries;
+import be.Teams;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.ICountriesDAO;
@@ -26,7 +27,7 @@ public class CountriesDAO implements ICountriesDAO {
 
             while (resultSet.next()) {
                 Countries.add(new Countries(
-                        resultSet.getInt("countryId"),
+                        resultSet.getInt("id"),
                         resultSet.getString("countryName")
                 ));
             }
@@ -38,6 +39,7 @@ public class CountriesDAO implements ICountriesDAO {
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public void addCountry(Countries countries) {
@@ -57,7 +59,7 @@ public class CountriesDAO implements ICountriesDAO {
     @Override
     public void updateCountry(Countries countries) {
         try {
-            String sql = "UPDATE countries SET countryName = ? WHERE countryId = ?";
+            String sql = "UPDATE countries SET countryName = ? WHERE id = ?";
             Connection conn = databaseConnector.getConnection();
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
