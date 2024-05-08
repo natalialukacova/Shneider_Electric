@@ -102,7 +102,7 @@ public class Employees {
         this.hourlyRate = hourlyRate;
     }
 
-    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost) {
+    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost, double hourlyRate) {
         this.id = id;
         this.employeeName = employeeName;
         this.salary = salary;
@@ -111,10 +111,11 @@ public class Employees {
         this.workingHours = workingHours;
         this.utilizationPercentage = utilizationPercentage;
         this.overheadCost = overheadCost;
+        this.hourlyRate = hourlyRate;
     }
 
     @Override
     public String toString(){
-        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + workingHours + "" + utilizationPercentage + "" + overheadCost;
+        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + workingHours + "" + utilizationPercentage + "" + overheadCost + "" + hourlyRate;
     }
 }

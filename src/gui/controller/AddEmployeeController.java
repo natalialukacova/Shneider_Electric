@@ -36,6 +36,8 @@ public class AddEmployeeController extends MainViewController {
     public void initialize() {
         employeesDAO = new EmployeesDAO();
 
+
+
     }
 
 
@@ -71,13 +73,27 @@ public class AddEmployeeController extends MainViewController {
         Double utilizationPercentage = Double.parseDouble(utilizationPercentageTxtField.getText());
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
 
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost);
+        // Calculate day rate
+        double hourlyRate = calculateHourlyRate(salary, configurableAmount, workingHours, utilizationPercentage, multiplier);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost, hourlyRate);
 
         employeesDAO.addEmployee(newEmployee);
         clearInputFields(event);
         mainController.loadAllEmployees();
         stage.close();
+
+
     }
+
+    // method for calculating
+    public double calculateHourlyRate(double salary, double configurableAmount, double workingHours, double utilizationPercentage, double multiplier) {
+        // Calculate day rate
+        double dayRate = (salary + configurableAmount) / (workingHours * (utilizationPercentage / 100)) * (1 + (multiplier / 100));
+        // Calculate hourly rate
+        return dayRate / workingHours;
+    }
+
+
 
     // display information of selected employee
     public void updateEmployee(ActionEvent event) {

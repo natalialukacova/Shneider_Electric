@@ -5,7 +5,6 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.IEmployeesDAO;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,12 +28,13 @@ public class EmployeesDAO implements IEmployeesDAO {
                 Employees.add(new Employees(
                         resultSet.getInt("id"),
                         resultSet.getString("employeeName"),
-                        resultSet.getInt("salary"),
-                        resultSet.getInt("multiplier"),
-                        resultSet.getInt("configurableAmount"),
-                        resultSet.getInt("workingHours"),
-                        resultSet.getInt("utilizationPercentage"),
-                        resultSet.getInt("overheadCost")
+                        resultSet.getDouble("salary"),
+                        resultSet.getDouble("multiplier"),
+                        resultSet.getDouble("configurableAmount"),
+                        resultSet.getDouble("workingHours"),
+                        resultSet.getDouble("utilizationPercentage"),
+                        resultSet.getDouble("overheadCost"),
+                        resultSet.getDouble("hourlyRate")
                 ));
             }
             return Employees;

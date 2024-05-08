@@ -7,17 +7,16 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="microsoft.sqlserver.mssql.jdbc" level="project" />
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="file://$MODULE_DIR$/../jar_files" />
+          <root url="file://$USER_HOME$/Downloads/jar_files" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-        <jarDirectory url="file://$MODULE_DIR$/../jar_files" recursive="false" />
+        <jarDirectory url="file://$USER_HOME$/Downloads/jar_files" recursive="false" />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="microsoft.sqlserver.mssql.jdbc" level="project" />
-    <orderEntry type="library" name="microsoft.sqlserver.mssql.jdbc1" level="project" />
   </component>
 </module>
