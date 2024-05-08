@@ -23,4 +23,5 @@ public class TeamManager implements ITeamsDAO {
     public void updateTeam(Teams teams) {
         teamsDAO.updateTeam(teams);
     }
+
 }

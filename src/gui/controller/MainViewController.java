@@ -1,7 +1,13 @@
 package gui.controller;
 
+import be.Countries;
 import be.Employees;
+import be.Teams;
+import be.TeamsCountry;
+import dal.CountriesDAO;
 import dal.EmployeesDAO;
+import dal.TeamsCountriesDAO;
+import dal.TeamsDAO;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -14,41 +20,45 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
 
 public class MainViewController {
 
-    @FXML
-    private Button addEmplooyeeBtn;
-
-    @FXML
-    private Button addTeamBtn;
-
-    @FXML
-    private Button closeWindow;
-    @FXML
-    private Button minimizeWindow;
     private EmployeesDAO employeesDAO;
+    @FXML
+    private TableView<Teams> teamsTableView;
+    @FXML
+    private TableColumn<Teams, String> teamNameCol;
     @FXML
     private TableView<Employees> employeesTableView;
     @FXML
     public TableColumn<Employees, String> nameColumn;
     @FXML
     public TableColumn<Employees, Double> hourlyRateColumn;
+    @FXML
+    private ComboBox<Countries> countryComboBox;
+    private final CountriesDAO countriesDAO = new CountriesDAO();
+    private TeamsDAO teamsDAO = new TeamsDAO();
+    private TeamsCountriesDAO teamsCountriesDAO = new TeamsCountriesDAO();
 
 
 
     public void initialize() {
         employeesDAO = new EmployeesDAO();
         setEmployeesTable(employeesTableView);
+        loadCountries();
+        setTeamsTable(teamsTableView);
+        loadTeams();
+
     }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
-        List<Employees> data = employeesDAO.getAllEmployees();
-        ObservableList<Employees> observableData = FXCollections.observableArrayList(data);
-        employeesTableView.setItems(observableData);
+        List<Employees> employees = employeesDAO.getAllEmployees();
+        ObservableList<Employees> observableList = FXCollections.observableArrayList(employees);
+        employeesTableView.setItems(observableList);
 
         // Clear existing columns
         employeesTableView.getColumns().clear();
@@ -60,7 +70,14 @@ public class MainViewController {
 
     }
 
-
+    public void setTeamsTable(TableView<Teams> teamsTableView) {
+        List<Teams> teamsOfCountry = teamsCountriesDAO.getAllTeamsOfCountry();
+        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+        teamsTableView.setItems(observableList);
+        teamsTableView.getColumns().clear();
+        teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
+        teamsTableView.getColumns().addAll(teamNameCol);
+    }
 
     @FXML
     void addEmplooyeePopUp(ActionEvent event)  {
@@ -68,6 +85,7 @@ public class MainViewController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmplooyee.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
 
             AddEmployeeController addEmployeeController = loader.getController();
@@ -86,15 +104,16 @@ public class MainViewController {
         Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmplooyee.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/editEmployee.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();
+                stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(new Scene(root));
 
-                AddEmployeeController addEmployeeController = loader.getController();
-                addEmployeeController.setMainController(this);
-                addEmployeeController.setStage(stage);
-                addEmployeeController.setSelectedEmployee(selectedEmployee);
+                EditEmployeeController editEmployeeController = loader.getController();
+                editEmployeeController.setMainController(this);
+                editEmployeeController.setStage(stage);
+                editEmployeeController.setSelectedEmployee(selectedEmployee);
 
                 stage.showAndWait();
             } catch (IOException e) {
@@ -112,15 +131,39 @@ public class MainViewController {
         employeesTableView.getItems().setAll(allEmployees);
     }
 
-    public void updateEmployeeList(ObservableList<Employees> updatedList) {
-        employeesTableView.setItems(updatedList);
+    public void loadCountries(){
+        ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
+        countryComboBox.setItems(countries);
     }
+
+    public void loadTeams(){
+        System.out.println("Attempting to load teams...");
+        if (teamsTableView == null) {
+            System.err.println("TableView not initialized");
+            return;
+        }
+
+        try {
+            List<Teams> teamsOfCountry = teamsCountriesDAO.getAllTeamsOfCountry();
+            ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+
+            // Update the TableView on the JavaFX Application Thread
+            javafx.application.Platform.runLater(() -> {
+                teamsTableView.setItems(observableList);
+            });
+        } catch (Exception e) {
+            System.err.println("Error loading teams: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     void addTeamPopUp(ActionEvent event) {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addTeam.fxml"));
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

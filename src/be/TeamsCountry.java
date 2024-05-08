@@ -1,21 +1,12 @@
 package be;
 
-public class Teams {
+public class TeamsCountry {
     private int id;
-    private String teamName;
     private int countryId;
     private int teamId;
+    private String teamName;
 
-
-    public String getTeamName() {
-        return teamName;
-    }
-
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
-    public int getId() {
+   /* public int getId() {
         return id;
     }
 
@@ -39,19 +30,13 @@ public class Teams {
         this.teamId = teamId;
     }
 
-    public Teams(int id, String teamName) {
-        this.id = id;
-        this.teamName = teamName;
+    public String getTeamName() {
+        return teamName;
     }
 
-    public Teams(int id, int countryId, int teamId) {
+    public TeamsCountry(int id, int countryId, int teamId) {
         this.id = id;
         this.countryId = countryId;
         this.teamId = teamId;
-    }
-
-    @Override
-    public String toString(){
-        return id + "" + teamName;
-    }
+    }*/
 }

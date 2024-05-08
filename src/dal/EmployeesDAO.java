@@ -8,6 +8,7 @@ import dal.interfaces.IEmployeesDAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class EmployeesDAO implements IEmployeesDAO {
                         resultSet.getDouble("configurableAmount"),
                         resultSet.getDouble("workingHours"),
                         resultSet.getDouble("utilizationPercentage"),
-                        resultSet.getDouble("overheadCost"),
+                        resultSet.getDouble("overheadCost")
                         resultSet.getDouble("hourlyRate")
                 ));
             }
@@ -86,11 +87,11 @@ public class EmployeesDAO implements IEmployeesDAO {
             preparedStatement.setDouble(5, employees.getWorkingHours());
             preparedStatement.setDouble(6, employees.getUtilizationPercentage());
             preparedStatement.setDouble(7, employees.getOverheadCost());
-            preparedStatement.setInt(8, employees.getId());
+            preparedStatement.setInt(8,employees.getId());
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLServerException e){
+        } catch (SQLServerException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);

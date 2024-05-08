@@ -5,10 +5,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.ITeamsDAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +23,7 @@ public class TeamsDAO implements ITeamsDAO {
 
             while (resultSet.next()) {
                 Teams.add(new Teams(
-                        resultSet.getInt("teamId"),
+                        resultSet.getInt("id"),
                         resultSet.getString("teamName")
                 ));
             }
@@ -39,10 +36,12 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
-    @Override
+
+
+
     public void addTeam(Teams teams) {
         try {
-            String sql = "INSERT INTO teams values(?)";
+            String sql = "INSERT INTO teams VALUES (?)";
             Connection conn = databaseConnector.getConnection();
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
@@ -57,7 +56,7 @@ public class TeamsDAO implements ITeamsDAO {
     @Override
     public void updateTeam(Teams teams) {
         try {
-            String sql = "UPDATE teams SET teamName = ? WHERE teamId = ?";
+            String sql = "UPDATE teams SET teamName = ? WHERE id = ?";
             Connection conn = databaseConnector.getConnection();
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
@@ -70,4 +69,7 @@ public class TeamsDAO implements ITeamsDAO {
             throw new RuntimeException(e);
         }
     }
+
+
+
 }

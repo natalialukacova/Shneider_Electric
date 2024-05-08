@@ -27,6 +27,6 @@ public class Countries {
 
     @Override
     public String toString(){
-        return countryId + "" + countryName;
+        return countryName;
     }
 }
