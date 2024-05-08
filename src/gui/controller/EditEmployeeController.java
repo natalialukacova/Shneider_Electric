@@ -2,23 +2,15 @@ package gui.controller;
 
 import be.Employees;
 import dal.EmployeesDAO;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.List;
-
-public class AddEmployeeController extends MainViewController {
-
+public class EditEmployeeController extends MainViewController {
     @FXML
     private TableView<Employees> employeesTableView;
     @FXML
@@ -32,12 +24,31 @@ public class AddEmployeeController extends MainViewController {
     private Stage stage;
     private Employees selectedEmployee;
 
-
     public void initialize() {
         employeesDAO = new EmployeesDAO();
 
+
     }
 
+    public void confirmEditEmployee(ActionEvent event) {
+        if (!validateInput()) {
+            return;
+        }
+        String employeeName = nameTxtField.getText();
+        Double salary = Double.parseDouble(salaryTxtField.getText());
+        Double multiplier = Double.parseDouble(multiplierTxtField.getText());
+        Double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
+        Double workingHours = Double.parseDouble(workingHoursTxtField.getText());
+        Double utilizationPercentage = Double.parseDouble(utilizationPercentageTxtField.getText());
+        Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
+
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost);
+
+        employeesDAO.updateEmployee(newEmployee);
+        mainController.loadAllEmployees();
+        saveEditedEmployee(event);
+        stage.close();
+    }
 
     private boolean validateInput() {
         if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty()) {
@@ -59,25 +70,34 @@ public class AddEmployeeController extends MainViewController {
         return true;
     }
 
-    public void confirmAddEmployee (ActionEvent event) {
+    // display information of selected employee
+    public void updateEmployee(ActionEvent event) {
+        selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null) {
+            fillEmployeeData(selectedEmployee);
+        } else {
+            showAlert("Please select an employee.");
+        }
+    }
+
+    public void saveEditedEmployee(ActionEvent event) {
         if (!validateInput()) {
             return;
         }
-        String employeeName = nameTxtField.getText();
-        Double salary = Double.parseDouble(salaryTxtField.getText());
-        Double multiplier = Double.parseDouble(multiplierTxtField.getText());
-        Double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
-        Double workingHours = Double.parseDouble(workingHoursTxtField.getText());
-        Double utilizationPercentage = Double.parseDouble(utilizationPercentageTxtField.getText());
-        Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
 
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost);
+        selectedEmployee.setEmployeeName(nameTxtField.getText());
+        selectedEmployee.setSalary(Double.parseDouble(salaryTxtField.getText()));
+        selectedEmployee.setMultiplier(Double.parseDouble(multiplierTxtField.getText()));
+        selectedEmployee.setConfigurableAmount(Double.parseDouble(configurableAmountTxtField.getText()));
+        selectedEmployee.setWorkingHours(Double.parseDouble(workingHoursTxtField.getText()));
+        selectedEmployee.setUtilizationPercentage(Double.parseDouble(utilizationPercentageTxtField.getText()));
+        selectedEmployee.setOverheadCost(Double.parseDouble(overheadCostTxtField.getText()));
 
-        employeesDAO.addEmployee(newEmployee);
+        employeesDAO.updateEmployee(selectedEmployee);
         mainController.loadAllEmployees();
+
         stage.close();
     }
-
 
     public Employees fillEmployeeData(Employees employee) {
         this.selectedEmployee = employee;

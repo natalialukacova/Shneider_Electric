@@ -100,15 +100,15 @@ public class MainViewController {
         Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null) {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmplooyee.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/editEmployee.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();
                 stage.setScene(new Scene(root));
 
-                AddEmployeeController addEmployeeController = loader.getController();
-                addEmployeeController.setMainController(this);
-                addEmployeeController.setStage(stage);
-                addEmployeeController.setSelectedEmployee(selectedEmployee);
+                EditEmployeeController editEmployeeController = loader.getController();
+                editEmployeeController.setMainController(this);
+                editEmployeeController.setStage(stage);
+                editEmployeeController.setSelectedEmployee(selectedEmployee);
 
                 stage.showAndWait();
             } catch (IOException e) {

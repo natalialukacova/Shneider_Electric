@@ -26,12 +26,12 @@ public class EmployeesDAO implements IEmployeesDAO {
                 Employees.add(new Employees(
                         resultSet.getInt("id"),
                         resultSet.getString("employeeName"),
-                        resultSet.getInt("salary"),
-                        resultSet.getInt("multiplier"),
-                        resultSet.getInt("configurableAmount"),
-                        resultSet.getInt("workingHours"),
-                        resultSet.getInt("utilizationPercentage"),
-                        resultSet.getInt("overheadCost")
+                        resultSet.getDouble("salary"),
+                        resultSet.getDouble("multiplier"),
+                        resultSet.getDouble("configurableAmount"),
+                        resultSet.getDouble("workingHours"),
+                        resultSet.getDouble("utilizationPercentage"),
+                        resultSet.getDouble("overheadCost")
                 ));
             }
             return Employees;
@@ -83,7 +83,7 @@ public class EmployeesDAO implements IEmployeesDAO {
             preparedStatement.setDouble(5, employees.getWorkingHours());
             preparedStatement.setDouble(6, employees.getUtilizationPercentage());
             preparedStatement.setDouble(7, employees.getOverheadCost());
-            preparedStatement.setInt(8, employees.getId());
+            preparedStatement.setInt(8,employees.getId());
 
             preparedStatement.executeUpdate();
 
@@ -94,35 +94,34 @@ public class EmployeesDAO implements IEmployeesDAO {
         }
     }
 
-
-       /* public void getEmployeeById(int id) {
+    /*public Employees getEmployeeById(int id) {
             Employees employee = null;
-            String sql = "SELECT * FROM employees WHERE id = ?";
 
-            try (Connection conn = DriverManager.getConnection(sql);
-                 PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+            try {
+                String sql = "SELECT * FROM employees WHERE id = ?";
+                preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
                 preparedStatement.setInt(1, id);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
                 while (resultSet.next()) {
                     Employees.add(new Employees(
-                            resultSet.getInt("id"),
                             resultSet.getString("employeeName"),
-                            resultSet.getInt("salary"),
-                            resultSet.getInt("multiplier"),
-                            resultSet.getInt("configurableAmount"),
-                            resultSet.getInt("workingHours"),
-                            resultSet.getInt("utilizationPercentage"),
-                            resultSet.getInt("overheadCost")
+                            resultSet.getDouble("salary"),
+                            resultSet.getDouble("multiplier"),
+                            resultSet.getDouble("configurableAmount"),
+                            resultSet.getDouble("workingHours"),
+                            resultSet.getDouble("utilizationPercentage"),
+                            resultSet.getDouble("overheadCost")
                     ));
                 }
+                return employee;
             } catch (SQLException e) {
                 System.out.println("Error when fetching employee: " + e.getMessage());
                 e.printStackTrace();
             }
             return employee;
-        }*/
+    }*/
 
 
 }
