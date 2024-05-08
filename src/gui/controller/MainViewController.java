@@ -20,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.List;
@@ -82,6 +83,7 @@ public class MainViewController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmplooyee.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
 
             AddEmployeeController addEmployeeController = loader.getController();
@@ -103,6 +105,7 @@ public class MainViewController {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/editEmployee.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();
+                stage.initStyle(StageStyle.UNDECORATED);
                 stage.setScene(new Scene(root));
 
                 EditEmployeeController editEmployeeController = loader.getController();
@@ -158,6 +161,7 @@ public class MainViewController {
         try {
             Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addTeam.fxml"));
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

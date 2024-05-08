@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 <?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 
-<VBox prefHeight="257.0" prefWidth="400.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AddTeamController">
+<VBox prefHeight="257.0" prefWidth="400.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AddTeamController">
    <children>
       <HBox prefHeight="35.0" prefWidth="400.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
          <children>
@@ -55,7 +59,7 @@
             </VBox>
             <VBox prefHeight="203.0" prefWidth="237.0">
                <children>
-                            <TextField fx:id="nameTeamTxtField" alignment="CENTER" prefHeight="28.0" prefWidth="161.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                            <TextField fx:id="nameTeamTxtField" alignment="CENTER" prefHeight="28.0" prefWidth="161.0" styleClass="textfield-team" stylesheets="@../css/MainView.css">
                      <VBox.margin>
                         <Insets right="30.0" top="50.0" />
                      </VBox.margin>
@@ -71,12 +75,12 @@
       </HBox>
       <HBox prefHeight="18.0" prefWidth="400.0">
          <children>
-                      <Button onAction="#confirmAddTeam" alignment="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm">
+                      <Button alignment="CENTER" mnemonicParsing="false" onAction="#confirmAddTeam" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm">
                <HBox.margin>
                   <Insets left="200.0" />
                </HBox.margin>
             </Button>
-                       <Button onAction="#cancelBtn" alignment="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel">
+                       <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel">
                <HBox.margin>
                   <Insets left="20.0" />
                </HBox.margin>

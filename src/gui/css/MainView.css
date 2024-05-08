@@ -92,6 +92,15 @@
     -fx-border-width: 0px 0px 1.5 0px;
 }
 
+.textfield-team{
+    -fx-background-color: #f9f9f9;
+    -fx-border-color:linear-gradient(to bottom, #009e4d, #009e4d) ;
+    -fx-border-width: 0px 0px 0.8px 0px;
+    -fx-font-size: 13px;
+    -fx-font-family: "Tahoma";
+    -fx-alignment: TOP_LEFT;
+}
+
 .combo-box {
     -fx-background-color: #fff;
     -fx-background-radius: 5px;
