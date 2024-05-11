@@ -102,7 +102,7 @@ public class Employees {
         this.hourlyRate = hourlyRate;
     }
 
-    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost, double hourlyRate) {
+    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost) {
         this.id = id;
         this.employeeName = employeeName;
         this.salary = salary;

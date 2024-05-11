@@ -8,7 +8,6 @@ import dal.interfaces.IEmployeesDAO;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,6 @@ public class EmployeesDAO implements IEmployeesDAO {
                         resultSet.getDouble("workingHours"),
                         resultSet.getDouble("utilizationPercentage"),
                         resultSet.getDouble("overheadCost")
-                        resultSet.getDouble("hourlyRate")
                 ));
             }
             return Employees;

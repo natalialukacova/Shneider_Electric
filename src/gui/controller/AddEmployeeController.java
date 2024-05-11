@@ -2,20 +2,13 @@ package gui.controller;
 
 import be.Employees;
 import dal.EmployeesDAO;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
-import java.util.List;
 
 public class AddEmployeeController extends MainViewController {
 
@@ -72,8 +65,8 @@ public class AddEmployeeController extends MainViewController {
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
 
         // Calculate day rate
-        double hourlyRate = calculateHourlyRate(salary, configurableAmount, workingHours, utilizationPercentage, multiplier);
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost, hourlyRate);
+        //double hourlyRate = calculateHourlyRate(salary, configurableAmount, workingHours, utilizationPercentage, multiplier);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost);
 
         employeesDAO.addEmployee(newEmployee);
         clearInputFields(event);

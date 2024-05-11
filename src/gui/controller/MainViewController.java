@@ -64,7 +64,7 @@ public class MainViewController {
         employeesTableView.getColumns().clear();
 
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
-        hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHourlyRate()).asObject());
+        //hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHourlyRate()).asObject());
 
         employeesTableView.getColumns().addAll(nameColumn, hourlyRateColumn);
 
