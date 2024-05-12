@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="507.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AddEmployeeController">
+<AnchorPane prefHeight="589.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AddEmployeeController">
     <children>
         <StackPane layoutX="144.0" layoutY="150.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -17,7 +23,7 @@
 
                                 <AnchorPane prefHeight="35.0" prefWidth="376.0" styleClass="top-form" stylesheets="@../css/MainView.css" BorderPane.alignment="CENTER">
                                     <children>
-                                        <AnchorPane prefHeight="37.0" prefWidth="376.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
+                                        <AnchorPane prefHeight="37.0" prefWidth="516.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
                                             <children>
                                                 <Button fx:id="closeWindow" layoutX="1034.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="close" stylesheets="@../css/MainView.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
                         
@@ -40,11 +46,11 @@
                      <right>
                         <AnchorPane prefHeight="492.0" prefWidth="376.0" BorderPane.alignment="CENTER">
                            <children>
-                              <HBox alignment="CENTER_LEFT" layoutY="-16.0" prefHeight="383.0" prefWidth="376.0">
+                              <HBox alignment="CENTER_LEFT" layoutX="-140.0" prefHeight="443.0" prefWidth="516.0">
                                  <children>
-                                    <VBox prefHeight="406.0" prefWidth="149.0">
+                                    <VBox prefHeight="443.0" prefWidth="275.0">
                                        <children>
-                                          <Label id="label1" stylesheets="@../css/MainView.css" text="Name">
+                                          <Label id="label1" stylesheets="@../css/MainView.css" text="Name of the Team">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                                              </font>
@@ -52,7 +58,7 @@
                                                 <Insets left="40.0" top="40.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label id="label1" text="Salary">
+                                          <Label id="label1" text="Annual Salary">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                                              </font>
@@ -60,7 +66,7 @@
                                                 <Insets left="40.0" top="40.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label id="label1" text="Multiplier">
+                                          <Label id="label1" text="Overhead Multiplier Percentage %">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                                              </font>
@@ -68,7 +74,7 @@
                                                 <Insets left="40.0" top="40.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label id="label1" text="Config. Amount">
+                                          <Label id="label1" text="Configurable fixed Amount">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                                              </font>
@@ -76,7 +82,7 @@
                                                 <Insets left="40.0" top="40.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label id="label1" text="Working Hours">
+                                          <Label id="label1" text="Annual Working Hours">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                                              </font>
@@ -84,7 +90,7 @@
                                                 <Insets left="40.0" top="40.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label id="label1" text="Utilization %">
+                                          <Label id="label1" text="Utilization Percentage %">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                                              </font>
@@ -92,7 +98,15 @@
                                                 <Insets left="40.0" top="40.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label id="label1" prefHeight="17.0" prefWidth="91.0" text="Overhead Cost">
+                                          <Label id="label1" prefHeight="16.0" prefWidth="241.0" text="Overhead Cost / Production Resource ">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label id="label1" layoutX="50.0" layoutY="105.0" text="Country or Geography">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
                                              </font>
@@ -102,7 +116,7 @@
                                           </Label>
                                        </children>
                                     </VBox>
-                                    <VBox prefHeight="393.0" prefWidth="190.0">
+                                    <VBox prefHeight="448.0" prefWidth="200.0">
                                        <children>
                                           <TextField fx:id="nameTxtField" alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                              <VBox.margin>
@@ -139,12 +153,17 @@
                                                 <Insets left="40.0" top="30.0" />
                                              </VBox.margin>
                                           </TextField>
+                                          <TextField fx:id="overheadCostTxtField1" alignment="TOP_RIGHT" layoutX="50.0" layoutY="377.0" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
-                              <Button layoutX="108.0" layoutY="414.0" mnemonicParsing="false" onAction="#confirmAddEmployee" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
-                              <Button layoutX="201.0" layoutY="414.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
+                              <Button layoutX="41.0" layoutY="485.0" mnemonicParsing="false" onAction="#confirmAddEmployee" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
+                              <Button layoutX="128.0" layoutY="485.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
                            </children>
                         </AnchorPane>
                      </right>

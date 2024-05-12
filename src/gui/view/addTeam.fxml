@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import de.jensd.fx.glyphs.fontawesome.*?>
 
-<VBox prefHeight="257.0" prefWidth="400.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AddTeamController">
+<VBox prefHeight="227.0" prefWidth="402.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AddTeamController">
    <children>
       <HBox prefHeight="35.0" prefWidth="400.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
          <children>
@@ -35,40 +34,43 @@
                         </Button>
          </children>
       </HBox>
-      <HBox prefHeight="171.0" prefWidth="400.0">
+      <HBox prefHeight="147.0" prefWidth="402.0">
          <children>
-            <VBox prefHeight="192.0" prefWidth="163.0">
+            <VBox prefHeight="171.0" prefWidth="258.0">
                <children>
-                            <Label alignment="CENTER" styleClass="text" text="Name of Team">
+                            <Label alignment="CENTER" styleClass="text" text="Markup Multiplier %">
                                 <font>
                                     <Font name="Arial Rounded MT Bold" size="14.0" />
                                        </font>
                      <VBox.margin>
-                        <Insets left="30.0" top="55.0" />
+                        <Insets left="40.0" top="40.0" />
                      </VBox.margin>
                             </Label>
-                  <Label alignment="CENTER" layoutX="30.0" layoutY="45.0" styleClass="text" text="Country">
+                  <Label alignment="CENTER" layoutX="30.0" layoutY="45.0" styleClass="text" text="GM Multiplier %">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
                      </font>
                      <VBox.margin>
-                        <Insets left="30.0" top="40.0" />
+                        <Insets left="40.0" top="40.0" />
                      </VBox.margin>
                   </Label>
                </children>
             </VBox>
-            <VBox prefHeight="203.0" prefWidth="237.0">
+            <VBox prefHeight="171.0" prefWidth="226.0">
                <children>
-                            <TextField fx:id="nameTeamTxtField" alignment="CENTER" prefHeight="28.0" prefWidth="161.0" styleClass="textfield-team" stylesheets="@../css/MainView.css">
+                  <TextField fx:id="utilizationPercentageTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                      <VBox.margin>
-                        <Insets right="30.0" top="50.0" />
+                        <Insets left="40.0" right="30.0" top="30.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets right="30.0" />
+                     </padding>
+                  </TextField>
+                  <TextField fx:id="overheadCostTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                     <VBox.margin>
+                        <Insets left="40.0" right="30.0" top="30.0" />
                      </VBox.margin>
                   </TextField>
-                  <ComboBox fx:id="countryComboBox" prefHeight="25.0" prefWidth="210.0">
-                     <VBox.margin>
-                        <Insets right="30.0" top="35.0" />
-                     </VBox.margin>
-                  </ComboBox>
                </children>
             </VBox>
          </children>
