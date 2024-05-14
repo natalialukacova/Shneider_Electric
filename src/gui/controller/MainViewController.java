@@ -162,7 +162,7 @@ public class MainViewController {
     @FXML
     void addTeamPopUp(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addTeam.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addMultiplier.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
