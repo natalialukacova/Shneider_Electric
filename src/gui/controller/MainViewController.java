@@ -3,12 +3,12 @@ package gui.controller;
 import be.Countries;
 import be.Employees;
 import be.Teams;
-import be.TeamsCountry;
 import dal.CountriesDAO;
 import dal.EmployeesDAO;
 import dal.TeamsCountriesDAO;
 import dal.TeamsDAO;
-import javafx.beans.property.SimpleDoubleProperty;
+import gui.controller.employee.AddEmployeeController;
+import gui.controller.employee.EditEmployeeController;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,7 +37,9 @@ public class MainViewController {
     @FXML
     public TableColumn<Employees, String> nameColumn;
     @FXML
-    public TableColumn<Employees, Double> hourlyRateColumn;
+    public TableColumn<Employees, String> countryColumn;
+    @FXML
+    public TableColumn<Teams, Double> hourlyRateColumn;
     @FXML
     private ComboBox<Countries> countryComboBox;
     private final CountriesDAO countriesDAO = new CountriesDAO();
@@ -64,9 +66,10 @@ public class MainViewController {
         employeesTableView.getColumns().clear();
 
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
+        countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGeography()));
         //hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHourlyRate()).asObject());
 
-        employeesTableView.getColumns().addAll(nameColumn, hourlyRateColumn);
+        employeesTableView.getColumns().addAll(nameColumn, countryColumn);
 
     }
 
@@ -137,7 +140,6 @@ public class MainViewController {
     }
 
     public void loadTeams(){
-        System.out.println("Attempting to load teams...");
         if (teamsTableView == null) {
             System.err.println("TableView not initialized");
             return;
@@ -147,7 +149,6 @@ public class MainViewController {
             List<Teams> teamsOfCountry = teamsCountriesDAO.getAllTeamsOfCountry();
             ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
 
-            // Update the TableView on the JavaFX Application Thread
             javafx.application.Platform.runLater(() -> {
                 teamsTableView.setItems(observableList);
             });
@@ -172,6 +173,18 @@ public class MainViewController {
 
     }
 
+    public void deleteTeamBtn(ActionEvent event) {
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/deleteTeam.fxml"));
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @FXML
     void closeWindow(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -191,4 +204,6 @@ public class MainViewController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 }

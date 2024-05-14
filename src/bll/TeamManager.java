@@ -24,4 +24,9 @@ public class TeamManager implements ITeamsDAO {
         teamsDAO.updateTeam(teams);
     }
 
+    @Override
+    public void deleteTeam(int id) {
+        teamsDAO.deleteTeam(id);
+    }
+
 }

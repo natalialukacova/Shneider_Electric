@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<VBox prefHeight="229.0" prefWidth="400.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.AddTeamController">
+<VBox prefHeight="229.0" prefWidth="400.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.team.AddTeamController">
     <children>
         <HBox prefHeight="35.0" prefWidth="400.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
             <children>
@@ -39,7 +35,7 @@
             <children>
                 <VBox prefHeight="171.0" prefWidth="242.0">
                     <children>
-                        <Label alignment="CENTER" styleClass="text" text="Name of Emplooyee">
+                        <Label alignment="CENTER" styleClass="text" text="Name of Team">
                             <font>
                                 <Font name="Arial Rounded MT Bold" size="14.0" />
                             </font>
@@ -57,16 +53,16 @@
                         </Label>
                     </children>
                 </VBox>
-                <VBox prefHeight="203.0" prefWidth="237.0">
+                <VBox prefHeight="144.0" prefWidth="261.0">
                     <children>
                         <TextField fx:id="nameTeamTxtField" alignment="CENTER" prefHeight="28.0" prefWidth="161.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                             <VBox.margin>
-                                <Insets left="40.0" right="30.0" top="30.0" />
+                                <Insets right="30.0" top="33.0" />
                             </VBox.margin>
                         </TextField>
                         <ComboBox fx:id="countryComboBox" prefHeight="25.0" prefWidth="210.0">
                             <VBox.margin>
-                                <Insets left="40.0" right="30.0" top="30.0" />
+                                <Insets right="30.0" top="30.0" />
                             </VBox.margin>
                         </ComboBox>
                     </children>

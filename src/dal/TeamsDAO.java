@@ -70,6 +70,20 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
+    @Override
+    public void deleteTeam(int id){
+        try {
+            String sql = "DELETE FROM teams WHERE id=?";
+            Connection conn = databaseConnector.getConnection();
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1,id);
+            preparedStatement.executeUpdate();
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

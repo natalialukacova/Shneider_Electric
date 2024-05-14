@@ -12,6 +12,7 @@ public class Employees {
     private double utilizationPercentage;
     private double overheadCost;
     private double hourlyRate;
+    private String geography;
 
 
     public int getId() {
@@ -102,7 +103,15 @@ public class Employees {
         this.hourlyRate = hourlyRate;
     }
 
-    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost) {
+    public String getGeography() {
+        return geography;
+    }
+
+    public void setGeography(String geography) {
+        this.geography = geography;
+    }
+
+    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost, String geography) {
         this.id = id;
         this.employeeName = employeeName;
         this.salary = salary;
@@ -112,10 +121,11 @@ public class Employees {
         this.utilizationPercentage = utilizationPercentage;
         this.overheadCost = overheadCost;
         this.hourlyRate = hourlyRate;
+        this.geography = geography;
     }
 
     @Override
     public String toString(){
-        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + workingHours + "" + utilizationPercentage + "" + overheadCost + "" + hourlyRate;
+        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + workingHours + "" + utilizationPercentage + "" + overheadCost + "" + hourlyRate + "" + geography;
     }
 }

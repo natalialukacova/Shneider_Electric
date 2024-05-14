@@ -8,4 +8,6 @@ public interface ITeamsDAO {
     List<Teams> getAllTeams();
     void addTeam(Teams teams);
     void updateTeam(Teams teams);
+
+    void deleteTeam(int id);
 }
