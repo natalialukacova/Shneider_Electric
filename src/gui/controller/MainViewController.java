@@ -5,10 +5,10 @@ import be.Employees;
 import be.Teams;
 import dal.CountriesDAO;
 import dal.EmployeesDAO;
-import dal.TeamsCountriesDAO;
 import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,18 +33,18 @@ public class MainViewController {
     @FXML
     private TableColumn<Teams, String> teamNameCol;
     @FXML
+    public TableColumn<Teams, Double> hourlyRateColumn;
+    @FXML
     private TableView<Employees> employeesTableView;
     @FXML
     public TableColumn<Employees, String> nameColumn;
     @FXML
     public TableColumn<Employees, String> countryColumn;
     @FXML
-    public TableColumn<Teams, Double> hourlyRateColumn;
-    @FXML
-    private ComboBox<Countries> countryComboBox;
+    public ComboBox<Countries> countryComboBox;
     private final CountriesDAO countriesDAO = new CountriesDAO();
     private TeamsDAO teamsDAO = new TeamsDAO();
-    private TeamsCountriesDAO teamsCountriesDAO = new TeamsCountriesDAO();
+
 
 
 
@@ -52,34 +52,43 @@ public class MainViewController {
         employeesDAO = new EmployeesDAO();
         setEmployeesTable(employeesTableView);
         loadCountries();
-        setTeamsTable(teamsTableView);
-        loadTeams();
+        countryComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                setTeamsTable(teamsTableView, newSelection.getCountryId());
+            }
+        });
+        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+        if (selectedCountry != null) {
+            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
+        }
 
     }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
         List<Employees> employees = employeesDAO.getAllEmployees();
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employees);
-        employeesTableView.setItems(observableList);
 
-        // Clear existing columns
+        employeesTableView.setItems(observableList);
         employeesTableView.getColumns().clear();
 
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGeography()));
-        //hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getHourlyRate()).asObject());
 
         employeesTableView.getColumns().addAll(nameColumn, countryColumn);
 
     }
 
-    public void setTeamsTable(TableView<Teams> teamsTableView) {
-        List<Teams> teamsOfCountry = teamsCountriesDAO.getAllTeamsOfCountry();
+    public void setTeamsTable(TableView<Teams> teamsTableView, int countryId) {
+        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
         ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+
         teamsTableView.setItems(observableList);
         teamsTableView.getColumns().clear();
+
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
-        teamsTableView.getColumns().addAll(teamNameCol);
+        hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTeamHourlyRate()).asObject());
+
+        teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
     }
 
     @FXML
@@ -139,30 +148,17 @@ public class MainViewController {
         countryComboBox.setItems(countries);
     }
 
-    public void loadTeams(){
-        if (teamsTableView == null) {
-            System.err.println("TableView not initialized");
-            return;
-        }
-
-        try {
-            List<Teams> teamsOfCountry = teamsCountriesDAO.getAllTeamsOfCountry();
-            ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
-
-            javafx.application.Platform.runLater(() -> {
-                teamsTableView.setItems(observableList);
-            });
-        } catch (Exception e) {
-            System.err.println("Error loading teams: " + e.getMessage());
-            e.printStackTrace();
+    public void handleCountrySelection(ActionEvent event) {
+        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+        if (selectedCountry != null) {
+            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
         }
     }
-
 
     @FXML
     void addTeamPopUp(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addMultiplier.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addTeam.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));

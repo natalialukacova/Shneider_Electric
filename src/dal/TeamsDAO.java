@@ -13,39 +13,42 @@ public class TeamsDAO implements ITeamsDAO {
     private PreparedStatement preparedStatement;
     private DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
 
+
     @Override
-    public List<Teams> getAllTeams() {
-        List<Teams> Teams = new ArrayList<>();
+    public List<Teams> getTeamsByCountryId(int countryId) {
+        List<Teams> teams = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM teams";
+            String sql = "SELECT * FROM teams WHERE countryId = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-            ResultSet resultSet = preparedStatement.executeQuery();
+            preparedStatement.setInt(1, countryId);
 
-            while (resultSet.next()) {
-                Teams.add(new Teams(
-                        resultSet.getInt("id"),
-                        resultSet.getString("teamName")
-                ));
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Teams team = new Teams(
+                            resultSet.getInt("id"),
+                            resultSet.getString("teamName"),
+                            resultSet.getDouble("teamHourlyRate"),
+                            resultSet.getInt("countryId"));
+                    teams.add(team);
+                }
             }
-            return Teams;
-
         } catch (SQLServerException e) {
             throw new RuntimeException(e);
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return teams;
     }
-
-
-
 
     public void addTeam(Teams teams) {
         try {
-            String sql = "INSERT INTO teams VALUES (?)";
-            Connection conn = databaseConnector.getConnection();
+            String sql = "INSERT INTO teams(teamName, countryId) VALUES (?,?)";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, teams.getTeamName());
+            preparedStatement.setInt(2, teams.getCountryId());
+
             preparedStatement.execute();
 
         } catch (Exception e) {

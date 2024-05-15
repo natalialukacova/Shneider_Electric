@@ -3,8 +3,9 @@ package be;
 public class Teams {
     private int id;
     private String teamName;
+    private Double teamHourlyRate;
     private int countryId;
-    private int teamId;
+
 
 
     public String getTeamName() {
@@ -23,6 +24,14 @@ public class Teams {
         this.id = id;
     }
 
+    public Double getTeamHourlyRate() {
+        return teamHourlyRate;
+    }
+
+    public void setTeamHourlyRate(Double teamHourlyRate) {
+        this.teamHourlyRate = teamHourlyRate;
+    }
+
     public int getCountryId() {
         return countryId;
     }
@@ -31,23 +40,12 @@ public class Teams {
         this.countryId = countryId;
     }
 
-    public int getTeamId() {
-        return teamId;
-    }
 
-    public void setTeamId(int teamId) {
-        this.teamId = teamId;
-    }
-
-    public Teams(int id, String teamName) {
+    public Teams(int id, String teamName, double teamHourlyRate, int countryId) {
         this.id = id;
         this.teamName = teamName;
-    }
-
-    public Teams(int id, int countryId, int teamId) {
-        this.id = id;
+        this.teamHourlyRate = teamHourlyRate;
         this.countryId = countryId;
-        this.teamId = teamId;
     }
 
     @Override

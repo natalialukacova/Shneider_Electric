@@ -60,7 +60,7 @@
                                 <Insets right="30.0" top="33.0" />
                             </VBox.margin>
                         </TextField>
-                        <ComboBox fx:id="countryComboBox" prefHeight="25.0" prefWidth="210.0">
+                        <ComboBox fx:id="countryBox" prefHeight="25.0" prefWidth="210.0">
                             <VBox.margin>
                                 <Insets right="30.0" top="30.0" />
                             </VBox.margin>

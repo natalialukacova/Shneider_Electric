@@ -87,7 +87,7 @@
                                        </children>
                                     </AnchorPane>
                                     <Button fx:id="addTeamBtn" layoutX="139.0" layoutY="630.0" mnemonicParsing="false" onAction="#addTeamPopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Team" />
-                                    <ComboBox fx:id="countryComboBox" accessibleRole="CHECK_MENU_ITEM" layoutX="97.0" layoutY="32.0" prefHeight="30.0" prefWidth="150.0" promptText="Select country.." styleClass="combo-box" stylesheets="@../css/MainView.css" />
+                                    <ComboBox fx:id="countryComboBox" accessibleRole="CHECK_MENU_ITEM" layoutX="97.0" layoutY="32.0" onAction="#handleCountrySelection" prefHeight="30.0" prefWidth="150.0" promptText="Select country.." styleClass="combo-box" stylesheets="@../css/MainView.css" />
                                     <TextField layoutX="275.0" layoutY="32.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
                                     <FontAwesomeIcon glyphName="SEARCH" layoutX="282.0" layoutY="52.0" size="1.2em" />
                                     <TextField layoutX="612.0" layoutY="33.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />

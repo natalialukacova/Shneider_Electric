@@ -9,9 +9,14 @@ import java.util.List;
 public class TeamManager implements ITeamsDAO {
     ITeamsDAO teamsDAO = new TeamsDAO();
 
-    @Override
+   /* @Override
     public List<Teams> getAllTeams() {
         return teamsDAO.getAllTeams();
+    }*/
+
+    @Override
+    public List<Teams> getTeamsByCountryId(int countryId) {
+        return teamsDAO.getTeamsByCountryId(countryId);
     }
 
     @Override
