@@ -4,6 +4,7 @@ import be.Employees;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.IEmployeesTeamsDAO;
+import gui.controller.MainViewController;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +15,7 @@ import java.util.List;
 public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
     private PreparedStatement preparedStatement;
     private DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
+    MainViewController mainViewController = new MainViewController();
 
 
     @Override
@@ -47,18 +49,42 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
     }
 
     public void addEmployeeToTeam(int teamId, int employeeId) {
+        if (!isEmployeeInTeam(teamId, employeeId)) {
+            try {
+                String sql = "INSERT INTO [employeesTeam] (teamId, employeeId) VALUES (?,?)";
+                preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
+
+                preparedStatement.setInt(1, teamId);
+                preparedStatement.setInt(2, employeeId);
+                preparedStatement.executeUpdate();
+            } catch (SQLServerException e) {
+                throw new RuntimeException(e);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            mainViewController.showAlert("Employee is already part of the team.");
+        }
+    }
+
+    private boolean isEmployeeInTeam(int teamId, int employeeId) {
         try {
-            String sql = "INSERT INTO [employeesTeam] (teamId, employeeId) VALUES (?,?)";
+            String sql = "SELECT COUNT(*) FROM employeesTeam WHERE teamId = ? AND employeeId = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setInt(1, teamId);
             preparedStatement.setInt(2, employeeId);
-            preparedStatement.executeUpdate();
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1) > 0;
+            }
         } catch (SQLServerException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return false;
     }
 }
 

@@ -1,14 +1,12 @@
 package gui.controller.employee;
 
+import be.Countries;
 import be.Employees;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 public class AddEmployeeController {
@@ -21,6 +19,8 @@ public class AddEmployeeController {
     public TableColumn<Employees, Double> hourlyRateColumn;
     @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, utilizationPercentageTxtField, overheadCostTxtField, geographyTxtField;
+    @FXML
+    private ComboBox countryComboBox;
     private EmployeesDAO employeesDAO = new EmployeesDAO();
     private MainViewController mainController;
     private Stage stage;
@@ -131,5 +131,9 @@ public class AddEmployeeController {
     }
 
     public void minimizeWindow(ActionEvent event) {
+    }
+
+    public void handleCountrySelection(ActionEvent event) {
+        Countries selectedCountry = (Countries) countryComboBox.getSelectionModel().getSelectedItem();
     }
 }

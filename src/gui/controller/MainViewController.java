@@ -137,10 +137,6 @@ public class MainViewController {
         }
     }
 
-   /* public void setCurrentTeamId(int currentTeamId) {
-        this.selectedTeam = selectedTeam;
-    }*/
-
     public void loadAllEmployees() {
         List<Employees> allEmployees = employeesDAO.getAllEmployees();
         ObservableList<Employees> observableList = FXCollections.observableArrayList(allEmployees);
@@ -255,7 +251,7 @@ public class MainViewController {
         currentStage.setIconified(true);
     }
 
-    private void showAlert(String message) {
+    public void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("Error");
         alert.setHeaderText(null);
