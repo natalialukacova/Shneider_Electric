@@ -20,7 +20,7 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
     public List<Employees> getEmployeesOfTeam(int teamId) {
         List<Employees> EmployeesOfTeam = new ArrayList<>();
         try {
-            String sql = "SELECT * FROM employees INNER JOIN employeesTeam ON employees.id = emyployeesTeam.employeeId"
+            String sql = "SELECT * FROM employees INNER JOIN employeesTeam ON employees.id = employeesTeam.employeeId "
                     + "INNER JOIN teams ON employeesTeam.teamId = teams.id WHERE employeesTeam.teamId = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
             preparedStatement.setInt(1, teamId);
@@ -39,6 +39,21 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
                         resultSet.getString("geography")));
             }
             return EmployeesOfTeam;
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void addEmployeeToTeam(int teamId, int employeeId) {
+        try {
+            String sql = "INSERT INTO [employeesTeam] (teamId, employeeId) VALUES (?,?)";
+            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
+
+            preparedStatement.setInt(1, teamId);
+            preparedStatement.setInt(2, employeeId);
+            preparedStatement.executeUpdate();
         } catch (SQLServerException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {

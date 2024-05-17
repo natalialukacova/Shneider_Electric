@@ -5,6 +5,7 @@ import be.Employees;
 import be.Teams;
 import dal.CountriesDAO;
 import dal.EmployeesDAO;
+import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
@@ -21,19 +22,25 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
 import java.io.IOException;
 import java.util.List;
 
 public class MainViewController {
 
     private EmployeesDAO employeesDAO;
+    private EmployeesTeamsDAO employeesTeamsDAO;
+    private final CountriesDAO countriesDAO = new CountriesDAO();
+    private TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
     private TableView<Teams> teamsTableView;
     @FXML
     private TableColumn<Teams, String> teamNameCol;
     @FXML
     public TableColumn<Teams, Double> hourlyRateColumn;
+    @FXML
+    public TableView<Employees> employeeOfTeamTableView;
+    @FXML
+    public TableColumn<Employees, String> teamEmployeeColumn;
     @FXML
     private TableView<Employees> employeesTableView;
     @FXML
@@ -42,21 +49,38 @@ public class MainViewController {
     public TableColumn<Employees, String> countryColumn;
     @FXML
     public ComboBox<Countries> countryComboBox;
-    private final CountriesDAO countriesDAO = new CountriesDAO();
-    private TeamsDAO teamsDAO = new TeamsDAO();
+    private EditEmployeeController editEmployeeController;
+    private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
+    private Teams selectedTeam;
 
 
-
+    public MainViewController() {
+        // No-argument constructor
+    }
+    public void setDependencies(EditEmployeeController editEmployeeController) {
+        this.editEmployeeController = editEmployeeController;
+    }
 
     public void initialize() {
         employeesDAO = new EmployeesDAO();
+        employeesTeamsDAO = new EmployeesTeamsDAO();
+
         setEmployeesTable(employeesTableView);
+        setEmployeesOfTeamTable(employeeOfTeamTableView);
         loadCountries();
+
         countryComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 setTeamsTable(teamsTableView, newSelection.getCountryId());
             }
         });
+
+        teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null){
+                selectedTeam = newSelection;
+            loadEmployeesOfTeam(selectedTeam.getId());}
+        });
+
         Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
         if (selectedCountry != null) {
             setTeamsTable(teamsTableView, selectedCountry.getCountryId());
@@ -89,6 +113,63 @@ public class MainViewController {
         hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTeamHourlyRate()).asObject());
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
+    }
+
+    private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
+        teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
+        employeesOfTeamTableView.setItems(employeesOfTeamList);
+    }
+
+    public void assignEmployeeToTeam(ActionEvent event) {
+        assignEmployee();
+    }
+    private void assignEmployee(){
+        Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
+        if (selectedEmployee != null && selectedTeam != null) {
+            System.out.println("Assigning Employee ID: " + selectedEmployee.getId() + " to Team ID: " + selectedTeam.getId());
+            employeesTeamsDAO.addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId());
+            loadEmployeesOfTeam(selectedTeam.getId());
+          //  EmployeesOfTeamController.assignEmployeeToTeam(selectedTeam, selectedEmployee.getId());
+        } else if (selectedEmployee == null){
+            showAlert("Please select an employee.");
+        } else {
+            showAlert("Please select a team.");
+        }
+    }
+
+   /* public void setCurrentTeamId(int currentTeamId) {
+        this.selectedTeam = selectedTeam;
+    }*/
+
+    public void loadAllEmployees() {
+        List<Employees> allEmployees = employeesDAO.getAllEmployees();
+        ObservableList<Employees> observableList = FXCollections.observableArrayList(allEmployees);
+        employeesTableView.getItems().setAll(observableList);
+    }
+
+    private void loadEmployeesOfTeam(int teamId) {
+        List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
+        ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
+        employeesOfTeamList.setAll(observableList);
+    }
+
+    public void loadCountries(){
+        ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
+        countryComboBox.setItems(countries);
+    }
+
+    public void handleCountrySelection(ActionEvent event) {
+        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+        if (selectedCountry != null) {
+            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
+        }
+    }
+
+    private void setSelectedTeam(){
+        selectedTeam = teamsTableView.getSelectionModel().getSelectedItem();
+        if (selectedTeam != null) {
+            loadEmployeesOfTeam(selectedTeam.getId());
+        }
     }
 
     @FXML
@@ -133,25 +214,6 @@ public class MainViewController {
             }
         } else {
             showAlert("Please select an employee to edit.");
-        }
-    }
-
-    public void loadAllEmployees() {
-        EmployeesDAO employeeDAO = new EmployeesDAO();
-        List<Employees> allEmployees = employeeDAO.getAllEmployees();
-        ObservableList<Employees> observableList = FXCollections.observableArrayList(allEmployees);
-        employeesTableView.getItems().setAll(allEmployees);
-    }
-
-    public void loadCountries(){
-        ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
-        countryComboBox.setItems(countries);
-    }
-
-    public void handleCountrySelection(ActionEvent event) {
-        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
-        if (selectedCountry != null) {
-            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
         }
     }
 
@@ -201,5 +263,8 @@ public class MainViewController {
         alert.showAndWait();
     }
 
+    public MainViewController(EditEmployeeController editEmployeeController) {
+        this.editEmployeeController = editEmployeeController;
+    }
 
 }

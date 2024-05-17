@@ -11,7 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class AddEmployeeController extends MainViewController {
+public class AddEmployeeController {
 
     @FXML
     private TableView<Employees> employeesTableView;
@@ -87,36 +87,6 @@ public class AddEmployeeController extends MainViewController {
     }
 
 
-
-    // display information of selected employee
-    public void updateEmployee(ActionEvent event) {
-        selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
-        if (selectedEmployee != null) {
-            fillEmployeeData(selectedEmployee);
-        } else {
-            showAlert("Please select an employee.");
-        }
-    }
-
-    public void saveEditedEmployee(ActionEvent event) {
-        if (!validateInput()) {
-            return;
-        }
-
-        selectedEmployee.setEmployeeName(nameTxtField.getText());
-        selectedEmployee.setSalary(Double.parseDouble(salaryTxtField.getText()));
-        selectedEmployee.setMultiplier(Double.parseDouble(multiplierTxtField.getText()));
-        selectedEmployee.setConfigurableAmount(Double.parseDouble(configurableAmountTxtField.getText()));
-        selectedEmployee.setWorkingHours(Double.parseDouble(workingHoursTxtField.getText()));
-        selectedEmployee.setUtilizationPercentage(Double.parseDouble(utilizationPercentageTxtField.getText()));
-        selectedEmployee.setOverheadCost(Double.parseDouble(overheadCostTxtField.getText()));
-
-        employeesDAO.updateEmployee(selectedEmployee);
-        mainController.loadAllEmployees();
-
-        stage.close();
-    }
-
     public Employees fillEmployeeData(Employees employee) {
         this.selectedEmployee = employee;
         nameTxtField.setText(selectedEmployee.getEmployeeName());
@@ -149,11 +119,6 @@ public class AddEmployeeController extends MainViewController {
         overheadCostTxtField.clear();
     }
 
-    public void setSelectedEmployee(Employees selectedEmployee) {
-        this.selectedEmployee = selectedEmployee;
-        fillEmployeeData(selectedEmployee);
-    }
-
     public void setMainController(MainViewController controller) {
         this.mainController = controller;
     }
@@ -162,4 +127,9 @@ public class AddEmployeeController extends MainViewController {
         this.stage = stage;
     }
 
+    public void closeWindow(ActionEvent event) {
+    }
+
+    public void minimizeWindow(ActionEvent event) {
+    }
 }

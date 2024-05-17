@@ -1,12 +1,11 @@
+import gui.controller.MainViewController;
+import gui.controller.employee.EditEmployeeController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-
-import gui.controller.MainViewController;
-
 import java.io.IOException;
 
 public class Main extends Application {
@@ -17,10 +16,14 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("gui/view/MainView.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("gui/view/MainView.fxml"));
+            Parent root = loader.load();
             Scene scene = new Scene(root);
             String css = getClass().getResource("/gui/css/MainView.css").toExternalForm();
             scene.getStylesheets().add(css);
+
+            MainViewController mainViewController = loader.getController();
+            mainViewController.setDependencies(new EditEmployeeController());
 
             root.setOnMousePressed(event -> {
                 x = event.getSceneX();

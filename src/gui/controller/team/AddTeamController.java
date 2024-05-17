@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class AddTeamController extends MainViewController {
+public class AddTeamController{
     @FXML
     private TableView<Teams> teamsTableView;
     public TextField nameTeamTxtField;
@@ -24,7 +24,7 @@ public class AddTeamController extends MainViewController {
     private ComboBox countryBox;
     private CountriesDAO countriesDAO = new CountriesDAO();
     private TeamsDAO teamsDAO = new TeamsDAO();
-    private MainViewController mainViewController = new MainViewController();
+   // private MainViewController mainViewController = new MainViewController();
 
 
 
@@ -35,7 +35,7 @@ public class AddTeamController extends MainViewController {
     public void confirmAddTeam(ActionEvent event) {
         String teamName = nameTeamTxtField.getText();
         Countries selectedCountry = (Countries) countryBox.getSelectionModel().getSelectedItem();
-        Double teamHourlyRate = null;
+        Double teamHourlyRate = (double) 0;
         if (selectedCountry == null) {
             System.out.println("No country selected");
             return;

@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class EditEmployeeController extends MainViewController {
+public class EditEmployeeController {
     @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, utilizationPercentageTxtField, overheadCostTxtField, geographyTxtField;
     private EmployeesDAO employeesDAO = new EmployeesDAO();
@@ -119,6 +119,10 @@ public class EditEmployeeController extends MainViewController {
         fillEmployeeData(selectedEmployee);
     }
 
+    public Employees getSelectedEmployee(){
+        return selectedEmployee;
+    }
+
     public void setMainController(MainViewController controller) {
         this.mainController = controller;
     }
@@ -127,4 +131,9 @@ public class EditEmployeeController extends MainViewController {
         this.stage = stage;
     }
 
+    public void closeWindow(ActionEvent event) {
+    }
+
+    public void minimizeWindow(ActionEvent event) {
+    }
 }

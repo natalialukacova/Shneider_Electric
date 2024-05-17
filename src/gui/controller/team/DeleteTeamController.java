@@ -7,7 +7,7 @@ import gui.controller.MainViewController;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
-public class DeleteTeamController extends MainViewController {
+public class DeleteTeamController  {
     private MainViewController mainController;
     private Stage stage;
     private Teams selectedTeam;
@@ -24,5 +24,8 @@ public class DeleteTeamController extends MainViewController {
     }
 
     public void cancelBtn(ActionEvent event) {
+    }
+
+    public void closeWindow(ActionEvent event) {
     }
 }
