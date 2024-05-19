@@ -24,8 +24,11 @@ public class AddTeamController{
     private ComboBox countryBox;
     private CountriesDAO countriesDAO = new CountriesDAO();
     private TeamsDAO teamsDAO = new TeamsDAO();
-   // private MainViewController mainViewController = new MainViewController();
+    private MainViewController mainViewController = new MainViewController();
 
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
 
 
     public void initialize(){
@@ -36,14 +39,16 @@ public class AddTeamController{
         String teamName = nameTeamTxtField.getText();
         Countries selectedCountry = (Countries) countryBox.getSelectionModel().getSelectedItem();
         Double teamHourlyRate = (double) 0;
+
         if (selectedCountry == null) {
             System.out.println("No country selected");
             return;
         }
+
         int countryId = selectedCountry.getCountryId();
         Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId);
         teamsDAO.addTeam(newTeam);
-       // mainViewController.loadTeams();
+        mainViewController.setTeamsTable(mainViewController.getTeamsTableView(), countryId);
         closeWindow(event);
     }
 

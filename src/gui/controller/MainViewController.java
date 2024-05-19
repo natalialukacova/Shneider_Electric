@@ -9,6 +9,7 @@ import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
+import gui.controller.team.DeleteTeamController;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -32,7 +33,7 @@ public class MainViewController {
     private final CountriesDAO countriesDAO = new CountriesDAO();
     private TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
-    private TableView<Teams> teamsTableView;
+    public TableView<Teams> teamsTableView;
     @FXML
     private TableColumn<Teams, String> teamNameCol;
     @FXML
@@ -48,15 +49,12 @@ public class MainViewController {
     @FXML
     public TableColumn<Employees, String> countryColumn;
     @FXML
-    public ComboBox<Countries> countryComboBox;
+    private ComboBox<Countries> countryComboBox;
     private EditEmployeeController editEmployeeController;
     private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private Teams selectedTeam;
 
 
-    public MainViewController() {
-        // No-argument constructor
-    }
     public void setDependencies(EditEmployeeController editEmployeeController) {
         this.editEmployeeController = editEmployeeController;
     }
@@ -103,16 +101,21 @@ public class MainViewController {
     }
 
     public void setTeamsTable(TableView<Teams> teamsTableView, int countryId) {
-        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
-        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+        if (teamsTableView == null) {
+            System.out.println("teamsTableView is null");
+            return;
+        }
 
-        teamsTableView.setItems(observableList);
+        loadTeams(teamsTableView, countryId);
         teamsTableView.getColumns().clear();
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
         hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTeamHourlyRate()).asObject());
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
+    }
+    public TableView<Teams> getTeamsTableView() {
+        return teamsTableView;
     }
 
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
@@ -152,6 +155,12 @@ public class MainViewController {
     public void loadCountries(){
         ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
         countryComboBox.setItems(countries);
+    }
+
+    public void loadTeams(TableView<Teams> teamsTableView, int countryId) {
+        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
+        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+        teamsTableView.getItems().setAll(observableList);
     }
 
     public void handleCountrySelection(ActionEvent event) {
@@ -228,14 +237,23 @@ public class MainViewController {
     }
 
     public void deleteTeamBtn(ActionEvent event) {
-        try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/deleteTeam.fxml"));
-            Stage stage = new Stage();
-            stage.initStyle(StageStyle.UNDECORATED);
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
+        Teams selectedTeam = teamsTableView.getSelectionModel().getSelectedItem();
+        if (selectedTeam != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/deleteTeam.fxml"));
+                Stage stage = new Stage();
+                stage.initStyle(StageStyle.UNDECORATED);
+                Scene scene = new Scene(loader.load());
+                stage.setScene(scene);
+                stage.show();
+
+                DeleteTeamController deleteTeamController = loader.getController();
+                deleteTeamController.setSelectedTeam(selectedTeam);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            showAlert("Please select a team to delete.");
         }
     }
 
@@ -259,8 +277,8 @@ public class MainViewController {
         alert.showAndWait();
     }
 
-    public MainViewController(EditEmployeeController editEmployeeController) {
+   /** public MainViewController(EditEmployeeController editEmployeeController) {
         this.editEmployeeController = editEmployeeController;
-    }
+    }**/
 
 }

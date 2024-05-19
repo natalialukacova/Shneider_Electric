@@ -2,8 +2,11 @@ package gui.controller.employee;
 
 import be.Countries;
 import be.Employees;
+import dal.CountriesDAO;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -20,9 +23,9 @@ public class AddEmployeeController {
     @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, utilizationPercentageTxtField, overheadCostTxtField, geographyTxtField;
     @FXML
-    private ComboBox countryComboBox;
+    private ComboBox countryBox;
     private EmployeesDAO employeesDAO = new EmployeesDAO();
-    private MainViewController mainController;
+    private MainViewController mainController = new MainViewController();
     private Stage stage;
     private Employees selectedEmployee;
 
@@ -134,6 +137,6 @@ public class AddEmployeeController {
     }
 
     public void handleCountrySelection(ActionEvent event) {
-        Countries selectedCountry = (Countries) countryComboBox.getSelectionModel().getSelectedItem();
+        Countries selectedCountry = (Countries) countryBox.getSelectionModel().getSelectedItem();
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
     private PreparedStatement preparedStatement;
     private DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-    MainViewController mainViewController = new MainViewController();
+    private MainViewController mainViewController = new MainViewController();
 
 
     @Override

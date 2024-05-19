@@ -47,7 +47,7 @@ public class EditEmployeeController {
     }
 
     private boolean validateInput() {
-        if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty()) {
+        if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() || geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
             showAlert("Please fill in all required fields.");
             return false;
         }
