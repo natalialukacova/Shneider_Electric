@@ -157,6 +157,10 @@ public class MainViewController {
         countryComboBox.setItems(countries);
     }
 
+    public void removeTeamFromTable(Teams team) {
+        teamsTableView.getItems().remove(team);
+    }
+
     public void loadTeams(TableView<Teams> teamsTableView, int countryId) {
         List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
         ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
@@ -248,6 +252,7 @@ public class MainViewController {
                 stage.show();
 
                 DeleteTeamController deleteTeamController = loader.getController();
+                deleteTeamController.setMainViewController(this);
                 deleteTeamController.setSelectedTeam(selectedTeam);
             } catch (IOException e) {
                 e.printStackTrace();
