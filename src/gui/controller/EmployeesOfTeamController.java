@@ -1,6 +1,7 @@
 package gui.controller;
 
 import dal.EmployeesTeamsDAO;
+import gui.utility.ExeptionHandeler;
 
 import javax.swing.*;
 
@@ -10,9 +11,9 @@ public class EmployeesOfTeamController {
     public static void assignEmployeeToTeam(int teamId, int employeeId){
         try {
             employeesTeamsDAO.addEmployeeToTeam(teamId, employeeId);
-            JOptionPane.showMessageDialog(null, "Employee assigned to the team successfully.");
+            ExeptionHandeler.showAlert("Employee assigned to the team successfully.");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Failed to assign employee to the team.");
+            ExeptionHandeler.showAlert("Failed to assign employee to the team.");
             e.printStackTrace();
         }
     }

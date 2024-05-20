@@ -1,11 +1,12 @@
 package gui.controller.employee;
 
-import be.Countries;
 import be.Employees;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
+import gui.utility.ExeptionHandeler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -48,7 +49,7 @@ public class EditEmployeeController {
 
     private boolean validateInput() {
         if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() || geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
-            showAlert("Please fill in all required fields.");
+            ExeptionHandeler.showAlert("Please fill in all required fields.");
             return false;
         }
         try{
@@ -135,13 +136,17 @@ public class EditEmployeeController {
         this.stage = stage;
     }
 
-    public void closeWindow(ActionEvent event) {
-    }
-
     public void minimizeWindow(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setIconified(true);
     }
 
-    public void handleCountrySelection(ActionEvent event) {
-        Countries selectedCountry = (Countries) countryComboBox.getSelectionModel().getSelectedItem();
+    public void closeWindow(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close();
+    }
+
+    public void cancelBtn(ActionEvent event) {
+        closeWindow(event);
     }
 }

@@ -153,7 +153,7 @@
                                  </children>
                               </HBox>
                               <Button layoutX="108.0" layoutY="457.0" mnemonicParsing="false" onAction="#confirmEditEmployee" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
-                              <Button layoutX="201.0" layoutY="456.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
+                              <Button layoutX="201.0" layoutY="456.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
                            </children>
                         </AnchorPane>
                      </right>

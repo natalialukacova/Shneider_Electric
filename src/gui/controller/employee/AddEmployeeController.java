@@ -9,6 +9,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
@@ -131,12 +132,15 @@ public class AddEmployeeController {
     }
 
     public void closeWindow(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.close();
     }
 
     public void minimizeWindow(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setIconified(true);
     }
 
-    public void handleCountrySelection(ActionEvent event) {
-        Countries selectedCountry = (Countries) countryBox.getSelectionModel().getSelectedItem();
+    public void cancelBtn(ActionEvent event) {
     }
 }

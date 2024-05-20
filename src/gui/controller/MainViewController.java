@@ -10,6 +10,7 @@ import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
 import gui.controller.team.DeleteTeamController;
+import gui.utility.ExeptionHandeler;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -27,7 +28,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainViewController {
-
     private EmployeesDAO employeesDAO;
     private EmployeesTeamsDAO employeesTeamsDAO;
     private final CountriesDAO countriesDAO = new CountriesDAO();
@@ -134,9 +134,9 @@ public class MainViewController {
             loadEmployeesOfTeam(selectedTeam.getId());
           //  EmployeesOfTeamController.assignEmployeeToTeam(selectedTeam, selectedEmployee.getId());
         } else if (selectedEmployee == null){
-            showAlert("Please select an employee.");
+            ExeptionHandeler.showAlert("Please select an employee.");
         } else {
-            showAlert("Please select a team.");
+            ExeptionHandeler.showAlert("Please select a team.");
         }
     }
 
@@ -222,7 +222,7 @@ public class MainViewController {
                 e.printStackTrace();
             }
         } else {
-            showAlert("Please select an employee to edit.");
+            ExeptionHandeler.showAlert("Please select an employee to edit.");
         }
     }
 
@@ -258,32 +258,21 @@ public class MainViewController {
                 e.printStackTrace();
             }
         } else {
-            showAlert("Please select a team to delete.");
+            ExeptionHandeler.showAlert("Please select a team to delete.");
         }
     }
 
     @FXML
-    void closeWindow(ActionEvent event) {
+    public void closeWindow(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.close();
     }
-
     @FXML
-    void minimizeWindow(ActionEvent event) {
+    public void minimizeWindow(ActionEvent event) {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setIconified(true);
     }
 
-    public void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
 
-   /** public MainViewController(EditEmployeeController editEmployeeController) {
-        this.editEmployeeController = editEmployeeController;
-    }**/
 
 }

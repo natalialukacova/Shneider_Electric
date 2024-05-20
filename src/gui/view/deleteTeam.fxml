@@ -9,7 +9,7 @@
    <children>
       <HBox prefHeight="35.0" prefWidth="400.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
          <children>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css">
+            <Button mnemonicParsing="false" onAction="#minimizeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css">
                <graphic>
                   <FontAwesomeIcon glyphName="MINUS" size="1.2EM" />
                </graphic>
@@ -31,7 +31,7 @@
          <children>
             <BorderPane prefHeight="147.0" prefWidth="396.0">
                <center>
-                  <Label fx:id="confirmationLabel"  BorderPane.alignment="CENTER" />
+                  <Label fx:id="confirmationLabel" BorderPane.alignment="CENTER" />
                </center>
             </BorderPane>
          </children>

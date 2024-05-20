@@ -67,4 +67,8 @@ public class AddTeamController{
         closeWindow(event);
     }
 
+    public void minimizeWindow(ActionEvent event) {
+        Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        currentStage.setIconified(true);
+    }
 }
