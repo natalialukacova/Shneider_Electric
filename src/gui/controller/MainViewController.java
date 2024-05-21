@@ -10,6 +10,9 @@ import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
 import gui.controller.team.DeleteTeamController;
+import gui.search.EmployeeSearch;
+import gui.search.EmployeeTeamSearch;
+import gui.search.TeamSearch;
 import gui.utility.ExeptionHandeler;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
@@ -50,6 +53,15 @@ public class MainViewController {
     public TableColumn<Employees, String> countryColumn;
     @FXML
     private ComboBox<Countries> countryComboBox;
+    @FXML
+    private TextField employeeSearchField;
+    @FXML
+    private TextField teamSearchField;
+    @FXML
+    private TextField employeeTeamSearchField;
+    private EmployeeSearch employeeSearch;
+    private TeamSearch teamSearch;
+    private EmployeeTeamSearch employeeTeamSearch;
     private EditEmployeeController editEmployeeController;
     private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private Teams selectedTeam;
@@ -62,6 +74,15 @@ public class MainViewController {
     public void initialize() {
         employeesDAO = new EmployeesDAO();
         employeesTeamsDAO = new EmployeesTeamsDAO();
+
+        employeeSearch = new EmployeeSearch();
+        setupEmployeeSearchField();
+
+        teamSearch = new TeamSearch();
+        setupTeamSearchField();
+
+        employeeTeamSearch = new EmployeeTeamSearch();
+        setupEmployeeTeamSearchField();
 
         setEmployeesTable(employeesTableView);
         setEmployeesOfTeamTable(employeeOfTeamTableView);
@@ -83,7 +104,6 @@ public class MainViewController {
         if (selectedCountry != null) {
             setTeamsTable(teamsTableView, selectedCountry.getCountryId());
         }
-
     }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
@@ -98,6 +118,8 @@ public class MainViewController {
 
         employeesTableView.getColumns().addAll(nameColumn, countryColumn);
 
+        employeeSearch.setEmployeesList(employees);
+        employeeSearch.bindToEmployeesTable(employeesTableView);
     }
 
     public void setTeamsTable(TableView<Teams> teamsTableView, int countryId) {
@@ -106,13 +128,19 @@ public class MainViewController {
             return;
         }
 
-        loadTeams(teamsTableView, countryId);
+        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
+        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+        teamsTableView.setItems(observableList);
+
         teamsTableView.getColumns().clear();
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
         hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTeamHourlyRate()).asObject());
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
+
+        teamSearch.setTeamsList(teamsOfCountry);
+        teamSearch.bindToTeamsTable(teamsTableView);
     }
     public TableView<Teams> getTeamsTableView() {
         return teamsTableView;
@@ -121,6 +149,8 @@ public class MainViewController {
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
         teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         employeesOfTeamTableView.setItems(employeesOfTeamList);
+
+        employeeTeamSearch.bindToEmployeeTeamTable(employeesOfTeamTableView);
     }
 
     public void assignEmployeeToTeam(ActionEvent event) {
@@ -150,6 +180,8 @@ public class MainViewController {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
+
+        employeeTeamSearch.setEmployeeTeamList(employeesOfTeam);
     }
 
     public void loadCountries(){
@@ -161,12 +193,6 @@ public class MainViewController {
         teamsTableView.getItems().remove(team);
     }
 
-    public void loadTeams(TableView<Teams> teamsTableView, int countryId) {
-        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
-        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
-        teamsTableView.getItems().setAll(observableList);
-    }
-
     public void handleCountrySelection(ActionEvent event) {
         Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
         if (selectedCountry != null) {
@@ -174,11 +200,22 @@ public class MainViewController {
         }
     }
 
-    private void setSelectedTeam(){
-        selectedTeam = teamsTableView.getSelectionModel().getSelectedItem();
-        if (selectedTeam != null) {
-            loadEmployeesOfTeam(selectedTeam.getId());
-        }
+    private void setupEmployeeSearchField() {
+        employeeSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            employeeSearch.setSearchCriteria(newValue);
+        });
+    }
+
+    private void setupTeamSearchField() {
+        teamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            teamSearch.setSearchCriteria(newValue);
+        });
+    }
+
+    private void setupEmployeeTeamSearchField() {
+        employeeTeamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            employeeTeamSearch.setSearchCriteria(newValue);
+        });
     }
 
     @FXML
