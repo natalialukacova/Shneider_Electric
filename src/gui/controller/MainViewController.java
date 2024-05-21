@@ -93,6 +93,9 @@ public class MainViewController {
             setTeamsTable(teamsTableView, selectedCountry.getCountryId());
         }
 
+
+        updateAverageHourlyRatePerTeam();
+
     }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
@@ -160,6 +163,28 @@ public class MainViewController {
         double averageHourlyRate = employeesOfTeam.size() > 0 ? totalHourlyRate / employeesOfTeam.size() : 0;
         teamsDAO.updateTeamHourlyRate(teamId, averageHourlyRate); // Ensure team hourly rate is saved to DB
         return averageHourlyRate;
+    }
+
+    // Method to calculate and display the average hourly rate per team
+    private void updateAverageHourlyRatePerTeam() {
+        double totalHourlyRate = 0;
+        int teamCount = 0;
+
+        // Iterate over all teams in the table view
+        for (Teams team : teamsTableView.getItems()) {
+            // Get the hourly rate of the current team
+            double hourlyRate = team.getTeamHourlyRate();
+            // Add to the total hourly rate sum
+            totalHourlyRate += hourlyRate;
+            // Increment the team count
+            teamCount++;
+        }
+
+        // Calculate the average hourly rate
+        double averageHourlyRate = teamCount > 0 ? totalHourlyRate / teamCount : 0.0;
+
+        // Update the label with the calculated average hourly rate
+        averageHourlyRatePerTeam.setText(String.format("%.2f", averageHourlyRate));
     }
 
     public TableView<Teams> getTeamsTableView() {
@@ -266,7 +291,6 @@ public class MainViewController {
         }
 
     }
-
 
     @FXML
     void editEmployeeBtn(ActionEvent event) {
