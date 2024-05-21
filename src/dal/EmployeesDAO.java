@@ -78,7 +78,7 @@ public class EmployeesDAO implements IEmployeesDAO {
             throw new IllegalArgumentException("Employee object cannot be null.");
         }
         try {
-            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, workingHours = ?, overheadCost = ?, geography = ? hourlyRate = ? WHERE id = ?";
+            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, workingHours = ?, overheadCost = ?, geography = ?, hourlyRate = ? WHERE id = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, employees.getEmployeeName());
