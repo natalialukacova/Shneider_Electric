@@ -140,6 +140,28 @@ public class MainViewController {
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
     }
+
+    // New method to calculate employee hourly rate and save it
+    private double calculateEmployeeHourlyRate(Employees employee) {
+        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
+        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
+        double hourlyRate = totalCost / employee.getWorkingHours();
+        employeesDAO.updateEmployeeHourlyRate(employee.getId(), hourlyRate); // Save hourly rate to DB
+        return hourlyRate;
+    }
+
+    // New method to calculate and save team hourly rate
+    private double calculateAndSaveTeamHourlyRate(int teamId, List<Employees> employeesOfTeam) {
+        double totalHourlyRate = 0;
+        for (Employees employee : employeesOfTeam) {
+            double hourlyRate = calculateEmployeeHourlyRate(employee);
+            totalHourlyRate += hourlyRate;
+        }
+        double averageHourlyRate = employeesOfTeam.size() > 0 ? totalHourlyRate / employeesOfTeam.size() : 0;
+        teamsDAO.updateTeamHourlyRate(teamId, averageHourlyRate); // Ensure team hourly rate is saved to DB
+        return averageHourlyRate;
+    }
+
     public TableView<Teams> getTeamsTableView() {
         return teamsTableView;
     }
@@ -232,27 +254,18 @@ public class MainViewController {
     }
 
     @FXML
-    void addMultiplierPopUp(ActionEvent event)  {
+    void addMultiplierPopUp(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addMultiplier.fxml"));
-            Parent root = loader.load();
+            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addMultiplier.fxml"));
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
-
-            AddEmployeeController addEmployeeController = loader.getController();
-            addEmployeeController.setMainController(this);
-            addEmployeeController.setStage(stage);
-
-            stage.showAndWait();
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
-
-
-
 
 
     @FXML
@@ -279,7 +292,6 @@ public class MainViewController {
             ExeptionHandeler.showAlert("Please select an employee to edit.");
         }
     }
-
 
 
     @FXML

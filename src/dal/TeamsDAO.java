@@ -73,6 +73,21 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
+    public void updateTeamHourlyRate(int teamId, double hourlyRate) {
+        try {
+            String sql = "UPDATE teams SET teamHourlyRate = ? WHERE id = ?";
+            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
+            preparedStatement.setDouble(1, hourlyRate);
+            preparedStatement.setInt(2, teamId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Override
     public void deleteTeam(int id){
         try {

@@ -102,4 +102,19 @@ public class EmployeesDAO implements IEmployeesDAO {
         }
     }
 
+    public void updateEmployeeHourlyRate(int employeeId, double hourlyRate) {
+        try {
+            String sql = "UPDATE employees SET hourlyRate = ? WHERE id = ?";
+            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
+            preparedStatement.setDouble(1, hourlyRate);
+            preparedStatement.setInt(2, employeeId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
