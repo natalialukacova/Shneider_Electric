@@ -33,8 +33,7 @@ public class EmployeesDAO implements IEmployeesDAO {
                         resultSet.getDouble("configurableAmount"),
                         resultSet.getDouble("workingHours"),
                         resultSet.getDouble("overheadCost"),
-                        resultSet.getString("geography"),
-                        resultSet.getDouble("hourlyRate")
+                        resultSet.getString("geography")
                         ));
             }
             return Employees;
@@ -79,7 +78,7 @@ public class EmployeesDAO implements IEmployeesDAO {
             throw new IllegalArgumentException("Employee object cannot be null.");
         }
         try {
-            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, workingHours = ?, overheadCost = ?, geography = ? hourlyRate = ? WHERE id = ?";
+            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, workingHours = ?, overheadCost = ?, geography = ?, hourlyRate = ? WHERE id = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, employees.getEmployeeName());
@@ -119,12 +118,12 @@ public class EmployeesDAO implements IEmployeesDAO {
         }
     }
 
-    public void updateEmployeeHourlyRate(int employeeId, double hourlyRate) {
+    public void updateEmployeeHourlyRate(double hourlyRate) {
         try {
-            String sql = "UPDATE employees SET hourlyRate = ? WHERE id = ?";
+            String sql = "INSERT INTO employees (hourlyRate) VALUES(?) ";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
             preparedStatement.setDouble(1, hourlyRate);
-            preparedStatement.setInt(2, employeeId);
+          //  preparedStatement.setInt(2, employeeId);
 
             preparedStatement.executeUpdate();
         } catch (SQLServerException e) {

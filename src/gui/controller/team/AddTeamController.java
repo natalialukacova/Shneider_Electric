@@ -47,6 +47,7 @@ public class AddTeamController{
 
         int countryId = selectedCountry.getCountryId();
         Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId);
+
         teamsDAO.addTeam(newTeam);
         mainViewController.setTeamsTable(mainViewController.getTeamsTableView(), countryId);
         closeWindow(event);

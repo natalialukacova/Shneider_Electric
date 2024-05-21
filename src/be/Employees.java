@@ -111,16 +111,14 @@ public class Employees {
         this.geography = geography;
     }
 
-    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography, double hourlyRate) {
+    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography) {
         this.id = id;
         this.employeeName = employeeName;
         this.salary = salary;
         this.multiplier = multiplier;
         this.configurableAmount = configurableAmount;
         this.workingHours = workingHours;
-        this.utilizationPercentage = utilizationPercentage;
         this.overheadCost = overheadCost;
-        this.hourlyRate = calculateHourlyRate(); // Calculate hourly rate during object creation
         this.geography = geography;
 
     }

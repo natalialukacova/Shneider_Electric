@@ -38,7 +38,10 @@ public class EditEmployeeController {
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography, 0.0);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
+
+        Double hourlyRate = mainController.calculateEmployeeHourlyRate(newEmployee);
+        newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.updateEmployee(newEmployee);
         mainController.loadAllEmployees();
@@ -76,6 +79,9 @@ public class EditEmployeeController {
         selectedEmployee.setWorkingHours(Double.parseDouble(workingHoursTxtField.getText()));
         selectedEmployee.setOverheadCost(Double.parseDouble(overheadCostTxtField.getText()));
         selectedEmployee.setGeography(geographyTxtField.getText());
+
+        Double hourlyRate = mainController.calculateEmployeeHourlyRate(selectedEmployee);
+        selectedEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.updateEmployee(selectedEmployee);
         mainController.loadAllEmployees();

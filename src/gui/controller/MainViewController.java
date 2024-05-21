@@ -174,11 +174,10 @@ public class MainViewController {
     }
 
     // New method to calculate employee hourly rate and save it
-    private double calculateEmployeeHourlyRate(Employees employee) {
+    public double calculateEmployeeHourlyRate(Employees employee) {
         double annualCost = employee.getSalary() + employee.getConfigurableAmount();
         double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
         double hourlyRate = totalCost / employee.getWorkingHours();
-        employeesDAO.updateEmployeeHourlyRate(employee.getId(), hourlyRate); // Save hourly rate to DB
         return hourlyRate;
     }
 
@@ -272,14 +271,13 @@ public class MainViewController {
     public void loadAllEmployees() {
         List<Employees> allEmployees = employeesDAO.getAllEmployees();
         ObservableList<Employees> observableList = FXCollections.observableArrayList(allEmployees);
-        employeesTableView.getItems().setAll(observableList);
+        employeesTableView.setItems(observableList);
     }
 
     public void loadEmployeesOfTeam(int teamId) {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
-
         employeeTeamSearch.setEmployeeTeamList(employeesOfTeam);
 
         // Set the calculated hourly rate for the selected team
@@ -342,7 +340,7 @@ public class MainViewController {
             addEmployeeController.setMainController(this);
             addEmployeeController.setStage(stage);
 
-            stage.showAndWait();
+            stage.show();
         } catch (IOException e) {
             e.printStackTrace();
         }
