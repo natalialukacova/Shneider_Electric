@@ -100,6 +100,17 @@ public class MainViewController {
 
     }
 
+    private double calculateAverageHourlyRate(List<Employees> employees) {
+        if (employees.isEmpty()) {
+            return 0;
+        }
+        double totalHourlyRate = 0;
+        for (Employees employee : employees) {
+            totalHourlyRate += employee.getHourlyRate();
+        }
+        return totalHourlyRate / employees.size();
+    }
+
     public void setTeamsTable(TableView<Teams> teamsTableView, int countryId) {
         if (teamsTableView == null) {
             System.out.println("teamsTableView is null");
@@ -110,7 +121,13 @@ public class MainViewController {
         teamsTableView.getColumns().clear();
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
-        hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTeamHourlyRate()).asObject());
+        hourlyRateColumn.setCellValueFactory(cellData -> {
+            // Get employees of the team
+            List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(cellData.getValue().getId());
+            // Calculate average hourly rate per team
+            double averageHourlyRate = calculateAverageHourlyRate(employeesOfTeam);
+            return new SimpleDoubleProperty(averageHourlyRate).asObject();
+        });
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
     }
@@ -150,6 +167,10 @@ public class MainViewController {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
+
+        // Set the calculated hourly rate for the selected team
+        double averageHourlyRate = calculateAverageHourlyRate(employeesOfTeam);
+        selectedTeam.setTeamHourlyRate(averageHourlyRate);
     }
 
     public void loadCountries(){
@@ -225,6 +246,8 @@ public class MainViewController {
             ExeptionHandeler.showAlert("Please select an employee to edit.");
         }
     }
+
+
 
     @FXML
     void addTeamPopUp(ActionEvent event) {

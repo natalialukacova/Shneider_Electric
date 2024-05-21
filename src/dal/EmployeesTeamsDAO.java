@@ -37,7 +37,6 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
                         resultSet.getDouble("multiplier"),
                         resultSet.getDouble("configurableAmount"),
                         resultSet.getDouble("workingHours"),
-                        resultSet.getDouble("utilizationPercentage"),
                         resultSet.getDouble("overheadCost"),
                         resultSet.getString("geography")));
             }

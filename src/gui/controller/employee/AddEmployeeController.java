@@ -22,7 +22,7 @@ public class AddEmployeeController {
     @FXML
     public TableColumn<Employees, Double> hourlyRateColumn;
     @FXML
-    public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, utilizationPercentageTxtField, overheadCostTxtField, geographyTxtField;
+    public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
     @FXML
     private ComboBox countryBox;
     private EmployeesDAO employeesDAO = new EmployeesDAO();
@@ -48,7 +48,6 @@ public class AddEmployeeController {
             Double.parseDouble(multiplierTxtField.getText());
             Double.parseDouble(configurableAmountTxtField.getText());
             Double.parseDouble(workingHoursTxtField.getText());
-            Double.parseDouble(utilizationPercentageTxtField.getText());
             Double.parseDouble(overheadCostTxtField.getText());
         } catch (NumberFormatException e) {
             showAlert("Please enter valid numbers for numeric fields.");
@@ -66,13 +65,12 @@ public class AddEmployeeController {
         Double multiplier = Double.parseDouble(multiplierTxtField.getText());
         Double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
         Double workingHours = Double.parseDouble(workingHoursTxtField.getText());
-        Double utilizationPercentage = Double.parseDouble(utilizationPercentageTxtField.getText());
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
         // Calculate day rate
         //double hourlyRate = calculateHourlyRate(salary, configurableAmount, workingHours, utilizationPercentage, multiplier);
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost, geography);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
 
         employeesDAO.addEmployee(newEmployee);
         clearInputFields(event);
@@ -98,7 +96,6 @@ public class AddEmployeeController {
         multiplierTxtField.setText(String.valueOf(selectedEmployee.getMultiplier()));
         configurableAmountTxtField.setText(String.valueOf(selectedEmployee.getConfigurableAmount()));
         workingHoursTxtField.setText(String.valueOf(selectedEmployee.getWorkingHours()));
-        utilizationPercentageTxtField.setText(String.valueOf(selectedEmployee.getUtilizationPercentage()));
         overheadCostTxtField.setText(String.valueOf(selectedEmployee.getOverheadCost()));
 
         return employee;
@@ -119,7 +116,6 @@ public class AddEmployeeController {
         multiplierTxtField.clear();
         configurableAmountTxtField.clear();
         workingHoursTxtField.clear();
-        utilizationPercentageTxtField.clear();
         overheadCostTxtField.clear();
     }
 
