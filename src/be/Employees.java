@@ -111,7 +111,7 @@ public class Employees {
         this.geography = geography;
     }
 
-    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography) {
+    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography, double hourlyRate) {
         this.id = id;
         this.employeeName = employeeName;
         this.salary = salary;

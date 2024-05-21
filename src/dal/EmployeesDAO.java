@@ -33,7 +33,9 @@ public class EmployeesDAO implements IEmployeesDAO {
                         resultSet.getDouble("configurableAmount"),
                         resultSet.getDouble("workingHours"),
                         resultSet.getDouble("overheadCost"),
-                        resultSet.getString("geography")));
+                        resultSet.getString("geography"),
+                        resultSet.getDouble("hourlyRate")
+                        ));
             }
             return Employees;
 
@@ -59,6 +61,8 @@ public class EmployeesDAO implements IEmployeesDAO {
             preparedStatement.setDouble(6, employees.getUtilizationPercentage());
             preparedStatement.setDouble(7, employees.getOverheadCost());
             preparedStatement.setString(8, employees.getGeography());
+            preparedStatement.setDouble(9, employees.getHourlyRate());
+
 
             preparedStatement.execute();
 

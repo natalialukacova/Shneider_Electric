@@ -38,7 +38,8 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
                         resultSet.getDouble("configurableAmount"),
                         resultSet.getDouble("workingHours"),
                         resultSet.getDouble("overheadCost"),
-                        resultSet.getString("geography")));
+                        resultSet.getString("geography"),
+                        0.0));
             }
             return EmployeesOfTeam;
         } catch (SQLServerException e) {

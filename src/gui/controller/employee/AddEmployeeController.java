@@ -70,7 +70,7 @@ public class AddEmployeeController {
 
         // Calculate day rate
         //double hourlyRate = calculateHourlyRate(salary, configurableAmount, workingHours, utilizationPercentage, multiplier);
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography, 0.0);
 
         employeesDAO.addEmployee(newEmployee);
         clearInputFields(event);

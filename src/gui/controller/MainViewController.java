@@ -50,9 +50,18 @@ public class MainViewController {
     public TableColumn<Employees, String> countryColumn;
     @FXML
     private ComboBox<Countries> countryComboBox;
+    @FXML
+    private Label hourlyRateNoMultipliers;
+    @FXML
+    private Label hourlyRateWithMultipliers;
+    @FXML
+    private Label averageHourlyRatePerTeam;
+    @FXML
+    private Button addMultiplierBtn;
     private EditEmployeeController editEmployeeController;
     private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private Teams selectedTeam;
+
 
 
     public void setDependencies(EditEmployeeController editEmployeeController) {
@@ -221,6 +230,30 @@ public class MainViewController {
         }
 
     }
+
+    @FXML
+    void addMultiplierPopUp(ActionEvent event)  {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addMultiplier.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(root));
+
+            AddEmployeeController addEmployeeController = loader.getController();
+            addEmployeeController.setMainController(this);
+            addEmployeeController.setStage(stage);
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+
+
 
     @FXML
     void editEmployeeBtn(ActionEvent event) {

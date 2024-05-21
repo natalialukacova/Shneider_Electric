@@ -38,7 +38,7 @@ public class EditEmployeeController {
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography, 0.0);
 
         employeesDAO.updateEmployee(newEmployee);
         mainController.loadAllEmployees();
