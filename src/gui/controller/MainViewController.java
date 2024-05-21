@@ -62,6 +62,14 @@ public class MainViewController {
     private EmployeeSearch employeeSearch;
     private TeamSearch teamSearch;
     private EmployeeTeamSearch employeeTeamSearch;
+    @FXML
+    private Label hourlyRateNoMultipliers;
+    @FXML
+    private Label hourlyRateWithMultipliers;
+    @FXML
+    private Label averageHourlyRatePerTeam;
+    @FXML
+    private Button addMultiplierBtn;
     private EditEmployeeController editEmployeeController;
     private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private Teams selectedTeam;
@@ -104,6 +112,7 @@ public class MainViewController {
         if (selectedCountry != null) {
             setTeamsTable(teamsTableView, selectedCountry.getCountryId());
         }
+
     }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
@@ -122,6 +131,17 @@ public class MainViewController {
         employeeSearch.bindToEmployeesTable(employeesTableView);
     }
 
+    private double calculateAverageHourlyRate(List<Employees> employees) {
+        if (employees.isEmpty()) {
+            return 0;
+        }
+        double totalHourlyRate = 0;
+        for (Employees employee : employees) {
+            totalHourlyRate += employee.getHourlyRate();
+        }
+        return totalHourlyRate / employees.size();
+    }
+
     public void setTeamsTable(TableView<Teams> teamsTableView, int countryId) {
         if (teamsTableView == null) {
             System.out.println("teamsTableView is null");
@@ -135,7 +155,13 @@ public class MainViewController {
         teamsTableView.getColumns().clear();
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
-        hourlyRateColumn.setCellValueFactory(cellData -> new SimpleDoubleProperty(cellData.getValue().getTeamHourlyRate()).asObject());
+        hourlyRateColumn.setCellValueFactory(cellData -> {
+            // Get employees of the team
+            List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(cellData.getValue().getId());
+            // Calculate average hourly rate per team
+            double averageHourlyRate = calculateAverageHourlyRate(employeesOfTeam);
+            return new SimpleDoubleProperty(averageHourlyRate).asObject();
+        });
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
 
@@ -182,6 +208,10 @@ public class MainViewController {
         employeesOfTeamList.setAll(observableList);
 
         employeeTeamSearch.setEmployeeTeamList(employeesOfTeam);
+
+        // Set the calculated hourly rate for the selected team
+        double averageHourlyRate = calculateAverageHourlyRate(employeesOfTeam);
+        selectedTeam.setTeamHourlyRate(averageHourlyRate);
     }
 
     public void loadCountries(){
@@ -222,6 +252,26 @@ public class MainViewController {
     void addEmplooyeePopUp(ActionEvent event)  {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmplooyee.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.setScene(new Scene(root));
+
+            AddEmployeeController addEmployeeController = loader.getController();
+            addEmployeeController.setMainController(this);
+            addEmployeeController.setStage(stage);
+
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void addMultiplierPopUp(ActionEvent event)  {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addMultiplier.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);

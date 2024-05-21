@@ -111,7 +111,7 @@ public class Employees {
         this.geography = geography;
     }
 
-    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double utilizationPercentage, double overheadCost, String geography) {
+    public Employees(int id, String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography, double hourlyRate) {
         this.id = id;
         this.employeeName = employeeName;
         this.salary = salary;
@@ -120,9 +120,16 @@ public class Employees {
         this.workingHours = workingHours;
         this.utilizationPercentage = utilizationPercentage;
         this.overheadCost = overheadCost;
-        this.hourlyRate = hourlyRate;
+        this.hourlyRate = calculateHourlyRate(); // Calculate hourly rate during object creation
         this.geography = geography;
+
     }
+    private double calculateHourlyRate() {
+        double annualCost = salary + configurableAmount;
+        double totalCost = annualCost + (annualCost * (multiplier / 100)) + overheadCost;
+        return totalCost / workingHours;
+    }
+
 
     @Override
     public String toString(){

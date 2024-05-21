@@ -14,7 +14,7 @@ import javafx.stage.Stage;
 
 public class EditEmployeeController {
     @FXML
-    public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, utilizationPercentageTxtField, overheadCostTxtField, geographyTxtField;
+    public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
     @FXML
     private ComboBox countryComboBox;
     private EmployeesDAO employeesDAO = new EmployeesDAO();
@@ -35,11 +35,10 @@ public class EditEmployeeController {
         Double multiplier = Double.parseDouble(multiplierTxtField.getText());
         Double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
         Double workingHours = Double.parseDouble(workingHoursTxtField.getText());
-        Double utilizationPercentage = Double.parseDouble(utilizationPercentageTxtField.getText());
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost, geography);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography, 0.0);
 
         employeesDAO.updateEmployee(newEmployee);
         mainController.loadAllEmployees();
@@ -57,7 +56,6 @@ public class EditEmployeeController {
             Double.parseDouble(multiplierTxtField.getText());
             Double.parseDouble(configurableAmountTxtField.getText());
             Double.parseDouble(workingHoursTxtField.getText());
-            Double.parseDouble(utilizationPercentageTxtField.getText());
             Double.parseDouble(overheadCostTxtField.getText());
         } catch (NumberFormatException e) {
             showAlert("Please enter valid numbers for numeric fields.");
@@ -76,7 +74,6 @@ public class EditEmployeeController {
         selectedEmployee.setMultiplier(Double.parseDouble(multiplierTxtField.getText()));
         selectedEmployee.setConfigurableAmount(Double.parseDouble(configurableAmountTxtField.getText()));
         selectedEmployee.setWorkingHours(Double.parseDouble(workingHoursTxtField.getText()));
-        selectedEmployee.setUtilizationPercentage(Double.parseDouble(utilizationPercentageTxtField.getText()));
         selectedEmployee.setOverheadCost(Double.parseDouble(overheadCostTxtField.getText()));
         selectedEmployee.setGeography(geographyTxtField.getText());
 
@@ -93,7 +90,6 @@ public class EditEmployeeController {
         multiplierTxtField.setText(String.valueOf(selectedEmployee.getMultiplier()));
         configurableAmountTxtField.setText(String.valueOf(selectedEmployee.getConfigurableAmount()));
         workingHoursTxtField.setText(String.valueOf(selectedEmployee.getWorkingHours()));
-        utilizationPercentageTxtField.setText(String.valueOf(selectedEmployee.getUtilizationPercentage()));
         overheadCostTxtField.setText(String.valueOf(selectedEmployee.getOverheadCost()));
         geographyTxtField.setText(selectedEmployee.getGeography());
 
@@ -115,7 +111,6 @@ public class EditEmployeeController {
         multiplierTxtField.clear();
         configurableAmountTxtField.clear();
         workingHoursTxtField.clear();
-        utilizationPercentageTxtField.clear();
         overheadCostTxtField.clear();
     }
 

@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import de.jensd.fx.glyphs.fontawesome.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="589.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.employee.AddEmployeeController">
+<AnchorPane prefHeight="559.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.employee.AddEmployeeController">
     <children>
         <StackPane layoutX="144.0" layoutY="150.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
@@ -84,14 +90,6 @@
                                                 <Insets left="40.0" top="40.0" />
                                              </VBox.margin>
                                           </Label>
-                                          <Label id="label1" text="Utilization Percentage %">
-                                             <font>
-                                                <Font name="Arial Rounded MT Bold" size="12.0" />
-                                             </font>
-                                             <VBox.margin>
-                                                <Insets left="40.0" top="40.0" />
-                                             </VBox.margin>
-                                          </Label>
                                           <Label id="label1" prefHeight="16.0" prefWidth="241.0" text="Overhead Cost / Production Resource ">
                                              <font>
                                                 <Font name="Arial Rounded MT Bold" size="12.0" />
@@ -137,11 +135,6 @@
                                                 <Insets left="40.0" top="30.0" />
                                              </VBox.margin>
                                           </TextField>
-                                          <TextField fx:id="utilizationPercentageTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
-                                             <VBox.margin>
-                                                <Insets left="40.0" top="30.0" />
-                                             </VBox.margin>
-                                          </TextField>
                                           <TextField fx:id="overheadCostTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                                              <VBox.margin>
                                                 <Insets left="40.0" top="30.0" />
@@ -156,8 +149,8 @@
                                     </VBox>
                                  </children>
                               </HBox>
-                              <Button layoutX="41.0" layoutY="485.0" mnemonicParsing="false" onAction="#confirmAddEmployee" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
-                              <Button layoutX="128.0" layoutY="485.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
+                              <Button layoutX="41.0" layoutY="443.0" mnemonicParsing="false" onAction="#confirmAddEmployee" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
+                              <Button layoutX="128.0" layoutY="443.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
                            </children>
                         </AnchorPane>
                      </right>
