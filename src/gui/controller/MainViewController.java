@@ -13,7 +13,7 @@ import gui.controller.team.DeleteTeamController;
 import gui.search.EmployeeSearch;
 import gui.search.EmployeeTeamSearch;
 import gui.search.TeamSearch;
-import gui.utility.ExeptionHandeler;
+import gui.utility.ExceptionHandler;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -164,9 +164,9 @@ public class MainViewController {
             loadEmployeesOfTeam(selectedTeam.getId());
           //  EmployeesOfTeamController.assignEmployeeToTeam(selectedTeam, selectedEmployee.getId());
         } else if (selectedEmployee == null){
-            ExeptionHandeler.showAlert("Please select an employee.");
+            ExceptionHandler.showAlert("Please select an employee.");
         } else {
-            ExeptionHandeler.showAlert("Please select a team.");
+            ExceptionHandler.showAlert("Please select a team.");
         }
     }
 
@@ -259,7 +259,7 @@ public class MainViewController {
                 e.printStackTrace();
             }
         } else {
-            ExeptionHandeler.showAlert("Please select an employee to edit.");
+            ExceptionHandler.showAlert("Please select an employee to edit.");
         }
     }
 
@@ -295,7 +295,7 @@ public class MainViewController {
                 e.printStackTrace();
             }
         } else {
-            ExeptionHandeler.showAlert("Please select a team to delete.");
+            ExceptionHandler.showAlert("Please select a team to delete.");
         }
     }
 
