@@ -10,7 +10,10 @@ import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
 import gui.controller.team.DeleteTeamController;
-import gui.utility.ExeptionHandeler;
+import gui.search.EmployeeSearch;
+import gui.search.EmployeeTeamSearch;
+import gui.search.TeamSearch;
+import gui.utility.ExceptionHandler;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -43,13 +46,22 @@ public class MainViewController {
     @FXML
     public TableColumn<Employees, String> teamEmployeeColumn;
     @FXML
-    private TableView<Employees> employeesTableView;
+    public TableView<Employees> employeesTableView;
     @FXML
     public TableColumn<Employees, String> nameColumn;
     @FXML
     public TableColumn<Employees, String> countryColumn;
     @FXML
     private ComboBox<Countries> countryComboBox;
+    @FXML
+    private TextField employeeSearchField;
+    @FXML
+    private TextField teamSearchField;
+    @FXML
+    private TextField employeeTeamSearchField;
+    private EmployeeSearch employeeSearch;
+    private TeamSearch teamSearch;
+    private EmployeeTeamSearch employeeTeamSearch;
     @FXML
     private Label hourlyRateNoMultipliers;
     @FXML
@@ -71,6 +83,15 @@ public class MainViewController {
     public void initialize() {
         employeesDAO = new EmployeesDAO();
         employeesTeamsDAO = new EmployeesTeamsDAO();
+
+        employeeSearch = new EmployeeSearch();
+        setupEmployeeSearchField();
+
+        teamSearch = new TeamSearch();
+        setupTeamSearchField();
+
+        employeeTeamSearch = new EmployeeTeamSearch();
+        setupEmployeeTeamSearchField();
 
         setEmployeesTable(employeesTableView);
         setEmployeesOfTeamTable(employeeOfTeamTableView);
@@ -110,6 +131,8 @@ public class MainViewController {
 
         employeesTableView.getColumns().addAll(nameColumn, countryColumn);
 
+        employeeSearch.setEmployeesList(employees);
+        employeeSearch.bindToEmployeesTable(employeesTableView);
     }
 
     private double calculateAverageHourlyRate(List<Employees> employees) {
@@ -129,7 +152,10 @@ public class MainViewController {
             return;
         }
 
-        loadTeams(teamsTableView, countryId);
+        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
+        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
+        teamsTableView.setItems(observableList);
+
         teamsTableView.getColumns().clear();
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
@@ -142,6 +168,9 @@ public class MainViewController {
         });
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
+
+        teamSearch.setTeamsList(teamsOfCountry);
+        teamSearch.bindToTeamsTable(teamsTableView);
     }
 
     // New method to calculate employee hourly rate and save it
@@ -194,10 +223,37 @@ public class MainViewController {
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
         teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         employeesOfTeamTableView.setItems(employeesOfTeamList);
+
+        employeeTeamSearch.bindToEmployeeTeamTable(employeesOfTeamTableView);
     }
 
     public void assignEmployeeToTeam(ActionEvent event) {
-        assignEmployee();
+        Employees selectedEmployee = getSelectedEmployee();
+        if (selectedEmployee != null && selectedTeam != null) {
+            try {
+                System.out.println("Loading utilizationPercentage.fxml...");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/utilizationPercentage.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(new Scene(root));
+
+                stage.show();
+
+                UtilizationPController utilizationPController = loader.getController();
+                utilizationPController.setMainController(this);
+                utilizationPController.setStage(stage);
+                utilizationPController.setSelectedEmployee(selectedEmployee);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (selectedEmployee == null){
+            System.out.println("Error loading FXML file:");
+            ExceptionHandler.showAlert("Please select an employee.");
+        } else {
+            ExceptionHandler.showAlert("Please select a team.");
+        }
+
     }
     private void assignEmployee(){
         Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
@@ -207,9 +263,9 @@ public class MainViewController {
             loadEmployeesOfTeam(selectedTeam.getId());
           //  EmployeesOfTeamController.assignEmployeeToTeam(selectedTeam, selectedEmployee.getId());
         } else if (selectedEmployee == null){
-            ExeptionHandeler.showAlert("Please select an employee.");
+            ExceptionHandler.showAlert("Please select an employee.");
         } else {
-            ExeptionHandeler.showAlert("Please select a team.");
+            ExceptionHandler.showAlert("Please select a team.");
         }
     }
 
@@ -219,10 +275,12 @@ public class MainViewController {
         employeesTableView.getItems().setAll(observableList);
     }
 
-    private void loadEmployeesOfTeam(int teamId) {
+    public void loadEmployeesOfTeam(int teamId) {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
+
+        employeeTeamSearch.setEmployeeTeamList(employeesOfTeam);
 
         // Set the calculated hourly rate for the selected team
         double averageHourlyRate = calculateAverageHourlyRate(employeesOfTeam);
@@ -238,10 +296,12 @@ public class MainViewController {
         teamsTableView.getItems().remove(team);
     }
 
-    public void loadTeams(TableView<Teams> teamsTableView, int countryId) {
-        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
-        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
-        teamsTableView.getItems().setAll(observableList);
+    public Employees getSelectedEmployee() {
+        return employeesTableView.getSelectionModel().getSelectedItem();
+    }
+
+    public Teams getSelectedTeam() {
+        return teamsTableView.getSelectionModel().getSelectedItem();
     }
 
     public void handleCountrySelection(ActionEvent event) {
@@ -251,11 +311,22 @@ public class MainViewController {
         }
     }
 
-    private void setSelectedTeam(){
-        selectedTeam = teamsTableView.getSelectionModel().getSelectedItem();
-        if (selectedTeam != null) {
-            loadEmployeesOfTeam(selectedTeam.getId());
-        }
+    private void setupEmployeeSearchField() {
+        employeeSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            employeeSearch.setSearchCriteria(newValue);
+        });
+    }
+
+    private void setupTeamSearchField() {
+        teamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            teamSearch.setSearchCriteria(newValue);
+        });
+    }
+
+    private void setupEmployeeTeamSearchField() {
+        employeeTeamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            employeeTeamSearch.setSearchCriteria(newValue);
+        });
     }
 
     @FXML
@@ -313,10 +384,9 @@ public class MainViewController {
                 e.printStackTrace();
             }
         } else {
-            ExeptionHandeler.showAlert("Please select an employee to edit.");
+            ExceptionHandler.showAlert("Please select an employee to edit.");
         }
     }
-
 
     @FXML
     void addTeamPopUp(ActionEvent event) {
@@ -350,7 +420,7 @@ public class MainViewController {
                 e.printStackTrace();
             }
         } else {
-            ExeptionHandeler.showAlert("Please select a team to delete.");
+            ExceptionHandler.showAlert("Please select a team to delete.");
         }
     }
 

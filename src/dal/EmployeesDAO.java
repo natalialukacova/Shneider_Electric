@@ -79,7 +79,7 @@ public class EmployeesDAO implements IEmployeesDAO {
             throw new IllegalArgumentException("Employee object cannot be null.");
         }
         try {
-            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, workingHours = ?, utilizationPercentage = ?, overheadCost = ?, geography = ? hourlyRate = ? WHERE id = ?";
+            String sql = "UPDATE employees SET employeeName = ?, salary = ?, multiplier = ?, configurableAmount = ?, workingHours = ?, overheadCost = ?, geography = ? hourlyRate = ? WHERE id = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, employees.getEmployeeName());
@@ -87,11 +87,28 @@ public class EmployeesDAO implements IEmployeesDAO {
             preparedStatement.setDouble(3, employees.getMultiplier());
             preparedStatement.setDouble(4, employees.getConfigurableAmount());
             preparedStatement.setDouble(5, employees.getWorkingHours());
-            preparedStatement.setDouble(6, employees.getUtilizationPercentage());
-            preparedStatement.setDouble(7, employees.getOverheadCost());
-            preparedStatement.setString(8, employees.getGeography());
-            preparedStatement.setDouble(9, employees.getHourlyRate());
-            preparedStatement.setInt(10, employees.getId());
+            preparedStatement.setDouble(6, employees.getOverheadCost());
+            preparedStatement.setString(7, employees.getGeography());
+            preparedStatement.setDouble(8, employees.getHourlyRate());
+            preparedStatement.setInt(9, employees.getId());
+
+            preparedStatement.executeUpdate();
+
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateUtilizationPercentage(int employeeId, double utilizationPercentage) {
+        try {
+            String sql = "UPDATE employees SET utilizationPercentage = ? WHERE id = ?";
+            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
+
+            preparedStatement.setDouble(1, utilizationPercentage);
+            preparedStatement.setInt(2, employeeId);
 
             preparedStatement.executeUpdate();
 

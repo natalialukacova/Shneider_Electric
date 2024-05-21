@@ -5,7 +5,7 @@ import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.IEmployeesTeamsDAO;
 import gui.controller.MainViewController;
-import gui.utility.ExeptionHandeler;
+import gui.utility.ExceptionHandler;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -64,7 +64,7 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
                 throw new RuntimeException(e);
             }
         } else {
-            ExeptionHandeler.showAlert("Employee is already part of the team.");
+            ExceptionHandler.showAlert("Employee is already part of the team.");
         }
     }
 

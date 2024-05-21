@@ -3,7 +3,7 @@ package gui.controller.employee;
 import be.Employees;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
-import gui.utility.ExeptionHandeler;
+import gui.utility.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -48,7 +48,7 @@ public class EditEmployeeController {
 
     private boolean validateInput() {
         if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() || geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
-            ExeptionHandeler.showAlert("Please fill in all required fields.");
+            ExceptionHandler.showAlert("Please fill in all required fields.");
             return false;
         }
         try{
