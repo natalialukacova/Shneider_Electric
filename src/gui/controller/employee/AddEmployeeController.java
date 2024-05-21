@@ -68,16 +68,14 @@ public class AddEmployeeController {
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
-        // Calculate day rate
-        //double hourlyRate = calculateHourlyRate(salary, configurableAmount, workingHours, utilizationPercentage, multiplier);
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography, 0.0);
+        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
+
+        Double hourlyRate = mainController.calculateEmployeeHourlyRate(newEmployee);
+        newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.addEmployee(newEmployee);
-        clearInputFields(event);
         mainController.loadAllEmployees();
         stage.close();
-
-
     }
 
     // method for calculating
@@ -138,5 +136,6 @@ public class AddEmployeeController {
     }
 
     public void cancelBtn(ActionEvent event) {
+        stage.close();
     }
 }
