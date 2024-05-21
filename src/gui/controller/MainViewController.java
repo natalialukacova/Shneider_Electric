@@ -46,7 +46,7 @@ public class MainViewController {
     @FXML
     public TableColumn<Employees, String> teamEmployeeColumn;
     @FXML
-    private TableView<Employees> employeesTableView;
+    public TableView<Employees> employeesTableView;
     @FXML
     public TableColumn<Employees, String> nameColumn;
     @FXML
@@ -80,6 +80,14 @@ public class MainViewController {
     }
 
     public void initialize() {
+        System.out.println("MainViewController initialize method called.");
+
+        if (employeesTableView != null) {
+            System.out.println("employeesTableView is initialized.");
+        } else {
+            System.out.println("employeesTableView is null.");
+        }
+
         employeesDAO = new EmployeesDAO();
         employeesTeamsDAO = new EmployeesTeamsDAO();
 
@@ -180,7 +188,32 @@ public class MainViewController {
     }
 
     public void assignEmployeeToTeam(ActionEvent event) {
-        assignEmployee();
+        Employees selectedEmployee = getSelectedEmployee();
+        if (selectedEmployee != null && selectedTeam != null) {
+            try {
+                System.out.println("Loading utilizationPercentage.fxml...");
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/utilizationPercentage.fxml"));
+                Parent root = loader.load();
+                Stage stage = new Stage();
+                stage.initStyle(StageStyle.UNDECORATED);
+                stage.setScene(new Scene(root));
+
+                stage.show();
+
+                UtilizationPController utilizationPController = loader.getController();
+                utilizationPController.setMainController(this);
+                utilizationPController.setStage(stage);
+                utilizationPController.setSelectedEmployee(selectedEmployee);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (selectedEmployee == null){
+            System.out.println("Error loading FXML file:");
+            ExceptionHandler.showAlert("Please select an employee.");
+        } else {
+            ExceptionHandler.showAlert("Please select a team.");
+        }
+
     }
     private void assignEmployee(){
         Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
@@ -202,7 +235,7 @@ public class MainViewController {
         employeesTableView.getItems().setAll(observableList);
     }
 
-    private void loadEmployeesOfTeam(int teamId) {
+    public void loadEmployeesOfTeam(int teamId) {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
@@ -221,6 +254,14 @@ public class MainViewController {
 
     public void removeTeamFromTable(Teams team) {
         teamsTableView.getItems().remove(team);
+    }
+
+    public Employees getSelectedEmployee() {
+        return employeesTableView.getSelectionModel().getSelectedItem();
+    }
+
+    public Teams getSelectedTeam() {
+        return teamsTableView.getSelectionModel().getSelectedItem();
     }
 
     public void handleCountrySelection(ActionEvent event) {
