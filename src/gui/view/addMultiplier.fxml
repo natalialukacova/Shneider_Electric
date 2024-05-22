@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="288.0" prefWidth="402.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.team.addMultiplierController">
+<VBox prefHeight="241.0" prefWidth="402.0" stylesheets="@../css/MainView.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.team.addMultiplierController">
    <children>
       <HBox prefHeight="35.0" prefWidth="400.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
          <children>
@@ -38,14 +38,6 @@
          <children>
             <VBox prefHeight="171.0" prefWidth="258.0">
                <children>
-                            <Label alignment="CENTER" styleClass="text" text="Utilization Percentage %">
-                                <font>
-                                    <Font name="Arial Rounded MT Bold" size="14.0" />
-                                       </font>
-                     <VBox.margin>
-                        <Insets left="40.0" top="40.0" />
-                     </VBox.margin>
-                            </Label>
                   <Label alignment="CENTER" layoutX="30.0" layoutY="45.0" styleClass="text" text="Markup Multiplier %">
                      <font>
                         <Font name="Arial Rounded MT Bold" size="14.0" />
@@ -66,14 +58,6 @@
             </VBox>
             <VBox prefHeight="171.0" prefWidth="226.0">
                <children>
-                  <TextField fx:id="utilizationPercentageTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
-                     <VBox.margin>
-                        <Insets left="40.0" right="30.0" top="30.0" />
-                     </VBox.margin>
-                     <padding>
-                        <Insets right="30.0" />
-                     </padding>
-                  </TextField>
                   <TextField fx:id="markupMultiplierTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
                      <VBox.margin>
                         <Insets left="40.0" right="30.0" top="30.0" />
@@ -88,16 +72,16 @@
             </VBox>
          </children>
       </HBox>
-      <HBox prefHeight="80.0" prefWidth="402.0">
+      <HBox prefHeight="56.0" prefWidth="402.0">
          <children>
-                      <Button alignment="CENTER" mnemonicParsing="false" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm">
+                      <Button alignment="CENTER" mnemonicParsing="false" onAction="#updateHourlyRateWithMultipliers" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm">
                <HBox.margin>
-                  <Insets left="200.0" top="25.0" />
+                  <Insets left="200.0" top="5.0" />
                </HBox.margin>
             </Button>
                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel">
                <HBox.margin>
-                  <Insets left="20.0" top="25.0" />
+                  <Insets left="20.0" top="5.0" />
                </HBox.margin>
             </Button>
          </children>

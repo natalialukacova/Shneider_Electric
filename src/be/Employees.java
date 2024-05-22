@@ -13,6 +13,7 @@ public class Employees {
     private double overheadCost;
     private double hourlyRate;
     private String geography;
+    private double hourlyRateWithUP; //
 
 
     public int getId() {
@@ -69,6 +70,13 @@ public class Employees {
 
     public void setTeam(String team) {
         this.team = team;
+    }
+    public double getHourlyRateWithUP() {
+        return hourlyRateWithUP;
+    }
+
+    public void setHourlyRateWithUP(double hourlyRateWithUP) {
+        this.hourlyRateWithUP = hourlyRateWithUP;
     }
 
     public double getWorkingHours() {

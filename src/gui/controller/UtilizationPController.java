@@ -24,6 +24,8 @@ public class UtilizationPController {
     private TextField upTxtField;
     private Employees selectedEmployee;
     private Stage stage;
+    private double hourlyRateWithUP;
+
 
 
     public UtilizationPController() {
@@ -35,6 +37,10 @@ public class UtilizationPController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setHourlyRateWithUP(double hourlyRateWithUP) {
+        this.hourlyRateWithUP = hourlyRateWithUP;
     }
 
     @FXML

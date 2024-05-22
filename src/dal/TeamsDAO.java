@@ -1,5 +1,6 @@
 package dal;
 
+import be.Employees;
 import be.Teams;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
@@ -64,6 +65,8 @@ public class TeamsDAO implements ITeamsDAO {
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, teams.getTeamName());
+            preparedStatement.setInt(2, teams.getId());
+
             preparedStatement.executeUpdate();
 
         } catch (SQLServerException e) {
@@ -105,7 +108,7 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
-    public void updateHRwithMultipliers(int teamId, double hourlyRateMultipliers){
+    public List<Employees> updateHRwithMultipliers(int teamId, double hourlyRateMultipliers){
         try {
             String sql = "UPDATE teams SET hourlyRateMultipliers = ? WHERE id = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
@@ -120,6 +123,7 @@ public class TeamsDAO implements ITeamsDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
     }
 
 
@@ -148,5 +152,28 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
+    public List<Teams> getAllTeams() {
+        List<Teams> teams = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM teams";
+            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    Teams team = new Teams(
+                            resultSet.getInt("id"),
+                            resultSet.getString("teamName"),
+                            resultSet.getDouble("teamHourlyRate"),
+                            resultSet.getInt("countryId"));
+                    teams.add(team);
+                }
+            }
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return teams;
+    }
 }
+

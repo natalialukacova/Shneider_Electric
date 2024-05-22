@@ -133,4 +133,30 @@ public class EmployeesDAO implements IEmployeesDAO {
         }
     }
 
+    public List<Employees> getEmployeesOfTeam(int teamId) {
+        List<Employees> employees = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM employees WHERE id = ?";
+            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
+            preparedStatement.setInt(1, teamId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                employees.add(new Employees(
+                        resultSet.getInt("id"),
+                        resultSet.getString("employeeName"),
+                        resultSet.getDouble("salary"),
+                        resultSet.getDouble("multiplier"),
+                        resultSet.getDouble("configurableAmount"),
+                        resultSet.getDouble("workingHours"),
+                        resultSet.getDouble("overheadCost"),
+                        resultSet.getString("geography")
+                ));
+            }
+            return employees;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

@@ -78,13 +78,6 @@ public class AddEmployeeController {
         stage.close();
     }
 
-    // method for calculating
-    public double calculateHourlyRate(double salary, double configurableAmount, double workingHours, double utilizationPercentage, double multiplier) {
-        // Calculate day rate
-        double dayRate = (salary + configurableAmount) / (workingHours * (utilizationPercentage / 100)) * (1 + (multiplier / 100));
-        // Calculate hourly rate
-        return dayRate / workingHours;
-    }
 
 
     public Employees fillEmployeeData(Employees employee) {

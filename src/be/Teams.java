@@ -1,11 +1,22 @@
 package be;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class Teams {
     private int id;
     private String teamName;
     private Double teamHourlyRate;
     private int countryId;
+    private double hourlyRate;
+    private double hourlyRateWithMultipliers;
 
+    public double getHourlyRateWithMultipliers() {
+        return hourlyRateWithMultipliers;
+    }
+    public void setHourlyRateWithMultipliers(double hourlyRateWithMultipliers) {
+        this.hourlyRateWithMultipliers = hourlyRateWithMultipliers;
+    }
 
 
     public String getTeamName() {
@@ -39,6 +50,7 @@ public class Teams {
     public void setCountryId(int countryId) {
         this.countryId = countryId;
     }
+
 
 
     public Teams(int id, String teamName, double teamHourlyRate, int countryId) {
