@@ -101,12 +101,12 @@ public class MainViewController {
         setEmployeesOfTeamTable(employeeOfTeamTableView);
         loadCountries();
 
-        countryComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                setTeamsTable(teamsTableView, newSelection.getCountryId());
-                updateTotalHourlyRatesForSelectedCountry();
-            }
-        });
+//        //countryComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+//            if (newSelection != null) {
+//                setTeamsTable(teamsTableView, newSelection.getCountryId());
+//                updateTotalHourlyRatesForSelectedCountry();
+//            }
+//        });
 
 
         teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -115,11 +115,11 @@ public class MainViewController {
             loadEmployeesOfTeam(selectedTeam.getId());}
         });
 
-        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
-        if (selectedCountry != null) {
-            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
-            countryComboBox.setOnAction(event -> updateTotalHourlyRatesForSelectedCountry());
-        }
+//        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
+//        if (selectedCountry != null) {
+//            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
+//            countryComboBox.setOnAction(event -> updateTotalHourlyRatesForSelectedCountry());
+//        }
 
 
 
@@ -326,7 +326,7 @@ public class MainViewController {
 
     public void loadCountries(){
         ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
-        countryComboBox.setItems(countries);
+       // countryComboBox.setItems(countries);
     }
 
     public void removeTeamFromTable(Teams team) {
@@ -394,6 +394,7 @@ public class MainViewController {
             loader.setLocation(getClass().getResource("/gui/view/addMultiplier.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
+            stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
             stage.show();
 

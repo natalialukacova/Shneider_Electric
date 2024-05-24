@@ -3,8 +3,6 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 <?import java.lang.String?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -13,7 +11,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="751.0" prefWidth="1263.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.MainViewController">
     <children>
@@ -56,12 +53,15 @@
                            <children>
                               <AnchorPane prefHeight="557.3333333333334" prefWidth="1100.0" styleClass="top-form" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <AnchorPane layoutX="97.0" layoutY="91.0" prefHeight="479.0" prefWidth="350.0" styleClass="white-bg" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="97.0" AnchorPane.topAnchor="91.0">
+                                    <AnchorPane layoutX="14.0" layoutY="91.0" prefHeight="477.0" prefWidth="717.0" styleClass="white-bg" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="91.0">
                                        <children>
-                                          <TableView fx:id="teamsTableView" layoutX="-2.0" layoutY="1.0" prefHeight="472.0" prefWidth="353.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.0">
+                                          <TableView fx:id="teamsTableView" layoutX="-1.0" prefHeight="471.0" prefWidth="704.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="5.999999999999943" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-1.6666666666666288">
                                              <columns>
-                                                <TableColumn fx:id="teamNameCol" prefWidth="176.0" text="Team" />
-                                                <TableColumn fx:id="hourlyRateColumn" prefWidth="174.0" text="Hourly Rate" />
+                                                <TableColumn fx:id="teamNameCol" prefWidth="137.33334827423096" text="Team" />
+                                                <TableColumn prefWidth="142.66664123535156" text="Country" />
+                                                <TableColumn fx:id="hourlyRateColumn" prefWidth="148.0" text="Hourly Rate" />
+                                                <TableColumn prefWidth="142.00009155273438" text="Added UP%" />
+                                                <TableColumn prefWidth="145.99995930989587" text="Added Multipliers" />
                                              </columns>
                                              <styleClass>
                                                 <String fx:value="table-borders" />
@@ -69,24 +69,24 @@
                                              </styleClass>
                                           </TableView>
                                        </children></AnchorPane>
-                                    <Button fx:id="addEmplooyeeBtn" layoutX="881.0" layoutY="630.0" mnemonicParsing="false" onAction="#addEmplooyeePopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Employee" />
-                                    <Button layoutX="276.0" layoutY="630.0" mnemonicParsing="false" onAction="#deleteTeamBtn" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Delete" />
-                                    <Button fx:id="addMultiplierBtn" layoutX="513.0" layoutY="630.0" mnemonicParsing="false" onAction="#addMultiplierPopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add multiplier" />
-                                    <TableView fx:id="employeeOfTeamTableView" layoutX="493.0" layoutY="91.0" maxWidth="303.0" minWidth="250.0" prefHeight="472.0" prefWidth="288.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="147.0" AnchorPane.leftAnchor="493.0" AnchorPane.rightAnchor="482.0" AnchorPane.topAnchor="91.0">
+                                    <Button fx:id="addEmplooyeeBtn" layoutX="1004.0" layoutY="589.0" mnemonicParsing="false" onAction="#addEmplooyeePopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Employee" />
+                                    <Button layoutX="374.0" layoutY="589.0" mnemonicParsing="false" onAction="#deleteTeamBtn" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Delete" />
+                                    <Button fx:id="addMultiplierBtn" layoutX="784.0" layoutY="589.0" mnemonicParsing="false" onAction="#addMultiplierPopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add multiplier" />
+                                    <TableView fx:id="employeeOfTeamTableView" layoutX="744.0" layoutY="91.0" maxWidth="303.0" minWidth="180.0" prefHeight="471.0" prefWidth="186.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="146.0" AnchorPane.leftAnchor="744.0" AnchorPane.rightAnchor="333.0" AnchorPane.topAnchor="91.0">
                                       <columns>
-                                          <TableColumn fx:id="teamEmployeeColumn" maxWidth="301.0" minWidth="250.0" prefWidth="284.0" text="Employee" />
+                                          <TableColumn fx:id="teamEmployeeColumn" maxWidth="301.0" minWidth="172.00000512599945" prefWidth="187.99995923042286" text="Employee" />
                                       </columns>
                                        <styleClass>
                                           <String fx:value="table-borders" />
                                           <String fx:value="table-view" />
                                        </styleClass>
                                     </TableView>
-                                    <AnchorPane layoutX="839.0" layoutY="90.0" prefHeight="471.0" prefWidth="328.0" styleClass="white-bg" stylesheets="@../css/MainView.css">
+                                    <AnchorPane layoutX="970.0" layoutY="90.0" prefHeight="471.0" prefWidth="281.0" styleClass="white-bg" stylesheets="@../css/MainView.css">
                                        <children>
-                                          <TableView fx:id="employeesTableView" layoutX="25.0" layoutY="51.0" prefHeight="377.0" prefWidth="250.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="employeesTableView" layoutX="-20.0" layoutY="51.0" prefHeight="471.0" prefWidth="278.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn fx:id="nameColumn" prefWidth="166.66673278808594" text="All Emplooyees" />
-                                                <TableColumn fx:id="countryColumn" prefWidth="159.33329264322919" text="Country" />
+                                                <TableColumn fx:id="nameColumn" prefWidth="142.0" text="All Emplooyees" />
+                                                <TableColumn fx:id="countryColumn" prefWidth="140.66666666666669" text="Country" />
                                              </columns>
                                              <styleClass>
                                                 <String fx:value="table-borders" />
@@ -95,28 +95,15 @@
                                           </TableView>
                                        </children>
                                     </AnchorPane>
-                                    <Button fx:id="addTeamBtn" layoutX="139.0" layoutY="630.0" mnemonicParsing="false" onAction="#addTeamPopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Team" />
-                                    <ComboBox fx:id="countryComboBox" accessibleRole="CHECK_MENU_ITEM" layoutX="97.0" layoutY="32.0" onAction="#handleCountrySelection" prefHeight="30.0" prefWidth="150.0" promptText="Select country.." styleClass="combo-box" stylesheets="@../css/MainView.css" />
-                                    <TextField fx:id="teamSearchField" layoutX="275.0" layoutY="32.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
-                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="282.0" layoutY="52.0" size="1.2em" />
-                                    <TextField fx:id="employeeTeamSearchField" layoutX="612.0" layoutY="33.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
-                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="619.0" layoutY="53.0" size="1.2em" />
-                                    <TextField fx:id="employeeSearchField" layoutX="1017.0" layoutY="33.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
-                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="1024.0" layoutY="53.0" size="1.2em" />
-                                    <Label id="#label1" fx:id="hourlyRateWithUpPerTeam" layoutX="637.0" layoutY="569.0" prefHeight="35.0" prefWidth="136.0" style="-fx-text-fill: black;" styleClass="combo-box" stylesheets="@../css/MainView.css" />
-                                    <Label id="#label1" fx:id="sumofHourlyRatePerTeam" layoutX="302.0" layoutY="569.0" prefHeight="35.0" prefWidth="136.0" style="-fx-text-fill: black;" styleClass="combo-box" stylesheets="@../css/MainView.css" />
-                                    <Button layoutX="1014.0" layoutY="630.0" mnemonicParsing="false" onAction="#editEmployeeBtn" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
-                                    <Button layoutX="796.0" layoutY="106.0" mnemonicParsing="false" onAction="#assignEmployeeToTeam" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="&lt;" />
-                                    <Label id="#label1" fx:id="hourlyRateWithMultipliersPerTeam" layoutX="637.0" layoutY="624.0" prefHeight="35.0" prefWidth="136.0" style="-fx-text-fill: black;" styleClass="combo-box" stylesheets="@../css/MainView.css" />
-                                    <Label id="label1" layoutX="499.0" layoutY="574.0" prefHeight="25.0" prefWidth="129.0" text="Hourly rate with UP%">
-                                       <font>
-                                          <Font name="Arial Rounded MT Bold" size="12.0" />
-                                       </font></Label>
-                                    <Label id="label1" layoutX="172.0" layoutY="579.0" text="sum of Hourly rates">
-                                       <font>
-                                          <Font name="Arial Rounded MT Bold" size="12.0" />
-                                       </font>
-                                    </Label>
+                                    <Button fx:id="addTeamBtn" layoutX="266.0" layoutY="589.0" mnemonicParsing="false" onAction="#addTeamPopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Team" />
+                                    <TextField fx:id="teamSearchField" layoutX="335.0" layoutY="39.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="342.0" layoutY="59.0" size="1.2em" />
+                                    <TextField fx:id="employeeTeamSearchField" layoutX="762.0" layoutY="39.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="769.0" layoutY="59.0" size="1.2em" />
+                                    <TextField fx:id="employeeSearchField" layoutX="1036.0" layoutY="39.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="1043.0" layoutY="59.0" size="1.2em" />
+                                    <Button layoutX="1112.0" layoutY="589.0" mnemonicParsing="false" onAction="#editEmployeeBtn" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
+                                    <Button layoutX="936.0" layoutY="91.0" mnemonicParsing="false" onAction="#assignEmployeeToTeam" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="&lt;" />
                                  </children>
                               </AnchorPane>
                            </children>
