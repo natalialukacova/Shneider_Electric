@@ -76,11 +76,12 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
-    public void updateTeamHourlyRate(int teamId, double hourlyRate) {
+    @Override
+    public void addMarkupMultiplier(int teamId, double markupMultiplier) {
         try {
-            String sql = "UPDATE teams SET teamHourlyRate = ? WHERE id = ?";
+            String sql = "UPDATE teams SET markupMultiplier = ? WHERE id = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-            preparedStatement.setDouble(1, hourlyRate);
+            preparedStatement.setDouble(1, markupMultiplier);
             preparedStatement.setInt(2, teamId);
 
             preparedStatement.executeUpdate();
@@ -91,12 +92,13 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
-    public void updateHRwithUP(int teamId, double hourlyRateUP){
+    @Override
+    public void addGmMultiplier(int teamId, double gmMultiplier){
         try {
-            String sql = "UPDATE teams SET hourlyRateUP = ? WHERE id = ?";
+            String sql = "UPDATE teams SET gmMultiplier = ? WHERE id = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
-            preparedStatement.setDouble(1, hourlyRateUP);
+            preparedStatement.setDouble(1, gmMultiplier);
             preparedStatement.setInt(2, teamId);
 
             preparedStatement.executeUpdate();
@@ -108,6 +110,7 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
+    // not using this method
     public List<Employees> updateHRwithMultipliers(int teamId, double hourlyRateMultipliers){
         try {
             String sql = "UPDATE teams SET hourlyRateMultipliers = ? WHERE id = ?";
@@ -152,6 +155,7 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
+    @Override
     public List<Teams> getAllTeams() {
         List<Teams> teams = new ArrayList<>();
         try {

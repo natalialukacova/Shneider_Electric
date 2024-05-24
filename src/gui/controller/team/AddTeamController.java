@@ -24,11 +24,14 @@ public class AddTeamController{
     private ComboBox countryBox;
     private CountriesDAO countriesDAO = new CountriesDAO();
     private TeamsDAO teamsDAO = new TeamsDAO();
-    private MainViewController mainViewController = new MainViewController();
 
-    public void setMainViewController(MainViewController mainViewController) {
-        this.mainViewController = mainViewController;
+    private ObservableList<Teams> teams;
+
+
+    public void setTeams(ObservableList<Teams> teams){
+        this.teams = teams;
     }
+
 
 
     public void initialize(){
@@ -49,7 +52,7 @@ public class AddTeamController{
         Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId);
 
         teamsDAO.addTeam(newTeam);
-        mainViewController.setTeamsTable(mainViewController.getTeamsTableView(), countryId);
+        teams.add(newTeam);
         closeWindow(event);
     }
 
