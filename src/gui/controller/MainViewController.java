@@ -9,6 +9,7 @@ import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
+import gui.controller.team.AddTeamController;
 import gui.controller.team.DeleteTeamController;
 import gui.search.EmployeeSearch;
 import gui.search.EmployeeTeamSearch;
@@ -171,9 +172,7 @@ public class MainViewController {
             return;
         }
 
-        List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(countryId);
-        ObservableList<Teams> observableList = FXCollections.observableArrayList(teamsOfCountry);
-        teamsTableView.setItems(observableList);
+        teamsTableView.getItems().setAll(teamsDAO.getTeamsByCountryId(countryId));
 
         teamsTableView.getColumns().clear();
 
@@ -187,9 +186,9 @@ public class MainViewController {
         });
 
         teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
-
+        /*List<Teams> filtered = teamSearch.search(teamsOfCountry, )
         teamSearch.setTeamsList(teamsOfCountry);
-        teamSearch.bindToTeamsTable(teamsTableView);
+        teamSearch.bindToTeamsTable(teamsTableView);*/
     }
 
     // method to calculate total hourly rate per team
@@ -224,9 +223,6 @@ public class MainViewController {
     }
 
 
-    public TableView<Teams> getTeamsTableView() {
-        return teamsTableView;
-    }
 
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
         teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
@@ -356,7 +352,8 @@ public class MainViewController {
 
     private void setupTeamSearchField() {
         teamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            teamSearch.setSearchCriteria(newValue);
+            List<Teams> filtered = teamSearch.search(teamsDAO.getAllTeams(), newValue);
+            teamsTableView.getItems().setAll(filtered);
         });
     }
 
@@ -434,7 +431,10 @@ public class MainViewController {
     @FXML
     void addTeamPopUp(ActionEvent event) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/gui/view/addTeam.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addTeam.fxml"));
+            Parent root = loader.load();
+            AddTeamController tc = loader.getController();
+            tc.setTeams(teamsTableView.getItems());
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
             stage.setScene(new Scene(root));
