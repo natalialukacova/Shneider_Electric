@@ -75,12 +75,12 @@
                                           <String fx:value="table-view" />
                                        </styleClass>
                                     </TableView>
-                                    <AnchorPane layoutX="970.0" layoutY="55.0" prefHeight="584.0" prefWidth="281.0" styleClass="white-bg" stylesheets="@../css/MainView.css">
+                                    <AnchorPane layoutX="970.0" layoutY="52.0" prefHeight="587.0" prefWidth="288.0" styleClass="white-bg" stylesheets="@../css/MainView.css">
                                        <children>
-                                          <TableView fx:id="employeesTableView" layoutX="-20.0" layoutY="51.0" prefHeight="471.0" prefWidth="284.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+                                          <TableView fx:id="employeesTableView" layoutX="-20.0" layoutY="51.0" maxWidth="285.0" prefHeight="587.0" prefWidth="285.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
                                              <columns>
-                                                <TableColumn fx:id="nameColumn" prefWidth="142.0" text="All Emplooyees" />
-                                                <TableColumn fx:id="countryColumn" prefWidth="140.66666666666669" text="Country" />
+                                                <TableColumn fx:id="nameColumn" maxWidth="140.0" prefWidth="140.0" text="All Emplooyees" />
+                                                <TableColumn fx:id="countryColumn" maxWidth="140.0" prefWidth="140.0" text="Country" />
                                              </columns>
                                              <styleClass>
                                                 <String fx:value="table-borders" />
@@ -90,12 +90,12 @@
                                        </children>
                                     </AnchorPane>
                                     <Button fx:id="addTeamBtn" layoutX="50.0" layoutY="650.0" mnemonicParsing="false" onAction="#addTeamPopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Team" />
-                                    <TextField fx:id="teamSearchField" layoutX="578.0" layoutY="11.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
-                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="585.0" layoutY="31.0" size="1.2em" />
-                                    <TextField fx:id="employeeTeamSearchField" layoutX="777.0" layoutY="11.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
-                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="784.0" layoutY="31.0" size="1.2em" />
-                                    <TextField fx:id="employeeSearchField" layoutX="1097.0" layoutY="11.0" prefHeight="30.0" prefWidth="150.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
-                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="1104.0" layoutY="31.0" size="1.2em" />
+                                    <TextField fx:id="teamSearchField" layoutX="553.0" layoutY="11.0" prefHeight="30.0" prefWidth="175.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="560.0" layoutY="31.0" size="1.2em" />
+                                    <TextField fx:id="employeeTeamSearchField" layoutX="750.0" layoutY="11.0" prefHeight="30.0" prefWidth="175.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="757.0" layoutY="31.0" size="1.2em" />
+                                    <TextField fx:id="employeeSearchField" layoutX="1072.0" layoutY="11.0" prefHeight="30.0" prefWidth="175.0" promptText="Search.." styleClass="search" stylesheets="@../css/MainView.css" />
+                                    <FontAwesomeIcon glyphName="SEARCH" layoutX="1079.0" layoutY="31.0" size="1.2em" />
                                     <Button layoutX="1121.0" layoutY="652.0" mnemonicParsing="false" onAction="#editEmployeeBtn" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Edit" />
                                     <Button layoutX="936.0" layoutY="68.0" mnemonicParsing="false" onAction="#assignEmployeeToTeam" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="&lt;" />
                                  </children>

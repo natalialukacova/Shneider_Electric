@@ -9,9 +9,7 @@ public interface ITeamsDAO {
     void addTeam(Teams teams);
     void updateTeam(Teams teams);
 
-    void addMarkupMultiplier(int teamId, double markupMultiplier);
-
-    void addGmMultiplier(int teamId, double gmMultiplier);
+    void addMultipliers(int teamId, double markupMultiplier, double gmMultiplier);
 
     void deleteTeam(int id);
 

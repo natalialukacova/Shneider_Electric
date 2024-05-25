@@ -77,32 +77,16 @@ public class TeamsDAO implements ITeamsDAO {
     }
 
     @Override
-    public void addMarkupMultiplier(int teamId, double markupMultiplier) {
+    public void addMultipliers(int teamId, double markupMultiplier, double gmMultiplier) {
         try {
-            String sql = "UPDATE teams SET markupMultiplier = ? WHERE id = ?";
+            String sql = "UPDATE teams SET markupMultiplier = ?, gmMultiplier = ? WHERE id = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
+
             preparedStatement.setDouble(1, markupMultiplier);
-            preparedStatement.setInt(2, teamId);
+            preparedStatement.setDouble(2, gmMultiplier);
+            preparedStatement.setInt(3, teamId);
 
             preparedStatement.executeUpdate();
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void addGmMultiplier(int teamId, double gmMultiplier){
-        try {
-            String sql = "UPDATE teams SET gmMultiplier = ? WHERE id = ?";
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setDouble(1, gmMultiplier);
-            preparedStatement.setInt(2, teamId);
-
-            preparedStatement.executeUpdate();
-
         } catch (SQLServerException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {
