@@ -9,6 +9,7 @@ import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
+import gui.controller.employee.UtilizationPController;
 import gui.controller.team.AddTeamController;
 import gui.controller.team.DeleteTeamController;
 import gui.search.EmployeeSearch;
@@ -31,7 +32,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
-import java.util.stream.Collectors;
+
 import gui.controller.team.addMultiplierController;
 
 public class MainViewController {
@@ -239,7 +240,6 @@ public class MainViewController {
         Employees selectedEmployee = getSelectedEmployee();
         if (selectedEmployee != null && selectedTeam != null) {
             try {
-                System.out.println("Loading utilizationPercentage.fxml...");
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/utilizationPercentage.fxml"));
                 Parent root = loader.load();
                 Stage stage = new Stage();
@@ -264,7 +264,6 @@ public class MainViewController {
                 e.printStackTrace();
             }
         } else if (selectedEmployee == null) {
-            System.out.println("Error loading FXML file:");
             ExceptionHandler.showAlert("Please select an employee.");
         } else {
             ExceptionHandler.showAlert("Please select a team.");
@@ -297,7 +296,7 @@ public class MainViewController {
 
 
 
-    private void assignEmployee(){
+   /* private void assignEmployee(){
         Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
         if (selectedEmployee != null && selectedTeam != null) {
             System.out.println("Assigning Employee ID: " + selectedEmployee.getId() + " to Team ID: " + selectedTeam.getId());
@@ -308,7 +307,7 @@ public class MainViewController {
         } else {
             ExceptionHandler.showAlert("Please select a team.");
         }
-    }
+    }*/
 
     public void loadAllEmployees() {
         List<Employees> allEmployees = employeesDAO.getAllEmployees();

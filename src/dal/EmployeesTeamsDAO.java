@@ -49,14 +49,15 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
         }
     }
 
-    public void addEmployeeToTeam(int teamId, int employeeId) {
+    public void addEmployeeToTeam(int teamId, int employeeId, double up) {
         if (!isEmployeeInTeam(teamId, employeeId)) {
             try {
-                String sql = "INSERT INTO [employeesTeam] (teamId, employeeId) VALUES (?,?)";
+                String sql = "INSERT INTO [employeesTeam] (teamId, employeeId, up) VALUES (?,?,?)";
                 preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
                 preparedStatement.setInt(1, teamId);
                 preparedStatement.setInt(2, employeeId);
+                preparedStatement.setDouble(3, up);
                 preparedStatement.executeUpdate();
             } catch (SQLServerException e) {
                 throw new RuntimeException(e);

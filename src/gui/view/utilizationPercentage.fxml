@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.UtilizationPController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.employee.UtilizationPController">
     <children>
         <HBox prefHeight="35.0" prefWidth="400.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
             <children>

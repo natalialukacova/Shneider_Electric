@@ -1,9 +1,10 @@
-package gui.controller;
+package gui.controller.employee;
 
 import be.Employees;
 import be.Teams;
 import dal.EmployeesDAO;
 import dal.EmployeesTeamsDAO;
+import gui.controller.MainViewController;
 import gui.utility.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -51,7 +52,7 @@ public class UtilizationPController {
         Double utilizationPercentage = Double.parseDouble(upTxtField.getText());
         selectedEmployee.setUtilizationPercentage(Double.parseDouble(upTxtField.getText()));
 
-        employeesTeamsDAO.addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId());
+        employeesTeamsDAO.addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId(), utilizationPercentage);
         employeesDAO.updateUtilizationPercentage(selectedEmployee.getId(), utilizationPercentage);
         mainController.loadEmployeesOfTeam(selectedTeam.getId());
 

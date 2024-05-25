@@ -6,7 +6,7 @@ import gui.utility.ExceptionHandler;
 public class EmployeesOfTeamController {
     private static EmployeesTeamsDAO employeesTeamsDAO = new EmployeesTeamsDAO();
 
-    public static void assignEmployeeToTeam(int teamId, int employeeId){
+    /*public static void assignEmployeeToTeam(int teamId, int employeeId){
         try {
             employeesTeamsDAO.addEmployeeToTeam(teamId, employeeId);
             ExceptionHandler.showAlert("Employee assigned to the team successfully.");
@@ -14,7 +14,7 @@ public class EmployeesOfTeamController {
             ExceptionHandler.showAlert("Failed to assign employee to the team.");
             e.printStackTrace();
         }
-    }
+    }*/
 
 
 }
