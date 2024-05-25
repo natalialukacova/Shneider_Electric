@@ -1,11 +1,10 @@
 package gui.controller.team;
 
 import be.Countries;
-import be.Employees;
 import be.Teams;
 import dal.CountriesDAO;
 import dal.TeamsDAO;
-import gui.controller.MainViewController;
+import gui.utility.ExceptionHandler;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -39,17 +38,21 @@ public class AddTeamController{
     }
 
     public void confirmAddTeam(ActionEvent event) {
-        String teamName = nameTeamTxtField.getText();
         Countries selectedCountry = (Countries) countryBox.getSelectionModel().getSelectedItem();
-        Double teamHourlyRate = (double) 0;
 
         if (selectedCountry == null) {
-            System.out.println("No country selected");
+            ExceptionHandler.showAlert("No country selected");
             return;
         }
 
+        String teamName = nameTeamTxtField.getText();
         int countryId = selectedCountry.getCountryId();
-        Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId);
+        String countryName = selectedCountry.getCountryName();
+
+        // HAVE TO BE CHANGED!!!
+        Double teamHourlyRate = (double) 0;
+
+        Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId, countryName);
 
         teamsDAO.addTeam(newTeam);
         teams.add(newTeam);

@@ -52,7 +52,7 @@
                                           <TableView fx:id="teamsTableView" layoutX="-1.0" prefHeight="586.0" prefWidth="720.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="-2.0">
                                              <columns>
                                                 <TableColumn fx:id="teamNameCol" prefWidth="137.33334827423096" text="Team" />
-                                                <TableColumn prefWidth="142.66664123535156" text="Country" />
+                                                <TableColumn fx:id="teamCountryCol" prefWidth="142.66664123535156" text="Country" />
                                                 <TableColumn fx:id="hourlyRateColumn" prefWidth="148.0" text="Hourly Rate" />
                                                 <TableColumn prefWidth="142.00009155273438" text="Added UP%" />
                                                 <TableColumn prefWidth="145.99995930989587" text="Added Multipliers" />

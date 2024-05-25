@@ -1,4 +1,4 @@
-package gui.controller;
+package gui.controller.employee;
 
 import dal.EmployeesTeamsDAO;
 import gui.utility.ExceptionHandler;

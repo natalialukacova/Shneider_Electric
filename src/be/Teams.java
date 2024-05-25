@@ -1,13 +1,11 @@
 package be;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class Teams {
     private int id;
     private String teamName;
     private Double teamHourlyRate;
     private int countryId;
+    private String countryName;
     private double hourlyRate;
     private double hourlyRateWithMultipliers;
 
@@ -51,13 +49,16 @@ public class Teams {
         this.countryId = countryId;
     }
 
+    public String getCountryName() {
+        return countryName;
+    }
 
-
-    public Teams(int id, String teamName, double teamHourlyRate, int countryId) {
+    public Teams(int id, String teamName, double teamHourlyRate, int countryId, String countryName) {
         this.id = id;
         this.teamName = teamName;
         this.teamHourlyRate = teamHourlyRate;
         this.countryId = countryId;
+        this.countryName = countryName;
     }
 
     @Override

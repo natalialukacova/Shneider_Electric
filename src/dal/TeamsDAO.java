@@ -29,7 +29,7 @@ public class TeamsDAO implements ITeamsDAO {
                             resultSet.getInt("id"),
                             resultSet.getString("teamName"),
                             resultSet.getDouble("teamHourlyRate"),
-                            resultSet.getInt("countryId"));
+                            resultSet.getInt("countryId"), resultSet.getString("countryName"));
                     teams.add(team);
                 }
             }
@@ -44,11 +44,12 @@ public class TeamsDAO implements ITeamsDAO {
 
     public void addTeam(Teams teams) {
         try {
-            String sql = "INSERT INTO teams(teamName, countryId) VALUES (?,?)";
+            String sql = "INSERT INTO teams(teamName, countryId, countryName) VALUES (?,?,?)";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, teams.getTeamName());
             preparedStatement.setInt(2, teams.getCountryId());
+            preparedStatement.setString(3, teams.getCountryName());
 
             preparedStatement.execute();
 
@@ -152,7 +153,8 @@ public class TeamsDAO implements ITeamsDAO {
                             resultSet.getInt("id"),
                             resultSet.getString("teamName"),
                             resultSet.getDouble("teamHourlyRate"),
-                            resultSet.getInt("countryId"));
+                            resultSet.getInt("countryId"),
+                            resultSet.getString("countryName"));
                     teams.add(team);
                 }
             }

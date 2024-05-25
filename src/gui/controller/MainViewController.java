@@ -44,6 +44,8 @@ public class MainViewController {
     @FXML
     private TableColumn<Teams, String> teamNameCol;
     @FXML
+    private TableColumn<Teams, String> teamCountryCol;
+    @FXML
     public TableColumn<Teams, Double> hourlyRateColumn;
     @FXML
     public TableView<Employees> employeeOfTeamTableView;
@@ -100,6 +102,7 @@ public class MainViewController {
 
         setEmployeesTable(employeesTableView);
         setEmployeesOfTeamTable(employeeOfTeamTableView);
+        setTeamsTable(teamsTableView);
         loadCountries();
 
 //        //countryComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -110,11 +113,11 @@ public class MainViewController {
 //        });
 
 
-        teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+       /* teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null){
                 selectedTeam = newSelection;
             loadEmployeesOfTeam(selectedTeam.getId());}
-        });
+        });*/
 
 //        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
 //        if (selectedCountry != null) {
@@ -143,7 +146,7 @@ public class MainViewController {
                 selectedTeam = newSelection;
                 // Calculate and display hourly rate with UP% for the selected team
                 double hourlyRateWithUP = calculateHourlyRateWithUP(selectedTeam.getId());
-                hourlyRateWithUpPerTeam.setText(String.format("%.2f", hourlyRateWithUP)); // Format to two decimal points
+               // hourlyRateWithUpPerTeam.setText(String.format("%.2f", hourlyRateWithUP)); // Format to two decimal points
             }
         });
 
@@ -166,17 +169,18 @@ public class MainViewController {
     }
 
 
-    public void setTeamsTable(TableView<Teams> teamsTableView, int countryId) {
+    public void setTeamsTable(TableView<Teams> teamsTableView) {
         if (teamsTableView == null) {
             System.out.println("teamsTableView is null");
             return;
         }
 
-        teamsTableView.getItems().setAll(teamsDAO.getTeamsByCountryId(countryId));
+        teamsTableView.getItems().setAll(teamsDAO.getAllTeams());
 
         teamsTableView.getColumns().clear();
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
+        teamCountryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountryName()));
         hourlyRateColumn.setCellValueFactory(cellData -> {
             // Get employees of the team
             List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(cellData.getValue().getId());
@@ -185,7 +189,7 @@ public class MainViewController {
             return new SimpleDoubleProperty(totalHourlyRate).asObject();
         });
 
-        teamsTableView.getColumns().addAll(teamNameCol, hourlyRateColumn);
+        teamsTableView.getColumns().addAll(teamNameCol, teamCountryCol, hourlyRateColumn);
         /*List<Teams> filtered = teamSearch.search(teamsOfCountry, )
         teamSearch.setTeamsList(teamsOfCountry);
         teamSearch.bindToTeamsTable(teamsTableView);*/
@@ -340,7 +344,7 @@ public class MainViewController {
     public void handleCountrySelection(ActionEvent event) {
         Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
         if (selectedCountry != null) {
-            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
+            setTeamsTable(teamsTableView);
         }
     }
 
