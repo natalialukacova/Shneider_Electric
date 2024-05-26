@@ -16,26 +16,20 @@ import javafx.stage.Stage;
 public class AddEmployeeController {
 
     @FXML
-    private TableView<Employees> employeesTableView;
-    @FXML
-    public TableColumn<Employees, String> nameColumn;
-    @FXML
-    public TableColumn<Employees, Double> hourlyRateColumn;
-    @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
-    @FXML
-    private ComboBox countryBox;
     private EmployeesDAO employeesDAO = new EmployeesDAO();
     private MainViewController mainController = new MainViewController();
     private Stage stage;
-    private Employees selectedEmployee;
+    private ObservableList<Employees> employees;
 
 
     public void initialize() {
         employeesDAO = new EmployeesDAO();
-
     }
 
+    public void setEmployees(ObservableList<Employees> employees) {
+        this.employees = employees;
+    }
 
     private boolean validateInput() {
         if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() || geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
@@ -74,22 +68,8 @@ public class AddEmployeeController {
         newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.addEmployee(newEmployee);
-        mainController.loadAllEmployees();
+        employees.add(newEmployee);
         stage.close();
-    }
-
-
-
-    public Employees fillEmployeeData(Employees employee) {
-        this.selectedEmployee = employee;
-        nameTxtField.setText(selectedEmployee.getEmployeeName());
-        salaryTxtField.setText(String.valueOf(selectedEmployee.getSalary()));
-        multiplierTxtField.setText(String.valueOf(selectedEmployee.getMultiplier()));
-        configurableAmountTxtField.setText(String.valueOf(selectedEmployee.getConfigurableAmount()));
-        workingHoursTxtField.setText(String.valueOf(selectedEmployee.getWorkingHours()));
-        overheadCostTxtField.setText(String.valueOf(selectedEmployee.getOverheadCost()));
-
-        return employee;
     }
 
     private void showAlert(String message) {
@@ -98,16 +78,6 @@ public class AddEmployeeController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    @FXML
-    private void clearInputFields(ActionEvent event) {
-        nameTxtField.clear();
-        salaryTxtField.clear();
-        multiplierTxtField.clear();
-        configurableAmountTxtField.clear();
-        workingHoursTxtField.clear();
-        overheadCostTxtField.clear();
     }
 
     public void setMainController(MainViewController controller) {

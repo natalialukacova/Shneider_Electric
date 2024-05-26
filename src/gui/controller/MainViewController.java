@@ -154,10 +154,7 @@ public class MainViewController {
     }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
-        List<Employees> employees = employeesDAO.getAllEmployees();
-        ObservableList<Employees> observableList = FXCollections.observableArrayList(employees);
-
-        employeesTableView.setItems(observableList);
+        employeesTableView.getItems().setAll(employeesDAO.getAllEmployees());
         employeesTableView.getColumns().clear();
 
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
@@ -165,8 +162,8 @@ public class MainViewController {
 
         employeesTableView.getColumns().addAll(nameColumn, countryColumn);
 
-        employeeSearch.setEmployeesList(employees);
-        employeeSearch.bindToEmployeesTable(employeesTableView);
+        /*employeeSearch.setEmployeesList(employees);
+        employeeSearch.bindToEmployeesTable(employeesTableView);*/
     }
 
 
@@ -376,6 +373,7 @@ public class MainViewController {
             stage.setScene(new Scene(root));
 
             AddEmployeeController addEmployeeController = loader.getController();
+            addEmployeeController.setEmployees(employeesTableView.getItems());
             addEmployeeController.setMainController(this);
             addEmployeeController.setStage(stage);
 

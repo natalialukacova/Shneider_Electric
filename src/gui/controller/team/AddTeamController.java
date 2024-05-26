@@ -16,8 +16,7 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class AddTeamController{
-    @FXML
-    private TableView<Teams> teamsTableView;
+
     public TextField nameTeamTxtField;
     @FXML
     private ComboBox countryBox;
@@ -30,8 +29,6 @@ public class AddTeamController{
     public void setTeams(ObservableList<Teams> teams){
         this.teams = teams;
     }
-
-
 
     public void initialize(){
         loadCountriesBox();

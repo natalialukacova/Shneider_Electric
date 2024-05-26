@@ -4,6 +4,7 @@ import be.Employees;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
 import gui.utility.ExceptionHandler;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -21,9 +22,15 @@ public class EditEmployeeController {
     private MainViewController mainController;
     private Stage stage;
     private Employees selectedEmployee;
+    private ObservableList<Employees> employees;
+
 
     public void initialize() {
         employeesDAO = new EmployeesDAO();
+    }
+
+    public void setEmployees(ObservableList<Employees> employees) {
+        this.employees = employees;
     }
 
     public void confirmEditEmployee(ActionEvent event) {
@@ -44,8 +51,7 @@ public class EditEmployeeController {
         newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.updateEmployee(newEmployee);
-        mainController.loadAllEmployees();
-        saveEditedEmployee(event);
+        saveEditedEmployee();
         stage.close();
     }
 
@@ -67,7 +73,7 @@ public class EditEmployeeController {
         return true;
     }
 
-    public void saveEditedEmployee(ActionEvent event) {
+    public void saveEditedEmployee() {
         if (!validateInput()) {
             return;
         }
@@ -84,7 +90,6 @@ public class EditEmployeeController {
         selectedEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.updateEmployee(selectedEmployee);
-        mainController.loadAllEmployees();
 
         stage.close();
     }
@@ -108,16 +113,6 @@ public class EditEmployeeController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-
-    @FXML
-    private void clearInputFields(ActionEvent event) {
-        nameTxtField.clear();
-        salaryTxtField.clear();
-        multiplierTxtField.clear();
-        configurableAmountTxtField.clear();
-        workingHoursTxtField.clear();
-        overheadCostTxtField.clear();
     }
 
     public void setSelectedEmployee(Employees selectedEmployee) {
