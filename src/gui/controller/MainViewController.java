@@ -114,11 +114,11 @@ public class MainViewController {
 //        });
 
 
-       /* teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+        teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null){
                 selectedTeam = newSelection;
             loadEmployeesOfTeam(selectedTeam.getId());}
-        });*/
+        });
 
 //        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
 //        if (selectedCountry != null) {
@@ -256,7 +256,7 @@ public class MainViewController {
                 // Calculate and display hourly rate with UP% for the team
                 double hourlyRateWithUP = calculateHourlyRateWithUP(selectedTeam.getId());
                 utilizationPController.setHourlyRateWithUP(hourlyRateWithUP);
-                hourlyRateWithUpPerTeam.setText(String.format("%.2f", hourlyRateWithUP)); // Format to two decimal points
+                //hourlyRateWithUpPerTeam.setText(String.format("%.2f", hourlyRateWithUP)); // Format to two decimal points
 
                 addMultiplierBtn.setDisable(false);
 
