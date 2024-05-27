@@ -1,3 +1,5 @@
+import bll.TeamManager;
+import dal.EmployeesTeamsDAO;
 import gui.controller.MainViewController;
 import gui.controller.employee.EditEmployeeController;
 import javafx.application.Application;
@@ -23,7 +25,16 @@ public class Main extends Application {
             scene.getStylesheets().add(css);
 
             MainViewController mainViewController = loader.getController();
-            mainViewController.setDependencies(new EditEmployeeController());
+            // Create and set dependencies
+            EmployeesTeamsDAO employeesTeamsDAO = new EmployeesTeamsDAO();
+            TeamManager teamManager = new TeamManager();
+
+            mainViewController.setEmployeesTeamsDAO(employeesTeamsDAO);
+            mainViewController.setTeamManager(teamManager);
+            employeesTeamsDAO.setMainViewController(mainViewController);
+            employeesTeamsDAO.setTeamManager(teamManager);
+            teamManager.setEmployeesTeamsDAO(employeesTeamsDAO);
+            teamManager.setMainViewController(mainViewController);
 
             root.setOnMousePressed(event -> {
                 x = event.getSceneX();

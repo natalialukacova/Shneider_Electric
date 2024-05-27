@@ -1,18 +1,32 @@
 package bll;
 
+import be.Employees;
 import be.Teams;
 import dal.TeamsDAO;
 import dal.interfaces.ITeamsDAO;
-
 import java.util.List;
+import dal.EmployeesTeamsDAO;
+import gui.controller.MainViewController;
+
 
 public class TeamManager implements ITeamsDAO {
     ITeamsDAO teamsDAO = new TeamsDAO();
+    private EmployeesTeamsDAO employeesTeamsDAO;
+    private MainViewController mainViewController;
 
    /* @Override
     public List<Teams> getAllTeams() {
         return teamsDAO.getAllTeams();
     }*/
+
+    public void setEmployeesTeamsDAO(EmployeesTeamsDAO employeesTeamsDAO) {
+        this.employeesTeamsDAO = employeesTeamsDAO;
+    }
+
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
+
 
     @Override
     public List<Teams> getTeamsByCountryId(int countryId) {
@@ -44,4 +58,25 @@ public class TeamManager implements ITeamsDAO {
         return teamsDAO.getAllTeams();
     }
 
+    public double calculateTeamHourlyRate(int teamId) {
+        List<Employees> employees = employeesTeamsDAO.getEmployeesOfTeam(teamId);
+        double totalHourlyRate = 0;
+        double totalUtilization = 0;
+
+        for (Employees employee : employees) {
+            double hourlyRate = calculateEmployeeHourlyRate(employee);
+            double utilization = employee.getUtilizationPercentage() / 100.0;
+            totalHourlyRate += hourlyRate * utilization;
+            totalUtilization += utilization;
+        }
+
+        return totalUtilization > 0 ? totalHourlyRate / totalUtilization : 0;
+    }
+
+    public double calculateEmployeeHourlyRate(Employees employee) {
+        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
+        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
+        double hourlyRate = totalCost / employee.getWorkingHours();
+        return hourlyRate;
+    }
 }

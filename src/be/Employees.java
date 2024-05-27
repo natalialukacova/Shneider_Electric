@@ -13,7 +13,7 @@ public class Employees {
     private double overheadCost;
     private double hourlyRate;
     private String geography;
-    private double hourlyRateWithUP; //
+    private double hourlyRateWithUP;
 
 
     public int getId() {
@@ -130,12 +130,6 @@ public class Employees {
         this.geography = geography;
 
     }
-    private double calculateHourlyRate() {
-        double annualCost = salary + configurableAmount;
-        double totalCost = annualCost + (annualCost * (multiplier / 100)) + overheadCost;
-        return totalCost / workingHours;
-    }
-
 
     @Override
     public String toString(){

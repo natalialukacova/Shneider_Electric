@@ -53,6 +53,10 @@ public class Teams {
         return countryName;
     }
 
+    public double getHourlyRate() { return hourlyRate; }
+
+    public void setHourlyRate(double hourlyRate) { this.hourlyRate = hourlyRate; }
+
     public Teams(int id, String teamName, double teamHourlyRate, int countryId, String countryName) {
         this.id = id;
         this.teamName = teamName;

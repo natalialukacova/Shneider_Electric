@@ -12,12 +12,23 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import bll.TeamManager;
+
 
 public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
     private PreparedStatement preparedStatement;
     private DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
-    private MainViewController mainViewController = new MainViewController();
+    private MainViewController mainViewController;
+    private TeamManager teamManager;
 
+
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
+
+    public void setTeamManager(TeamManager teamManager) {
+        this.teamManager = teamManager;
+    }
 
     @Override
     public List<Employees> getEmployeesOfTeam(int teamId) {
@@ -89,5 +100,6 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
         return false;
     }
 }
+
 
 

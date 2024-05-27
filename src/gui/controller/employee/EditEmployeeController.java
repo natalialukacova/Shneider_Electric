@@ -2,6 +2,7 @@ package gui.controller.employee;
 
 import be.Employees;
 import dal.EmployeesDAO;
+import bll.EmployeeManager;
 import gui.controller.MainViewController;
 import gui.utility.ExceptionHandler;
 import javafx.collections.ObservableList;
@@ -13,6 +14,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+
 public class EditEmployeeController {
     @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
@@ -23,6 +25,9 @@ public class EditEmployeeController {
     private Stage stage;
     private Employees selectedEmployee;
     private ObservableList<Employees> employees;
+    private EmployeeManager employeeManager = new EmployeeManager();
+
+
 
 
     public void initialize() {
@@ -47,7 +52,7 @@ public class EditEmployeeController {
 
         Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
 
-        Double hourlyRate = mainController.calculateEmployeeHourlyRate(newEmployee);
+        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(newEmployee);
         newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.updateEmployee(newEmployee);
@@ -86,7 +91,7 @@ public class EditEmployeeController {
         selectedEmployee.setOverheadCost(Double.parseDouble(overheadCostTxtField.getText()));
         selectedEmployee.setGeography(geographyTxtField.getText());
 
-        Double hourlyRate = mainController.calculateEmployeeHourlyRate(selectedEmployee);
+        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(selectedEmployee);
         selectedEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.updateEmployee(selectedEmployee);

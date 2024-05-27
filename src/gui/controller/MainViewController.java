@@ -3,10 +3,12 @@ package gui.controller;
 import be.Countries;
 import be.Employees;
 import be.Teams;
+import bll.TeamManager;
 import dal.CountriesDAO;
 import dal.EmployeesDAO;
 import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
+import bll.EmployeeManager;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
 import gui.controller.employee.UtilizationPController;
@@ -39,7 +41,7 @@ public class MainViewController {
     private EmployeesDAO employeesDAO;
     private EmployeesTeamsDAO employeesTeamsDAO;
     private final CountriesDAO countriesDAO = new CountriesDAO();
-    private TeamsDAO teamsDAO = new TeamsDAO();
+    private final TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
     public TableView<Teams> teamsTableView;
     @FXML
@@ -48,6 +50,12 @@ public class MainViewController {
     private TableColumn<Teams, String> teamCountryCol;
     @FXML
     public TableColumn<Teams, Double> hourlyRateColumn;
+    @FXML
+    private TableColumn<Teams, Double> addedMultipliersColumn;
+
+    @FXML
+    private TableColumn<Teams, Double> addedUpColumn;
+
     @FXML
     public TableView<Employees> employeeOfTeamTableView;
     @FXML
@@ -70,25 +78,37 @@ public class MainViewController {
     private TeamSearch teamSearch;
     private EmployeeTeamSearch employeeTeamSearch;
     @FXML
-    private Label hourlyRateWithUpPerTeam;
-    @FXML
-    private Label hourlyRateWithMultipliersPerTeam;
-    @FXML
-    private Label sumofHourlyRatePerTeam;
-    @FXML
     private Button addMultiplierBtn;
     private EditEmployeeController editEmployeeController;
     private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private Teams selectedTeam;
+    private TeamManager teamManager;
+    private  EmployeeManager employeeManager;
     private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
+    private UtilizationPController utilizationPController;
 
-
+    private TextField upTxtField;
 
     public void setDependencies(EditEmployeeController editEmployeeController) {
         this.editEmployeeController = editEmployeeController;
     }
 
+    public void setEmployeesTeamsDAO(EmployeesTeamsDAO employeesTeamsDAO) {
+        this.employeesTeamsDAO = employeesTeamsDAO;
+    }
+
+    public void setTeamManager(TeamManager teamManager) {
+        this.teamManager = teamManager;
+    }
+
+    // Getter for employeesTeamsDAO
+    public EmployeesTeamsDAO getEmployeesTeamsDAO() {
+        return employeesTeamsDAO;
+    }
+
     public void initialize() {
+
+        upTxtField = new TextField();
         employeesDAO = new EmployeesDAO();
         employeesTeamsDAO = new EmployeesTeamsDAO();
 
@@ -114,10 +134,13 @@ public class MainViewController {
 //        });
 
 
+
         teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null){
                 selectedTeam = newSelection;
-            loadEmployeesOfTeam(selectedTeam.getId());}
+            loadEmployeesOfTeam(selectedTeam.getId());
+            updateTeamHourlyRateInView(selectedTeam); // Refresh the view
+            }
         });
 
 //        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
@@ -139,17 +162,21 @@ public class MainViewController {
                     setText(decimalFormat.format(item));
                 }
             }
+
         });
 
-
-        teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                selectedTeam = newSelection;
-                // Calculate and display hourly rate with UP% for the selected team
-                double hourlyRateWithUP = calculateHourlyRateWithUP(selectedTeam.getId());
-               // hourlyRateWithUpPerTeam.setText(String.format("%.2f", hourlyRateWithUP)); // Format to two decimal points
-            }
-        });
+        // Setup DecimalFormatter for addedUpColumn
+//        addedUpColumn.setCellFactory(tc -> new TableCell<>() {
+//            @Override
+//            protected void updateItem(Double item, boolean empty) {
+//                super.updateItem(item, empty);
+//                if (empty || item == null) {
+//                    setText(null);
+//                } else {
+//                    setText(decimalFormat.format(item));
+//                }
+//            }
+//        });
 
     }
 
@@ -166,6 +193,16 @@ public class MainViewController {
         employeeSearch.bindToEmployeesTable(employeesTableView);*/
     }
 
+    // Calculate total hourly rate per team with given UP% obtained from a text field
+    public double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam, double upPercentage) {
+        double totalHourlyRate = 0;
+        for (Employees employee : employeesOfTeam) {
+            totalHourlyRate += employee.getHourlyRate();
+        }
+        // Apply UP%
+        return totalHourlyRate * (1 + (upPercentage / 100));
+    }
+
 
     public void setTeamsTable(TableView<Teams> teamsTableView) {
         if (teamsTableView == null) {
@@ -179,13 +216,47 @@ public class MainViewController {
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
         teamCountryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountryName()));
+
         hourlyRateColumn.setCellValueFactory(cellData -> {
+            double upPercentage;
+            try {
+                upPercentage = Double.parseDouble(upTxtField.getText());
+            } catch (NumberFormatException e) {
+                // Handle the case where the text field is empty or contains non-numeric characters
+                // For example, you could set a default value or display an error message
+                upPercentage = 0.0; // Set a default value
+            }
+
             // Get employees of the team
             List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(cellData.getValue().getId());
             // Calculate average hourly rate per team
-            double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeam);
+            double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeam, upPercentage);
             return new SimpleDoubleProperty(totalHourlyRate).asObject();
         });
+
+        addedUpColumn.setCellValueFactory(cellData -> {
+            if (cellData.getValue() instanceof Teams) {
+                Teams team = cellData.getValue();
+                double upPercentage;
+                try {
+                    upPercentage = Double.parseDouble(upTxtField.getText());
+                } catch (NumberFormatException e) {
+                    // Handle the case where the text field is empty or contains non-numeric characters
+                    // For example, you could set a default value or display an error message
+                    upPercentage = 0.0; // Set a default value
+                }
+
+                // Calculate hourly rate with added UP%
+                double hourlyRateWithUp = calculateTotalHourlyRateForTeam(employeesTeamsDAO.getEmployeesOfTeam(team.getId()), upPercentage);
+                return new SimpleDoubleProperty(hourlyRateWithUp).asObject();
+            } else {
+                return new SimpleDoubleProperty(0).asObject(); // Return a default value if not Teams instance
+            }
+        });
+
+
+
+
 
         teamsTableView.getColumns().addAll(teamNameCol, teamCountryCol, hourlyRateColumn);
         /*List<Teams> filtered = teamSearch.search(teamsOfCountry, )
@@ -193,43 +264,13 @@ public class MainViewController {
         teamSearch.bindToTeamsTable(teamsTableView);*/
     }
 
-    // method to calculate total hourly rate per team
-    private double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam) {
-        double totalHourlyRate = 0;
-        for (Employees employee : employeesOfTeam) {
-            totalHourlyRate += calculateEmployeeHourlyRate(employee);
-        }
-        return totalHourlyRate;
+    public void updateTeamHourlyRateInView(Teams team) {
+        teamsTableView.refresh();
     }
-
-    // method to calculate employee hourly rate and save it
-    public double calculateEmployeeHourlyRate(Employees employee) {
-        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
-        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
-        double hourlyRate = totalCost / employee.getWorkingHours();
-        return hourlyRate;
-    }
-
-    public void updateTotalHourlyRatesForSelectedCountry() {
-        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
-        if (selectedCountry != null) {
-            List<Teams> teamsOfCountry = teamsDAO.getTeamsByCountryId(selectedCountry.getCountryId());
-            double totalHourlyRate = 0;
-            for (Teams team : teamsOfCountry) {
-                List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(team.getId());
-                double teamHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeam);
-                totalHourlyRate += teamHourlyRate;
-            }
-            sumofHourlyRatePerTeam.setText(String.format("%.2f", totalHourlyRate)); // Format to two decimal points
-        }
-    }
-
-
 
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
         teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         employeesOfTeamTableView.setItems(employeesOfTeamList);
-
         employeeTeamSearch.bindToEmployeeTeamTable(employeesOfTeamTableView);
     }
 
@@ -245,15 +286,20 @@ public class MainViewController {
 
                 stage.show();
 
-                UtilizationPController utilizationPController = loader.getController();
+                this.utilizationPController = loader.getController();
                 utilizationPController.setMainController(this);
                 utilizationPController.setStage(stage);
                 utilizationPController.setSelectedEmployee(selectedEmployee);
 
-                // Calculate and display hourly rate with UP% for the team
-                double hourlyRateWithUP = calculateHourlyRateWithUP(selectedTeam.getId());
+                // Pass the value of upTxtField to the UtilizationPController
+                utilizationPController.initializeUpTxtField(upTxtField.getText());
+
+                // Retrieve the UP percentage from upTxtField and pass it to the calculation method
+                double upPercentage = Double.parseDouble(utilizationPController.upTxtField.getText());
+                // Retrieve employees of the selected team
+                List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(selectedTeam.getId());
+                double hourlyRateWithUP = calculateTotalHourlyRateForTeam(employeesOfTeam, upPercentage);
                 utilizationPController.setHourlyRateWithUP(hourlyRateWithUP);
-                //hourlyRateWithUpPerTeam.setText(String.format("%.2f", hourlyRateWithUP)); // Format to two decimal points
 
                 addMultiplierBtn.setDisable(false);
 
@@ -267,44 +313,6 @@ public class MainViewController {
         }
     }
 
-// Method to calculate hourly rate with UP% for a given team
-        private double calculateHourlyRateWithUP(int teamId) {
-            double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesTeamsDAO.getEmployeesOfTeam(teamId));
-            // Apply UP% (replace 10 with the actual UP% value)
-            double hourlyRateWithUP = totalHourlyRate * (1 + (10.0 / 100));
-            return hourlyRateWithUP;
-        }
-
-    public void updateHourlyRateWithMultipliers(double newHourlyRateWithMultipliers) {
-        hourlyRateWithMultipliersPerTeam.setText(String.format("%.2f", newHourlyRateWithMultipliers));
-    }
-
-    public void addMultiplierAndRefresh(double hourlyRateMultipliers) {
-        if (selectedTeam != null) {
-            List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(selectedTeam.getId());
-            for (Employees employee : employeesOfTeam) {
-                // Assuming there is a method to get and set a multiplier for an employee
-                double newMultiplier = employee.getMultiplier() + 10; // Example increment, adjust as needed
-                employee.setMultiplier(newMultiplier);
-            }
-            updateHourlyRateWithMultipliers(selectedTeam.getId()); // Refresh the UI
-        }
-    }
-
-
-
-   /* private void assignEmployee(){
-        Employees selectedEmployee = employeesTableView.getSelectionModel().getSelectedItem();
-        if (selectedEmployee != null && selectedTeam != null) {
-            System.out.println("Assigning Employee ID: " + selectedEmployee.getId() + " to Team ID: " + selectedTeam.getId());
-            employeesTeamsDAO.addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId());
-            loadEmployeesOfTeam(selectedTeam.getId());
-        } else if (selectedEmployee == null){
-            ExceptionHandler.showAlert("Please select an employee.");
-        } else {
-            ExceptionHandler.showAlert("Please select a team.");
-        }
-    }*/
 
     public void loadAllEmployees() {
         List<Employees> allEmployees = employeesDAO.getAllEmployees();
@@ -319,6 +327,7 @@ public class MainViewController {
         employeeTeamSearch.setEmployeeTeamList(employeesOfTeam);
 
     }
+
 
     public void loadCountries(){
         ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
@@ -479,7 +488,5 @@ public class MainViewController {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setIconified(true);
     }
-
-
 
 }

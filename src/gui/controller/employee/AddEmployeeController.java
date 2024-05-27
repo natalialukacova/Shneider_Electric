@@ -7,6 +7,7 @@ import dal.EmployeesDAO;
 import gui.controller.MainViewController;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import bll.EmployeeManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,6 +20,8 @@ public class AddEmployeeController {
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
     private EmployeesDAO employeesDAO = new EmployeesDAO();
     private MainViewController mainController = new MainViewController();
+    private EmployeeManager employeeManager = new EmployeeManager();
+
     private Stage stage;
     private ObservableList<Employees> employees;
 
@@ -64,7 +67,8 @@ public class AddEmployeeController {
 
         Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
 
-        Double hourlyRate = mainController.calculateEmployeeHourlyRate(newEmployee);
+        // Calculate and set the hourly rate
+        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(newEmployee);
         newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.addEmployee(newEmployee);
