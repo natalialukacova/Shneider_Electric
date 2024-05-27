@@ -50,8 +50,6 @@ public class UtilizationPController {
         selectedEmployee.setUtilizationPercentage(utilizationPercentage);
 
         mainController.getEmployeesTeamsDAO().addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId(), utilizationPercentage);
-        employeesDAO.updateUtilizationPercentage(selectedEmployee.getId(), utilizationPercentage);
-
 
         // Recalculate and update the team's hourly rate
         double newTeamHourlyRate = mainController.calculateTotalHourlyRateForTeam(employeesOfTeam, Double.parseDouble(upTxtField.getText()));

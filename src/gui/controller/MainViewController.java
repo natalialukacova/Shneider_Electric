@@ -222,7 +222,7 @@ public class MainViewController {
             // Get employees of the team
             List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(cellData.getValue().getId());
             // Calculate average hourly rate per team
-            double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeam);
+            double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeam, upPercentage);
             return new SimpleDoubleProperty(totalHourlyRate).asObject();
         });
 
@@ -314,7 +314,6 @@ public class MainViewController {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
-        employeeTeamSearch.setEmployeeTeamList(employeesOfTeam);
 
     }
 
