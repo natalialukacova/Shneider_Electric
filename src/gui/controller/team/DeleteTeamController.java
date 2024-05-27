@@ -3,6 +3,8 @@ package gui.controller.team;
 import be.Teams;
 import dal.TeamsDAO;
 import gui.controller.MainViewController;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -21,10 +23,10 @@ public class DeleteTeamController  {
     public Label confirmationLabel;
 
 
-    public void confirmDeleteTeam(){
+    public void confirmDeleteTeam(ActionEvent event){
         teamsDAO.deleteTeam(selectedTeam.getId());
         mainViewController.removeTeamFromTable(selectedTeam);
-        closeWindow(new ActionEvent());
+        closeWindow(event);
     }
 
 
