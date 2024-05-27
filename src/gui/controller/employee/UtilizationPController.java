@@ -53,7 +53,6 @@ public class UtilizationPController {
         selectedEmployee.setUtilizationPercentage(Double.parseDouble(upTxtField.getText()));
 
         employeesTeamsDAO.addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId(), utilizationPercentage);
-        employeesDAO.updateUtilizationPercentage(selectedEmployee.getId(), utilizationPercentage);
         mainController.loadEmployeesOfTeam(selectedTeam.getId());
 
         stage.close();

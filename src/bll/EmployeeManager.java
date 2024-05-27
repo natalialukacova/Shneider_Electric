@@ -24,9 +24,4 @@ public class EmployeeManager implements IEmployeesDAO {
         employeesDAO.updateEmployee(employees);
     }
 
-    @Override
-    public void updateUtilizationPercentage(int employeeId, double utilizationPercentage) {
-        employeesDAO.updateUtilizationPercentage(employeeId, utilizationPercentage);
-    }
-
 }
