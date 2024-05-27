@@ -29,7 +29,8 @@ public class TeamsDAO implements ITeamsDAO {
                             resultSet.getInt("id"),
                             resultSet.getString("teamName"),
                             resultSet.getDouble("teamHourlyRate"),
-                            resultSet.getInt("countryId"), resultSet.getString("countryName"));
+                            resultSet.getInt("countryId"),
+                            resultSet.getString("countryName"));
                     teams.add(team);
                 }
             }

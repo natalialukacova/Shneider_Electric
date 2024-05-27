@@ -50,13 +50,13 @@ public class EditEmployeeController {
         Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
-        Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
+        updateSelectedEmployee(employeeName, salary, multiplier,configurableAmount, workingHours, overheadCost, geography);
 
-        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(newEmployee);
-        newEmployee.setHourlyRate(hourlyRate);
+        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(selectedEmployee);
+        selectedEmployee.setHourlyRate(hourlyRate);
 
-        employeesDAO.updateEmployee(newEmployee);
-        saveEditedEmployee();
+        employeesDAO.updateEmployee(selectedEmployee);
+
         stage.close();
     }
 
@@ -78,25 +78,14 @@ public class EditEmployeeController {
         return true;
     }
 
-    public void saveEditedEmployee() {
-        if (!validateInput()) {
-            return;
-        }
-
-        selectedEmployee.setEmployeeName(nameTxtField.getText());
-        selectedEmployee.setSalary(Double.parseDouble(salaryTxtField.getText()));
-        selectedEmployee.setMultiplier(Double.parseDouble(multiplierTxtField.getText()));
-        selectedEmployee.setConfigurableAmount(Double.parseDouble(configurableAmountTxtField.getText()));
-        selectedEmployee.setWorkingHours(Double.parseDouble(workingHoursTxtField.getText()));
-        selectedEmployee.setOverheadCost(Double.parseDouble(overheadCostTxtField.getText()));
-        selectedEmployee.setGeography(geographyTxtField.getText());
-
-        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(selectedEmployee);
-        selectedEmployee.setHourlyRate(hourlyRate);
-
-        employeesDAO.updateEmployee(selectedEmployee);
-
-        stage.close();
+    public void updateSelectedEmployee(String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography) {
+        selectedEmployee.setEmployeeName(employeeName);
+        selectedEmployee.setSalary(salary);
+        selectedEmployee.setMultiplier(multiplier);
+        selectedEmployee.setConfigurableAmount(configurableAmount);
+        selectedEmployee.setWorkingHours(workingHours);
+        selectedEmployee.setOverheadCost(overheadCost);
+        selectedEmployee.setGeography(geography);
     }
 
     public Employees fillEmployeeData(Employees employee) {

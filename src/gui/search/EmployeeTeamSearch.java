@@ -11,36 +11,20 @@ import javafx.scene.control.TableView;
 import java.util.List;
 
 public class EmployeeTeamSearch {
-    private ObservableList<Employees> employeeTeamList;
-    private FilteredList<Employees> filteredList;
 
-    public EmployeeTeamSearch() {
-        this.employeeTeamList = FXCollections.observableArrayList();
-        this.filteredList = new FilteredList<>(employeeTeamList, p -> true);
-    }
+    public static void search(TableView<Employees> employeesOfTeamTable, ObservableList<Employees> allEmployeesOfTeam, String searchText) {
+        if (searchText == null || searchText.isEmpty()) {
+            employeesOfTeamTable.setItems(allEmployeesOfTeam);
+        } else {
+            ObservableList<Employees> filteredEmployees = FXCollections.observableArrayList();
+            String lowerCaseQuery = searchText.toLowerCase();
 
-    public void setEmployeeTeamList(List<Employees> employeeTeam) {
-        employeeTeamList.setAll(employeeTeam);
-    }
-
-    public void setSearchCriteria(String searchText) {
-        filteredList.setPredicate(employeeTeam -> {
-            if (searchText == null || searchText.isEmpty()) {
-                return true;
+            for (Employees employee : allEmployeesOfTeam) {
+                if (employee.getEmployeeName().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredEmployees.add(employee);
+                }
             }
-            String lowerCaseFilter = searchText.toLowerCase();
-            if (employeeTeam.getEmployeeName().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            }
-            return false;
-        });
-    }
-
-    public SortedList<Employees> getSortedList() {
-        return new SortedList<>(filteredList);
-    }
-
-    public void bindToEmployeeTeamTable(TableView<Employees> tableView) {
-        tableView.setItems(getSortedList());
+            employeesOfTeamTable.setItems(filteredEmployees);
+        }
     }
 }

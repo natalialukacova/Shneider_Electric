@@ -35,14 +35,13 @@ public class UtilizationPController {
         upTxtField.setText("0");
     }
 
-
     public void setHourlyRateWithUP(double hourlyRateWithUP) {
         this.hourlyRateWithUP = hourlyRateWithUP;
     }
 
     @FXML
     public void confirmAssignEmployee(ActionEvent event) {
-       // Employees selectedEmployee = mainController.employeesTableView.getSelectionModel().getSelectedItem();
+        // Employees selectedEmployee = mainController.employeesTableView.getSelectionModel().getSelectedItem();
         Teams selectedTeam = mainController.getSelectedTeam();
         List<Employees> employeesOfTeam = mainController.getEmployeesTeamsDAO().getEmployeesOfTeam(selectedTeam.getId()); // Get the employees of the team
 
@@ -52,7 +51,6 @@ public class UtilizationPController {
 
         mainController.getEmployeesTeamsDAO().addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId(), utilizationPercentage);
         employeesDAO.updateUtilizationPercentage(selectedEmployee.getId(), utilizationPercentage);
-
 
 
         // Recalculate and update the team's hourly rate
@@ -98,4 +96,4 @@ public class UtilizationPController {
         currentStage.close();
     }
 
-    }
+}

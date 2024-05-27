@@ -12,17 +12,21 @@ import java.util.stream.Collectors;
 
 public class TeamSearch {
 
-    public List<Teams> search(List<Teams> teamsList, String searchText) {
-        return teamsList.stream().filter(teams -> {
-            if (searchText == null || searchText.isEmpty()) {
-                return true;
+    public static void search(TableView<Teams> teamsTable, ObservableList<Teams> allTeams, String searchText) {
+        if (searchText == null || searchText.isEmpty()) {
+            teamsTable.setItems(allTeams);
+        } else {
+            ObservableList<Teams> filteredTeams = FXCollections.observableArrayList();
+            String lowerCaseQuery = searchText.toLowerCase();
+
+            for (Teams team : allTeams) {
+                if (team.getTeamName().toLowerCase().contains(lowerCaseQuery) /*||
+                    team.getCountryName().toLowerCase().contains(lowerCaseQuery)*/) {
+                    filteredTeams.add(team);
+                }
             }
-            String lowerCaseFilter = searchText.toLowerCase();
-            if (teams.getTeamName().toLowerCase().contains(lowerCaseFilter)) {
-                return true;
-            }
-            return false;
-        }).collect(Collectors.toList());
+            teamsTable.setItems(filteredTeams);
+        }
     }
 
 }

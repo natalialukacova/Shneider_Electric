@@ -51,7 +51,6 @@ public class EmployeesDAO implements IEmployeesDAO {
             String sql = "INSERT INTO employees(employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost, geography, hourlyRate) VALUES(?,?,?,?,?,?,?,?,?)";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
-            //preparedStatement.setInt(1, employees.getId());
             preparedStatement.setString(1, employees.getEmployeeName());
             preparedStatement.setDouble(2, employees.getSalary());
             preparedStatement.setDouble(3, employees.getMultiplier());
@@ -61,7 +60,6 @@ public class EmployeesDAO implements IEmployeesDAO {
             preparedStatement.setDouble(7, employees.getOverheadCost());
             preparedStatement.setString(8, employees.getGeography());
             preparedStatement.setDouble(9, employees.getHourlyRate());
-
 
             preparedStatement.execute();
 
@@ -90,24 +88,6 @@ public class EmployeesDAO implements IEmployeesDAO {
             preparedStatement.setString(7, employees.getGeography());
             preparedStatement.setDouble(8, employees.getHourlyRate());
             preparedStatement.setInt(9, employees.getId());
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateUtilizationPercentage(int employeeId, double utilizationPercentage) {
-        try {
-            String sql = "UPDATE employees SET utilizationPercentage = ? WHERE id = ?";
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setDouble(1, utilizationPercentage);
-            preparedStatement.setInt(2, employeeId);
 
             preparedStatement.executeUpdate();
 
