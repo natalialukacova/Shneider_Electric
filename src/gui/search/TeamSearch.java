@@ -20,8 +20,14 @@ public class TeamSearch {
             String lowerCaseQuery = searchText.toLowerCase();
 
             for (Teams team : allTeams) {
-                if (team.getTeamName().toLowerCase().contains(lowerCaseQuery) /*||
-                    team.getCountryName().toLowerCase().contains(lowerCaseQuery)*/) {
+               /* if (team.getTeamName().toLowerCase().contains(lowerCaseQuery) ||
+                    team.getCountryName().toLowerCase().contains(lowerCaseQuery)) {
+                    filteredTeams.add(team);
+                }*/
+                boolean name = team.getTeamName() != null && team.getTeamName().contains(lowerCaseQuery);
+                boolean country = team.getCountryName() != null && team.getCountryName().toLowerCase().contains(lowerCaseQuery);
+
+                if (name || country) {
                     filteredTeams.add(team);
                 }
             }
