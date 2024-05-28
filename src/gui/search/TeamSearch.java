@@ -3,12 +3,8 @@ package gui.search;
 import be.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.scene.control.TableView;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class TeamSearch {
 
@@ -20,10 +16,6 @@ public class TeamSearch {
             String lowerCaseQuery = searchText.toLowerCase();
 
             for (Teams team : allTeams) {
-               /* if (team.getTeamName().toLowerCase().contains(lowerCaseQuery) ||
-                    team.getCountryName().toLowerCase().contains(lowerCaseQuery)) {
-                    filteredTeams.add(team);
-                }*/
                 boolean name = team.getTeamName() != null && team.getTeamName().contains(lowerCaseQuery);
                 boolean country = team.getCountryName() != null && team.getCountryName().toLowerCase().contains(lowerCaseQuery);
 

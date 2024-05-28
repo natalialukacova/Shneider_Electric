@@ -80,7 +80,8 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
         }
     }
 
-    private boolean isEmployeeInTeam(int teamId, int employeeId) {
+    @Override
+    public boolean isEmployeeInTeam(int teamId, int employeeId) {
         try {
             String sql = "SELECT COUNT(*) FROM employeesTeam WHERE teamId = ? AND employeeId = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);

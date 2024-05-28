@@ -2,27 +2,17 @@ package gui.controller.employee;
 
 import be.Employees;
 import be.Teams;
-import bll.TeamManager;
-import dal.EmployeesDAO;
-import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
 import gui.controller.MainViewController;
-import gui.utility.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javax.imageio.IIOException;
-import java.io.IOException;
 import java.util.List;
 
 public class UtilizationPController {
-    private EmployeesDAO employeesDAO = new EmployeesDAO();
     private MainViewController mainController;
-
     @FXML
     public TextField upTxtField;
     private Employees selectedEmployee;
@@ -46,7 +36,7 @@ public class UtilizationPController {
         List<Employees> employeesOfTeam = mainController.getEmployeesTeamsDAO().getEmployeesOfTeam(selectedTeam.getId()); // Get the employees of the team
 
 
-        Double utilizationPercentage = Double.parseDouble(upTxtField.getText());
+        double utilizationPercentage = Double.parseDouble(upTxtField.getText());
         selectedEmployee.setUtilizationPercentage(utilizationPercentage);
 
         mainController.getEmployeesTeamsDAO().addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId(), utilizationPercentage);

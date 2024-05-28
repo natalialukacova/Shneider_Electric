@@ -47,7 +47,7 @@ public class AddTeamController{
         String countryName = selectedCountry.getCountryName();
 
         // HAVE TO BE CHANGED!!!
-        Double teamHourlyRate = (double) 0;
+        double teamHourlyRate = 0;
 
         Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId, countryName);
 

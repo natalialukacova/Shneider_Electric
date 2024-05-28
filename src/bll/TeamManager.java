@@ -14,10 +14,7 @@ public class TeamManager implements ITeamsDAO {
     private EmployeesTeamsDAO employeesTeamsDAO;
     private MainViewController mainViewController;
 
-   /* @Override
-    public List<Teams> getAllTeams() {
-        return teamsDAO.getAllTeams();
-    }*/
+
 
     public void setEmployeesTeamsDAO(EmployeesTeamsDAO employeesTeamsDAO) {
         this.employeesTeamsDAO = employeesTeamsDAO;
@@ -27,11 +24,6 @@ public class TeamManager implements ITeamsDAO {
         this.mainViewController = mainViewController;
     }
 
-
-    @Override
-    public List<Teams> getTeamsByCountryId(int countryId) {
-        return teamsDAO.getTeamsByCountryId(countryId);
-    }
 
     @Override
     public void addTeam(Teams teams) {

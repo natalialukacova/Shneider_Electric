@@ -1,14 +1,11 @@
 package gui.controller;
 
-import be.Countries;
 import be.Employees;
 import be.Teams;
 import bll.TeamManager;
-import dal.CountriesDAO;
 import dal.EmployeesDAO;
 import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
-import bll.EmployeeManager;
 import gui.controller.employee.AddEmployeeController;
 import gui.controller.employee.EditEmployeeController;
 import gui.controller.employee.UtilizationPController;
@@ -18,7 +15,6 @@ import gui.search.EmployeeSearch;
 import gui.search.EmployeeTeamSearch;
 import gui.search.TeamSearch;
 import gui.utility.ExceptionHandler;
-import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -41,7 +37,6 @@ import gui.controller.team.addMultiplierController;
 public class MainViewController {
     private EmployeesDAO employeesDAO;
     private EmployeesTeamsDAO employeesTeamsDAO;
-    private final CountriesDAO countriesDAO = new CountriesDAO();
     private final TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
     public TableView<Teams> teamsTableView;
@@ -68,34 +63,23 @@ public class MainViewController {
     @FXML
     public TableColumn<Employees, String> countryColumn;
     @FXML
-    private ComboBox<Countries> countryComboBox;
-    @FXML
     private TextField employeeSearchField;
     @FXML
     private TextField teamSearchField;
     @FXML
     private TextField employeeTeamSearchField;
-    private EmployeeSearch employeeSearch;
-    private TeamSearch teamSearch;
-    private EmployeeTeamSearch employeeTeamSearch;
     @FXML
     private Button addMultiplierBtn;
-    private EditEmployeeController editEmployeeController;
-    private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
+    private final ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private ObservableList<Employees> allEmployees;
-    private ObservableList<Employees> allEmployeesOfTeam;
     private ObservableList<Teams> allTeams;
     private Teams selectedTeam;
     private TeamManager teamManager;
-    private  EmployeeManager employeeManager;
     private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
     private UtilizationPController utilizationPController;
 
     private TextField upTxtField;
 
-    public void setDependencies(EditEmployeeController editEmployeeController) {
-        this.editEmployeeController = editEmployeeController;
-    }
 
     public void setEmployeesTeamsDAO(EmployeesTeamsDAO employeesTeamsDAO) {
         this.employeesTeamsDAO = employeesTeamsDAO;
@@ -111,29 +95,13 @@ public class MainViewController {
     }
 
     public void initialize() {
-
         upTxtField = new TextField();
         employeesDAO = new EmployeesDAO();
         employeesTeamsDAO = new EmployeesTeamsDAO();
 
-        employeeSearch = new EmployeeSearch();
-
-        teamSearch = new TeamSearch();
-
-        employeeTeamSearch = new EmployeeTeamSearch();
-
         setEmployeesTable(employeesTableView);
         setEmployeesOfTeamTable(employeeOfTeamTableView);
         setTeamsTable(teamsTableView);
-        loadCountries();
-
-//        //countryComboBox.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-//            if (newSelection != null) {
-//                setTeamsTable(teamsTableView, newSelection.getCountryId());
-//                updateTotalHourlyRatesForSelectedCountry();
-//            }
-//        });
-
 
         teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null){
@@ -142,14 +110,6 @@ public class MainViewController {
             updateTeamHourlyRateInView(selectedTeam); // Refresh the view
             }
         });
-
-//        Countries selectedCountry = countryComboBox.getSelectionModel().getSelectedItem();
-//        if (selectedCountry != null) {
-//            setTeamsTable(teamsTableView, selectedCountry.getCountryId());
-//            countryComboBox.setOnAction(event -> updateTotalHourlyRatesForSelectedCountry());
-//        }
-
-
 
 // Setup DecimalFormatter for hourlyRateColumn
         hourlyRateColumn.setCellFactory(tc -> new TableCell<>() {
@@ -186,9 +146,8 @@ public class MainViewController {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGeography()));
 
-        employeeSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            EmployeeSearch.search(employeesTableView, allEmployees, newValue);
-        });
+        employeeSearchField.textProperty().addListener((observable, oldValue, newValue) ->
+                EmployeeSearch.search(employeesTableView, allEmployees, newValue));
     }
 
     // Calculate total hourly rate per team with given UP% obtained from a text field
@@ -246,18 +205,17 @@ public class MainViewController {
             }
         });
 
-        teamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            TeamSearch.search(teamsTableView, allTeams, newValue);
-        });
+        teamSearchField.textProperty().addListener((observable, oldValue, newValue) ->
+            TeamSearch.search(teamsTableView, allTeams, newValue));
+
     }
 
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
         teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         employeesOfTeamTableView.setItems(employeesOfTeamList);
 
-        employeeTeamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            EmployeeSearch.search(employeesOfTeamTableView, employeesOfTeamList, newValue);
-        });
+        employeeTeamSearchField.textProperty().addListener((observable, oldValue, newValue) ->
+            EmployeeTeamSearch.search(employeesOfTeamTableView, employeesOfTeamList, newValue));
     }
 
     public void updateTeamHourlyRateInView(Teams team) {
@@ -294,7 +252,7 @@ public class MainViewController {
                 addMultiplierBtn.setDisable(false);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                ExceptionHandler.showAlert("Operation Failed");
             }
         } else if (selectedEmployee == null) {
             ExceptionHandler.showAlert("Please select an employee.");
@@ -303,23 +261,11 @@ public class MainViewController {
         }
     }
 
-
-    public void loadAllEmployees() {
-        List<Employees> allEmployees = employeesDAO.getAllEmployees();
-        ObservableList<Employees> observableList = FXCollections.observableArrayList(allEmployees);
-        employeesTableView.setItems(observableList);
-    }
-
     public void loadEmployeesOfTeam(int teamId) {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
 
-    }
-
-    public void loadCountries(){
-        ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
-       // countryComboBox.setItems(countries);
     }
 
     public void removeTeamFromTable(Teams team) {
@@ -336,9 +282,9 @@ public class MainViewController {
 
 
     @FXML
-    void addEmplooyeePopUp(ActionEvent event)  {
+    void addEmployeePopUp(ActionEvent event)  {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmplooyee.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmployee.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
@@ -351,7 +297,7 @@ public class MainViewController {
 
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.showAlert("Operation Failed");
         }
 
     }
@@ -371,7 +317,7 @@ public class MainViewController {
             addMultiplierController controller = loader.getController();
             controller.setMainViewController(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.showAlert("Operation Failed");
         }
     }
 
@@ -394,7 +340,7 @@ public class MainViewController {
 
                 stage.showAndWait();
             } catch (IOException e) {
-                e.printStackTrace();
+                ExceptionHandler.showAlert("Operation Failed");
             }
         } else {
             ExceptionHandler.showAlert("Please select an employee to edit.");
@@ -433,7 +379,7 @@ public class MainViewController {
                 deleteTeamController.setMainViewController(this);
                 deleteTeamController.setSelectedTeam(selectedTeam);
             } catch (IOException e) {
-                e.printStackTrace();
+                ExceptionHandler.showAlert("Operation Failed");
             }
         } else {
             ExceptionHandler.showAlert("Please select a team to delete.");

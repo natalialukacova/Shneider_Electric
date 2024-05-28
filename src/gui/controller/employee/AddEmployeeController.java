@@ -1,11 +1,8 @@
 package gui.controller.employee;
 
-import be.Countries;
 import be.Employees;
-import dal.CountriesDAO;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import bll.EmployeeManager;
 import javafx.event.ActionEvent;
@@ -18,8 +15,8 @@ public class AddEmployeeController {
 
     @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
-    private EmployeesDAO employeesDAO = new EmployeesDAO();
-    private MainViewController mainController = new MainViewController();
+    private EmployeesDAO employeesDAO;
+    private MainViewController mainController;
     private EmployeeManager employeeManager = new EmployeeManager();
 
     private Stage stage;
@@ -35,9 +32,9 @@ public class AddEmployeeController {
     }
 
     private boolean validateInput() {
-        if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() || geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
+        if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() ||
+                geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
             showAlert("Please fill in all required fields.");
-            System.out.println("employee is null");
             return false;
         }
         try{

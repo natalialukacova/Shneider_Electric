@@ -16,33 +16,6 @@ public class TeamsDAO implements ITeamsDAO {
 
 
     @Override
-    public List<Teams> getTeamsByCountryId(int countryId) {
-        List<Teams> teams = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM teams WHERE countryId = ?";
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-            preparedStatement.setInt(1, countryId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Teams team = new Teams(
-                            resultSet.getInt("id"),
-                            resultSet.getString("teamName"),
-                            resultSet.getDouble("teamHourlyRate"),
-                            resultSet.getInt("countryId"),
-                            resultSet.getString("countryName"));
-                    teams.add(team);
-                }
-            }
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return teams;
-    }
-
     public void addTeam(Teams teams) {
         try {
             String sql = "INSERT INTO teams(teamName, countryId, countryName) VALUES (?,?,?)";
@@ -95,26 +68,6 @@ public class TeamsDAO implements ITeamsDAO {
             throw new RuntimeException(e);
         }
     }
-
-    // not using this method
-    public List<Employees> updateHRwithMultipliers(int teamId, double hourlyRateMultipliers){
-        try {
-            String sql = "UPDATE teams SET hourlyRateMultipliers = ? WHERE id = ?";
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setDouble(1, hourlyRateMultipliers);
-            preparedStatement.setInt(2, teamId);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
 
     @Override
     public void deleteTeam(int id){

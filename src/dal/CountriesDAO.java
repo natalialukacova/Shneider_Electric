@@ -1,11 +1,9 @@
 package dal;
 
 import be.Countries;
-import be.Teams;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.ICountriesDAO;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -40,36 +38,4 @@ public class CountriesDAO implements ICountriesDAO {
         }
     }
 
-
-    @Override
-    public void addCountry(Countries countries) {
-        try {
-            String sql = "INSERT INTO countries values(?)";
-            Connection conn = databaseConnector.getConnection();
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setString(1, countries.getCountryName());
-            preparedStatement.execute();
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateCountry(Countries countries) {
-        try {
-            String sql = "UPDATE countries SET countryName = ? WHERE id = ?";
-            Connection conn = databaseConnector.getConnection();
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setString(1, countries.getCountryName());
-            preparedStatement.executeUpdate();
-
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
