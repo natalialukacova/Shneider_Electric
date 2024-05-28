@@ -33,25 +33,6 @@ public class TeamsDAO implements ITeamsDAO {
     }
 
     @Override
-    public void updateTeam(Teams teams) {
-        try {
-            String sql = "UPDATE teams SET teamName = ? WHERE id = ?";
-            Connection conn = databaseConnector.getConnection();
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setString(1, teams.getTeamName());
-            preparedStatement.setInt(2, teams.getId());
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
     public void addMultipliers(int teamId, double markupMultiplier, double gmMultiplier) {
         try {
             String sql = "UPDATE teams SET markupMultiplier = ?, gmMultiplier = ? WHERE id = ?";

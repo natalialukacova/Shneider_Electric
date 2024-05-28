@@ -32,6 +32,11 @@ public class AddEmployeeController {
         this.employees = employees;
     }
 
+    /**
+     * Ensures that required text fields are not null nor empty and that specific fields contain valid numeric values.
+     *
+     * @return true if all validations pass, false otherwise.
+     */
     private boolean validateInput() {
         if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() ||
                 geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {

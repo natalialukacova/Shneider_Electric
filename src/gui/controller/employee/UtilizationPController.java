@@ -44,7 +44,6 @@ public class UtilizationPController {
         // Recalculate and update the team's hourly rate
         double newTeamHourlyRate = mainController.calculateTotalHourlyRateForTeam(employeesOfTeam, Double.parseDouble(upTxtField.getText()));
         selectedTeam.setHourlyRate(newTeamHourlyRate);
-        teamsDAO.updateTeam(selectedTeam);
 
         mainController.loadEmployeesOfTeam(selectedTeam.getId());
         mainController.updateTeamHourlyRateInView(selectedTeam);

@@ -31,11 +31,6 @@ public class TeamManager implements ITeamsDAO {
     }
 
     @Override
-    public void updateTeam(Teams teams) {
-        teamsDAO.updateTeam(teams);
-    }
-
-    @Override
     public void addMultipliers(int teamId, double markupMultiplier, double gmMultiplier) {
         teamsDAO.addMultipliers(teamId, markupMultiplier, gmMultiplier);
     }
