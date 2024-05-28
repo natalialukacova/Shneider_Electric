@@ -8,6 +8,16 @@ public class Teams {
     private String countryName;
     private double hourlyRate;
     private double hourlyRateWithMultipliers;
+    private double addedUp;
+    private double markupMultiplier;
+    private double gmMultiplier;
+
+    public Teams(int id, String teamName, double teamHourlyRate, int countryId, String countryName, double markupMultiplier, double gmMultiplier) {
+        // Initialize existing fields...
+        this.markupMultiplier = markupMultiplier;
+        this.gmMultiplier = gmMultiplier;
+    }
+
 
     public double getHourlyRateWithMultipliers() {
         return hourlyRateWithMultipliers;
@@ -16,6 +26,13 @@ public class Teams {
         this.hourlyRateWithMultipliers = hourlyRateWithMultipliers;
     }
 
+    public double getAddedUp() {
+        return addedUp;
+    }
+
+    public void setAddedUp(double addedUp) {
+        this.addedUp = addedUp;
+    }
 
     public String getTeamName() {
         return teamName;

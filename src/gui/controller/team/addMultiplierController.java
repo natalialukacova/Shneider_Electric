@@ -17,7 +17,7 @@ import java.util.List;
 public class addMultiplierController {
 
     private TeamsDAO teamsDAO = new TeamsDAO();
-    private EmployeesDAO employeesDAO = new EmployeesDAO();
+    private EmployeesDAO employeesDAO;
 
     @FXML
     private TextField markupMultiplierTxtField;
@@ -34,7 +34,8 @@ public class addMultiplierController {
         this.mainViewController = mainViewController;
     }
 
-    public void updateHourlyRateWithMultipliers(ActionEvent event) {
+    @FXML
+    void addMultipliers(ActionEvent event) {
         try {
             double markupMultiplier = Double.parseDouble(markupMultiplierTxtField.getText());
             double gmMultiplier = Double.parseDouble(gmMultiplierTxtField.getText());
@@ -42,43 +43,18 @@ public class addMultiplierController {
             Teams selectedTeam = mainViewController.getSelectedTeam();
 
             if (selectedTeam != null) {
-                double newHourlyRateWithUP = calculateTotalHourlyRateWithMultipliers(selectedTeam.getId(), markupMultiplier, gmMultiplier);
-                selectedTeam.setHourlyRateWithMultipliers(newHourlyRateWithUP);
-                teamsDAO.updateHRwithMultipliers(selectedTeam.getId(),newHourlyRateWithUP);
-               // mainViewController.addMultiplierAndRefresh(newHourlyRateWithUP);
-
-                if (mainViewController != null) {
-                    mainViewController.updateHourlyRateWithMultipliers(newHourlyRateWithUP);
-                }
-
+                teamsDAO.addMultipliers(selectedTeam.getId(), markupMultiplier, gmMultiplier);
+                mainViewController.refresh();
                 closeWindow(event);
             } else {
-                showError("Please select a team before calculating the hourly rate.");
+                showError("Please select a team before saving the multipliers.");
             }
         } catch (NumberFormatException e) {
             showError("Please enter valid numbers for multipliers.");
         } catch (Exception e) {
             e.printStackTrace();
-            showError("An error occurred while calculating the hourly rate.");
+            showError("An error occurred while saving the multipliers.");
         }
-    }
-
-    private double calculateTotalHourlyRateWithMultipliers(int teamId, double markupMultiplier, double gmMultiplier) {
-        List<Employees> employees = employeesDAO.getEmployeesOfTeam(teamId);
-
-        double totalHourlyRate = 0;
-        for (Employees employee : employees) {
-            double employeeHourlyRate = calculateEmployeeHourlyRate(employee, markupMultiplier, gmMultiplier);
-            totalHourlyRate += employeeHourlyRate;
-        }
-
-        return totalHourlyRate;
-    }
-
-    private double calculateEmployeeHourlyRate(Employees employee, double markupMultiplier, double gmMultiplier) {
-        double hourlyRateWithUP = employee.getHourlyRateWithUP();
-        double totalCost = hourlyRateWithUP + (hourlyRateWithUP * (markupMultiplier / 100)) + (hourlyRateWithUP * (gmMultiplier / 100));
-        return totalCost;
     }
 
     private void showError(String message) {

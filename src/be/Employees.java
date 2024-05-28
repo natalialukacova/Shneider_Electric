@@ -130,11 +130,6 @@ public class Employees {
         this.geography = geography;
 
     }
-    private double calculateHourlyRate() {
-        double annualCost = salary + configurableAmount;
-        double totalCost = annualCost + (annualCost * (multiplier / 100)) + overheadCost;
-        return totalCost / workingHours;
-    }
 
 
     @Override
