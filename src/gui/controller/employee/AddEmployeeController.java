@@ -3,6 +3,7 @@ package gui.controller.employee;
 import be.Employees;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
+import gui.utility.ExceptionHandler;
 import javafx.collections.ObservableList;
 import bll.EmployeeManager;
 import javafx.event.ActionEvent;
@@ -34,7 +35,7 @@ public class AddEmployeeController {
     private boolean validateInput() {
         if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() ||
                 geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
-            showAlert("Please fill in all required fields.");
+            ExceptionHandler.showAlert("Please fill in all required fields.");
             return false;
         }
         try{
@@ -44,7 +45,7 @@ public class AddEmployeeController {
             Double.parseDouble(workingHoursTxtField.getText());
             Double.parseDouble(overheadCostTxtField.getText());
         } catch (NumberFormatException e) {
-            showAlert("Please enter valid numbers for numeric fields.");
+            ExceptionHandler.showAlert("Please enter valid numbers for numeric fields.");
             return false;
         }
         return true;
@@ -71,14 +72,6 @@ public class AddEmployeeController {
         employeesDAO.addEmployee(newEmployee);
         employees.add(newEmployee);
         stage.close();
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     public void setMainController(MainViewController controller) {
