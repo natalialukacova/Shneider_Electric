@@ -99,7 +99,7 @@ public class MainViewController {
     // Field to store UP percentage for each team
 
     public void refresh() {
-        loadTeams();
+        //loadTeams();
     }
 
     public void setDependencies(EditEmployeeController editEmployeeController) {
@@ -109,7 +109,7 @@ public class MainViewController {
     public void initialize() {
 
         // Pass the TextField to UtilizationPController constructor
-        utilizationPController = new UtilizationPController(upTxtField);
+       // utilizationPController = new UtilizationPController(upTxtField);
 
         employeesDAO = new EmployeesDAO();
         employeesTeamsDAO = new EmployeesTeamsDAO();
@@ -125,7 +125,13 @@ public class MainViewController {
         setEmployeesOfTeamTable(employeeOfTeamTableView);
         setTeamsTable(teamsTableView);
         loadCountries();
-        loadTeams();
+       // loadTeams();
+
+        teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null){
+                selectedTeam = newSelection;
+                loadEmployeesOfTeam(selectedTeam.getId());}
+        });
 
         addedUPColumn.setCellValueFactory(new PropertyValueFactory<>("addedUp"));
 
@@ -133,14 +139,14 @@ public class MainViewController {
 
 
     // Method to load teams and initialize upPercentageMap
-    private void loadTeams() {
+    /*private void loadTeams() {
         allTeams = FXCollections.observableArrayList(teamsDAO.getAllTeams());
         teamsTableView.setItems(allTeams);
 
         teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedTeam = newSelection;
-                updateAddedUPColumn(selectedTeam.getId());
+                //updateAddedUPColumn(selectedTeam.getId());
             }
         });
 
@@ -167,7 +173,7 @@ public class MainViewController {
             }
         });
 
-    }
+    }*/
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
         allEmployees = FXCollections.observableArrayList(employeesDAO.getAllEmployees());
@@ -183,6 +189,8 @@ public class MainViewController {
 
 
     public void setTeamsTable(TableView<Teams> teamsTableView) {
+        allTeams = FXCollections.observableArrayList(teamsDAO.getAllTeams());
+        teamsTableView.setItems(allTeams);
 
         teamNameCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeamName()));
         teamCountryCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCountryName()));
@@ -192,13 +200,26 @@ public class MainViewController {
             return new SimpleDoubleProperty(totalHourlyRate).asObject();
         });
 
-        addedUPColumn.setCellValueFactory(new PropertyValueFactory<>("addedUp")); // Updated column reference
+        addedUPColumn.setCellValueFactory(cellData -> {
+            List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(cellData.getValue().getId());
+            double upPercentage = utilizationPController.getUpPercentage();
+            double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeamList);
+            double hourlyRateWithUP = totalHourlyRate * (1 + (upPercentage / 100));
+            for (Teams team : teamsTableView.getItems()) {
+                if (team.getId() == selectedTeam.getId()) {
+                team.setAddedUp(hourlyRateWithUP);
+                teamsTableView.refresh();
+                break;
+                }
+            }
+            return new SimpleDoubleProperty(hourlyRateWithUP).asObject();
+        } ); // Updated column reference
 
 
         teamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
                     TeamSearch.search(teamsTableView, allTeams, newValue);
-                });
-            }
+        });
+    }
 
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
         teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
@@ -234,7 +255,7 @@ public class MainViewController {
         }
         // Now it's safe to use utilizationPController
         double upPercentage = utilizationPController.getUpPercentage();
-        double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesTeamsDAO.getEmployeesOfTeam(teamId));
+        double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeamList);
         double hourlyRateWithUP = totalHourlyRate * (1 + (upPercentage / 100));
         for (Teams team : teamsTableView.getItems()) {
             if (team.getId() == teamId) {
@@ -263,20 +284,14 @@ public class MainViewController {
                 utilizationPController.setStage(stage);
                 utilizationPController.setSelectedEmployee(selectedEmployee);
 
-                stage.setOnHiding(event1 -> {
+                /*stage.setOnHiding(event1 -> {
                     double upPercentage = utilizationPController.getUpPercentage();
-
-                    // Assign employee to team with the UP percentage
-                    employeesTeamsDAO.addEmployeeToTeam(selectedEmployee.getId(), selectedTeam.getId(), upPercentage);
-
-                    // Update the list of employees in the team table
-                    employeesOfTeamList.add(selectedEmployee);
 
                     // Refresh the team table to reflect the new UP percentage
                     updateAddedUPColumn(selectedTeam.getId());
 
                     addMultiplierBtn.setDisable(false);
-                });
+                });*/
 
 
             } catch (IOException e) {
@@ -333,7 +348,7 @@ public class MainViewController {
             updateHourlyRateWithMultipliers(selectedTeam, hourlyRateWithMultipliers);
 
             // Refresh the teams table
-            loadTeams();
+            //loadTeams();
         }
 
 }

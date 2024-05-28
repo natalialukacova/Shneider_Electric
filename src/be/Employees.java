@@ -13,7 +13,7 @@ public class Employees {
     private double overheadCost;
     private double hourlyRate;
     private String geography;
-    private double hourlyRateWithUP; //
+    private double hourlyRateWithUP;
 
 
     public int getId() {

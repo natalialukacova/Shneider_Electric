@@ -5,16 +5,13 @@ import be.Teams;
 import dal.EmployeesDAO;
 import dal.EmployeesTeamsDAO;
 import gui.controller.MainViewController;
-import gui.utility.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import javax.imageio.IIOException;
 import java.io.IOException;
 
 public class UtilizationPController {
@@ -22,7 +19,7 @@ public class UtilizationPController {
     public TextField upTxtField;
 
     private EmployeesDAO employeesDAO;
-    private EmployeesTeamsDAO employeesTeamsDAO;
+    private EmployeesTeamsDAO employeesTeamsDAO = new EmployeesTeamsDAO();
     private MainViewController mainController;
     private Employees selectedEmployee;
     private Stage stage;
@@ -40,26 +37,12 @@ public class UtilizationPController {
         }
     }
 
-    public UtilizationPController(TextField upTxtField) {
-        // Add null check for upTxtField
-        if (upTxtField != null) {
+  /*  public UtilizationPController(TextField upTxtField) {
             this.upTxtField = upTxtField;
-        } else {
-            // Handle the case when upTxtField is null
-            ExceptionHandler.showAlert("Error occurred while initializing UtilizationPController.");
-        }
-    }
+    }*/
     public double getUpPercentage() {
-        // Check if upTxtField is not null before accessing its properties
-        if (upTxtField != null) {
-            // Now you can safely use upTxtField
-            String text = upTxtField.getText();
-            // Convert text to double and return
-            return Double.parseDouble(text);
-        } else {
-            // Handle the case when upTxtField is null
-            throw new IllegalStateException("upTxtField is null");
-        }
+        double up = Double.parseDouble(upTxtField.getText());
+        return up;
     }
 
     public void setHourlyRateWithUP(double hourlyRateWithUP) {
@@ -71,11 +54,11 @@ public class UtilizationPController {
     public void confirmAssignEmployee(ActionEvent event) {
         Teams selectedTeam = mainController.getSelectedTeam();
 
-        double utilizationPercentage = getUpPercentage();
-        selectedEmployee.setUtilizationPercentage(utilizationPercentage);
+        Double utilizationPercentage = Double.parseDouble(upTxtField.getText());
+        selectedEmployee.setUtilizationPercentage(Double.parseDouble(upTxtField.getText()));
 
         employeesTeamsDAO.addEmployeeToTeam(selectedTeam.getId(), selectedEmployee.getId(), utilizationPercentage);
-        mainController.loadEmployeesOfTeam(selectedTeam.getId()); // Pass only the team ID
+        mainController.loadEmployeesOfTeam(selectedTeam.getId());
 
         stage.close();
     }
