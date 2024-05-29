@@ -254,7 +254,6 @@ public class MainViewController {
 
     }
 
-
     @FXML
     void addMultiplierPopUp(ActionEvent event) {
         try {
