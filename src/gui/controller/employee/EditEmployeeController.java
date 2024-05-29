@@ -9,20 +9,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 
 public class EditEmployeeController {
     @FXML
-    public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
+    private TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
     private EmployeesDAO employeesDAO;
     private MainViewController mainController;
     private Stage stage;
     private Employees selectedEmployee;
     private ObservableList<Employees> employees;
-    private EmployeeManager employeeManager = new EmployeeManager();
+    private final EmployeeManager employeeManager = new EmployeeManager();
 
 
     public void initialize() {
@@ -78,7 +77,7 @@ public class EditEmployeeController {
         return true;
     }
 
-    public void updateSelectedEmployee(String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography) {
+    private void updateSelectedEmployee(String employeeName, double salary, double multiplier, double configurableAmount, double workingHours, double overheadCost, String geography) {
         selectedEmployee.setEmployeeName(employeeName);
         selectedEmployee.setSalary(salary);
         selectedEmployee.setMultiplier(multiplier);
@@ -88,7 +87,7 @@ public class EditEmployeeController {
         selectedEmployee.setGeography(geography);
     }
 
-    public Employees fillEmployeeData(Employees employee) {
+    private Employees fillEmployeeData(Employees employee) {
         this.selectedEmployee = employee;
         nameTxtField.setText(selectedEmployee.getEmployeeName());
         salaryTxtField.setText(String.valueOf(selectedEmployee.getSalary()));

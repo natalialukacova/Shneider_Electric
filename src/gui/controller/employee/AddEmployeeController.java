@@ -15,11 +15,10 @@ import javafx.stage.Stage;
 public class AddEmployeeController {
 
     @FXML
-    public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
+    private TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
     private EmployeesDAO employeesDAO;
     private MainViewController mainController;
-    private EmployeeManager employeeManager = new EmployeeManager();
-
+    private final EmployeeManager employeeManager = new EmployeeManager();
     private Stage stage;
     private ObservableList<Employees> employees;
 
@@ -61,17 +60,17 @@ public class AddEmployeeController {
             return;
         }
         String employeeName = nameTxtField.getText();
-        Double salary = Double.parseDouble(salaryTxtField.getText());
-        Double multiplier = Double.parseDouble(multiplierTxtField.getText());
-        Double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
-        Double workingHours = Double.parseDouble(workingHoursTxtField.getText());
-        Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
+        double salary = Double.parseDouble(salaryTxtField.getText());
+        double multiplier = Double.parseDouble(multiplierTxtField.getText());
+        double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
+        double workingHours = Double.parseDouble(workingHoursTxtField.getText());
+        double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
         Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
 
         // Calculate and set the hourly rate
-        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(newEmployee);
+        double hourlyRate = employeeManager.calculateEmployeeHourlyRate(newEmployee);
         newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.addEmployee(newEmployee);

@@ -12,7 +12,6 @@ public class Employees {
     private double overheadCost;
     private double hourlyRate;
     private String geography;
-    private double hourlyRateWithUP;
 
 
     public int getId() {
@@ -118,6 +117,6 @@ public class Employees {
 
     @Override
     public String toString(){
-        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + workingHours + "" + utilizationPercentage + "" + overheadCost + "" + hourlyRate + "" + geography;
+        return id + "" + salary + "" + multiplier + "" + configurableAmount + "" + workingHours + "" + overheadCost + "" + hourlyRate + "" + geography;
     }
 }

@@ -26,15 +26,11 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import gui.controller.team.addMultiplierController;
 
 public class MainViewController {
@@ -42,23 +38,23 @@ public class MainViewController {
     private EmployeesTeamsDAO employeesTeamsDAO;
     private final TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
-    public TableView<Teams> teamsTableView;
+    private TableView<Teams> teamsTableView;
     @FXML
     private TableColumn<Teams, String> teamNameCol;
     @FXML
     private TableColumn<Teams, String> teamCountryCol;
     @FXML
-    public TableColumn<Teams, Double> hourlyRateColumn;
+    private TableColumn<Teams, Double> hourlyRateColumn;
     @FXML
-    public TableView<Employees> employeeOfTeamTableView;
+    private TableView<Employees> employeeOfTeamTableView;
     @FXML
-    public TableColumn<Employees, String> teamEmployeeColumn;
+    private TableColumn<Employees, String> teamEmployeeColumn;
     @FXML
-    public TableView<Employees> employeesTableView;
+    private TableView<Employees> employeesTableView;
     @FXML
-    public TableColumn<Employees, String> nameColumn;
+    private TableColumn<Employees, String> nameColumn;
     @FXML
-    public TableColumn<Employees, String> countryColumn;
+    private TableColumn<Employees, String> countryColumn;
     @FXML
     private TableColumn<Teams, Double> markupColumn;
     @FXML
@@ -69,8 +65,6 @@ public class MainViewController {
     private TextField teamSearchField;
     @FXML
     private TextField employeeTeamSearchField;
-    @FXML
-    private Button addMultiplierBtn;
     private final ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private ObservableList<Employees> allEmployees;
     private ObservableList<Teams> allTeams;
@@ -91,10 +85,6 @@ public class MainViewController {
         this.teamManager = teamManager;
     }
 
-    // Getter for employeesTeamsDAO
-    public EmployeesTeamsDAO getEmployeesTeamsDAO() {
-        return employeesTeamsDAO;
-    }
 
     public void initialize() {
         employeesDAO = new EmployeesDAO();
@@ -105,16 +95,19 @@ public class MainViewController {
         setTeamsTable(teamsTableView);
 
         teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null){
+            if (newSelection != null) {
                 selectedTeam = newSelection;
-            loadEmployeesOfTeam(selectedTeam.getId());
-            //updateTeamHourlyRateInView(selectedTeam); // Refresh the view
+                loadEmployeesOfTeam(selectedTeam.getId());
             }
         });
 
-/*/ Setup DecimalFormatter for hourlyRateColumn
+        setupHourlyRateColumnFormatter();
+    }
+
+
+    // Setup DecimalFormatter for hourlyRateColumn
+    private void setupHourlyRateColumnFormatter() {
         hourlyRateColumn.setCellFactory(tc -> new TableCell<>() {
-            @Override
             protected void updateItem(Double item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
@@ -124,17 +117,9 @@ public class MainViewController {
                 }
             }
         });
-
-      /*  teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                selectedTeam = newSelection;
-                // Calculate and display hourly rate with UP% for the selected team
-                updateAddedUPColumn(selectedTeam.getId());
-
-            }
-        });*/
-
     }
+
+
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
         allEmployees = FXCollections.observableArrayList(employeesDAO.getAllEmployees());
@@ -143,9 +128,8 @@ public class MainViewController {
         nameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         countryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGeography()));
 
-        employeeSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            EmployeeSearch.search(employeesTableView, allEmployees, newValue);
-        });
+        employeeSearchField.textProperty().addListener((observable, oldValue, newValue) ->
+                EmployeeSearch.search(employeesTableView, allEmployees, newValue));
     }
 
 
@@ -161,17 +145,17 @@ public class MainViewController {
             return new SimpleDoubleProperty(totalHourlyRate).asObject();
         });
 
-        gmColumn.setCellValueFactory(cellData -> {
-            return new SimpleDoubleProperty(cellData.getValue().getGmMultiplier()).asObject();
-        });
-        markupColumn.setCellValueFactory(cellData -> {
-            return new SimpleDoubleProperty(cellData.getValue().getMarkupMultiplier()).asObject();
-        });
+        gmColumn.setCellValueFactory(cellData ->
+             new SimpleDoubleProperty(cellData.getValue().getGmMultiplier()).asObject()
+        );
+        markupColumn.setCellValueFactory(cellData ->
+             new SimpleDoubleProperty(cellData.getValue().getMarkupMultiplier()).asObject()
+        );
 
 
-        teamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-                    TeamSearch.search(teamsTableView, allTeams, newValue);
-        });
+        teamSearchField.textProperty().addListener((observable, oldValue, newValue) ->
+                    TeamSearch.search(teamsTableView, allTeams, newValue)
+        );
     }
 
     private void setEmployeesOfTeamTable(TableView<Employees> employeesOfTeamTableView) {
@@ -216,7 +200,6 @@ public class MainViewController {
         double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
         double hourlyRate = totalCost / employee.getWorkingHours();
 
-
         return hourlyRate;
     }
 
@@ -230,12 +213,6 @@ public class MainViewController {
         return totalHourlyRate; //* upPercentage/100;
     }
 
-
-    public void loadAllEmployees() {
-        List<Employees> allEmployees = employeesDAO.getAllEmployees();
-        ObservableList<Employees> observableList = FXCollections.observableArrayList(allEmployees);
-        employeesTableView.setItems(observableList);
-    }
 
     public void loadEmployeesOfTeam(int teamId) {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
@@ -255,7 +232,6 @@ public class MainViewController {
     public Teams getSelectedTeam() {
         return teamsTableView.getSelectionModel().getSelectedItem();
     }
-
 
     @FXML
     void addEmployeePopUp(ActionEvent event)  {
@@ -335,7 +311,7 @@ public class MainViewController {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.showAlert("Operation Failed");
         }
 
     }

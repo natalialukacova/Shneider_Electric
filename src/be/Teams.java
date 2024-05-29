@@ -6,32 +6,12 @@ public class Teams {
     private Double teamHourlyRate;
     private int countryId;
     private String countryName;
-    private double hourlyRate;
-    private double hourlyRateWithMultipliers;
-    private double addedUp;
     private double markupMultiplier;
     private double gmMultiplier;
 
-    public Teams(int id, String teamName, double teamHourlyRate, int countryId, String countryName, double markupMultiplier, double gmMultiplier) {
-        // Initialize existing fields...
+    public Teams(double markupMultiplier, double gmMultiplier) {
         this.markupMultiplier = markupMultiplier;
         this.gmMultiplier = gmMultiplier;
-    }
-
-
-    public double getHourlyRateWithMultipliers() {
-        return hourlyRateWithMultipliers;
-    }
-    public void setHourlyRateWithMultipliers(double hourlyRateWithMultipliers) {
-        this.hourlyRateWithMultipliers = hourlyRateWithMultipliers;
-    }
-
-    public double getAddedUp() {
-        return addedUp;
-    }
-
-    public void setAddedUp(double addedUp) {
-        this.addedUp = addedUp;
     }
 
     public String getTeamName() {
@@ -46,14 +26,6 @@ public class Teams {
         this.id = id;
     }
 
-    public Double getTeamHourlyRate() {
-        return teamHourlyRate;
-    }
-
-    public void setTeamHourlyRate(Double teamHourlyRate) {
-        this.teamHourlyRate = teamHourlyRate;
-    }
-
     public int getCountryId() {
         return countryId;
     }
@@ -61,10 +33,6 @@ public class Teams {
     public String getCountryName() {
         return countryName;
     }
-
-    public double getHourlyRate() { return hourlyRate; }
-
-    public void setHourlyRate(double hourlyRate) { this.hourlyRate = hourlyRate; }
 
     public double getMarkupMultiplier() {
         return markupMultiplier;

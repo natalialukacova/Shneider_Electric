@@ -45,25 +45,4 @@ public class TeamManager implements ITeamsDAO {
         return teamsDAO.getAllTeams();
     }
 
-    public double calculateTeamHourlyRate(int teamId) {
-        List<Employees> employees = employeesTeamsDAO.getEmployeesOfTeam(teamId);
-        double totalHourlyRate = 0;
-        double totalUtilization = 0;
-
-        for (Employees employee : employees) {
-            double hourlyRate = calculateEmployeeHourlyRate(employee);
-            double utilization = employee.getUtilizationPercentage() / 100.0;
-            totalHourlyRate += hourlyRate * utilization;
-            totalUtilization += utilization;
-        }
-
-        return totalUtilization > 0 ? totalHourlyRate / totalUtilization : 0;
-    }
-
-    public double calculateEmployeeHourlyRate(Employees employee) {
-        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
-        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
-        double hourlyRate = totalCost / employee.getWorkingHours();
-        return hourlyRate;
-    }
 }

@@ -20,9 +20,8 @@ public class AddTeamController{
     public TextField nameTeamTxtField;
     @FXML
     private ComboBox countryBox;
-    private CountriesDAO countriesDAO = new CountriesDAO();
-    private TeamsDAO teamsDAO = new TeamsDAO();
-
+    private final CountriesDAO countriesDAO = new CountriesDAO();
+    private final TeamsDAO teamsDAO = new TeamsDAO();
     private ObservableList<Teams> teams;
 
 
@@ -46,7 +45,6 @@ public class AddTeamController{
         int countryId = selectedCountry.getCountryId();
         String countryName = selectedCountry.getCountryName();
 
-        // HAVE TO BE CHANGED!!!
         double teamHourlyRate = 0;
         double markupMultiplier = 0;
         double gmMultiplier = 0;
@@ -58,7 +56,7 @@ public class AddTeamController{
         closeWindow(event);
     }
 
-    public void loadCountriesBox(){
+    private void loadCountriesBox(){
         List<Countries> countries = countriesDAO.getAllCountries();
         ObservableList<Countries> allCountries = FXCollections.observableArrayList(countries);
         countryBox.setItems(allCountries);

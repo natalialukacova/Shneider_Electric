@@ -13,9 +13,9 @@ import javafx.stage.Stage;
 public class DeleteTeamController  {
     private MainViewController mainViewController;
     private Teams selectedTeam;
-    private TeamsDAO teamsDAO = new TeamsDAO();
+    private final TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
-    public Label confirmationLabel;
+    private Label confirmationLabel;
 
 
     public void confirmDeleteTeam(ActionEvent event){

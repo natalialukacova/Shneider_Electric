@@ -48,7 +48,7 @@ public class EmployeesDAO implements IEmployeesDAO {
     @Override
     public void addEmployee(Employees employees){
         try {
-            String sql = "INSERT INTO employees(employeeName, salary, multiplier, configurableAmount, workingHours, utilizationPercentage, overheadCost, geography, hourlyRate) VALUES(?,?,?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO employees(employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography, hourlyRate) VALUES(?,?,?,?,?,?,?,?)";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
             preparedStatement.setString(1, employees.getEmployeeName());
@@ -56,10 +56,9 @@ public class EmployeesDAO implements IEmployeesDAO {
             preparedStatement.setDouble(3, employees.getMultiplier());
             preparedStatement.setDouble(4, employees.getConfigurableAmount());
             preparedStatement.setDouble(5, employees.getWorkingHours());
-            preparedStatement.setDouble(6, employees.getUtilizationPercentage());
-            preparedStatement.setDouble(7, employees.getOverheadCost());
-            preparedStatement.setString(8, employees.getGeography());
-            preparedStatement.setDouble(9, employees.getHourlyRate());
+            preparedStatement.setDouble(6, employees.getOverheadCost());
+            preparedStatement.setString(7, employees.getGeography());
+            preparedStatement.setDouble(8, employees.getHourlyRate());
 
             preparedStatement.execute();
 
@@ -91,21 +90,6 @@ public class EmployeesDAO implements IEmployeesDAO {
 
             preparedStatement.executeUpdate();
 
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void updateEmployeeHourlyRate(double hourlyRate) {
-        try {
-            String sql = "INSERT INTO employees (hourlyRate) VALUES(?) ";
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-            preparedStatement.setDouble(1, hourlyRate);
-          //  preparedStatement.setInt(2, employeeId);
-
-            preparedStatement.executeUpdate();
         } catch (SQLServerException e) {
             throw new RuntimeException(e);
         } catch (SQLException e) {

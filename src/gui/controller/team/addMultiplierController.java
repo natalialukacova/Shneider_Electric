@@ -1,40 +1,29 @@
 package gui.controller.team;
 
-import be.Employees;
 import be.Teams;
-import dal.EmployeesDAO;
 import dal.TeamsDAO;
 import gui.controller.MainViewController;
+import gui.utility.ExceptionHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.util.List;
 
 public class addMultiplierController {
 
-    private TeamsDAO teamsDAO = new TeamsDAO();
-    private EmployeesDAO employeesDAO;
-
+    private final TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
     private TextField markupMultiplierTxtField;
-
     @FXML
     private TextField gmMultiplierTxtField;
-
-    @FXML
-    private Label errorMessageLabel;
-
     private MainViewController mainViewController;
+
 
     public void setMainViewController(MainViewController mainViewController) {
         this.mainViewController = mainViewController;
     }
-
-
 
     @FXML
     void addMultipliers(ActionEvent event) {
@@ -47,24 +36,14 @@ public class addMultiplierController {
             selectedTeam.setMarkupMultiplier(Double.parseDouble(markupMultiplierTxtField.getText()));
             selectedTeam.setGmMultiplier(Double.parseDouble(gmMultiplierTxtField.getText()));
 
-            if (selectedTeam != null) {
-                teamsDAO.addMultipliers(selectedTeam.getId(), markupMultiplier, gmMultiplier);
-                mainViewController.refreshTeamsTable();
-                closeWindow(event);
-            } else {
-                showError("Please select a team before saving the multipliers.");
-            }
-        } catch (NumberFormatException e) {
-            showError("Please enter valid numbers for multipliers.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            showError("An error occurred while saving the multipliers.");
-        }
-    }
+            teamsDAO.addMultipliers(selectedTeam.getId(), markupMultiplier, gmMultiplier);
+            mainViewController.refreshTeamsTable();
+            closeWindow(event);
 
-    private void showError(String message) {
-        if (errorMessageLabel != null) {
-            errorMessageLabel.setText(message);
+        } catch (NumberFormatException e) {
+            ExceptionHandler.showAlert("Please enter valid numbers for multipliers.");
+        } catch (Exception e) {
+            ExceptionHandler.showAlert("An error occurred while saving the multipliers.");
         }
     }
 

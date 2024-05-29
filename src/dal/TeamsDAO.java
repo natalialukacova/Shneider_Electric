@@ -1,6 +1,5 @@
 package dal;
 
-import be.Employees;
 import be.Teams;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
@@ -14,37 +13,6 @@ public class TeamsDAO implements ITeamsDAO {
     private PreparedStatement preparedStatement;
     private DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
 
-
-    @Override
-    public List<Teams> getTeamsByCountryId(int countryId) {
-        List<Teams> teams = new ArrayList<>();
-        try {
-            String sql = "SELECT * FROM teams WHERE countryId = ?";
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-            preparedStatement.setInt(1, countryId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    Teams team = new Teams(
-                            resultSet.getInt("id"),
-                            resultSet.getString("teamName"),
-                            resultSet.getDouble("teamHourlyRate"),
-                            resultSet.getInt("countryId"),
-                            resultSet.getDouble("markupMultiplier"),
-                            resultSet.getDouble("gmMultiplier"),
-                            resultSet.getString("countryName"));
-                    teams.add(team);
-                }
-            }
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        }
-        catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return teams;
-    }
-
     public void addTeam(Teams teams) {
         try {
             String sql = "INSERT INTO teams(teamName, countryId, countryName) VALUES (?,?,?)";
@@ -57,26 +25,6 @@ public class TeamsDAO implements ITeamsDAO {
             preparedStatement.execute();
 
         } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    @Override
-    public void updateTeam(Teams teams) {
-        try {
-            String sql = "UPDATE teams SET markupMultiplier = ?, gmMultiplier = ? WHERE id = ?";
-            Connection conn = databaseConnector.getConnection();
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setDouble(1, teams.getMarkupMultiplier());
-            preparedStatement.setDouble(2, teams.getGmMultiplier());
-            preparedStatement.setInt(3, teams.getId());
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
