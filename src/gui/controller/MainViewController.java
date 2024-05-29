@@ -194,25 +194,6 @@ public class MainViewController {
         }
     }
 
-    // method to calculate employee hourly rate and save it
-    public double calculateEmployeeHourlyRate(Employees employee) {
-        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
-        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
-        double hourlyRate = totalCost / employee.getWorkingHours();
-
-        return hourlyRate;
-    }
-
-    // method to calculate total hourly rate per team
-    public double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam) {
-        //double upPercentage = employeesTeamsDAO.getUPForEmployeeeOnTeam(team, employee);
-        double totalHourlyRate = 0;
-        for (Employees employee : employeesOfTeam) {
-            totalHourlyRate += calculateEmployeeHourlyRate(employee);
-        }
-        return totalHourlyRate; //* upPercentage/100;
-    }
-
 
     public void loadEmployeesOfTeam(int teamId) {
         List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
@@ -231,6 +212,25 @@ public class MainViewController {
 
     public Teams getSelectedTeam() {
         return teamsTableView.getSelectionModel().getSelectedItem();
+    }
+
+    // method to calculate employee hourly rate and save it
+    public double calculateEmployeeHourlyRate(Employees employee) {
+        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
+        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
+        double hourlyRate = totalCost / employee.getWorkingHours();
+
+        return hourlyRate;
+    }
+
+    // method to calculate total hourly rate per team
+    public double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam) {
+        //double upPercentage = employeesTeamsDAO.getUPForEmployeeeOnTeam(team, employee);
+        double totalHourlyRate = 0;
+        for (Employees employee : employeesOfTeam) {
+            totalHourlyRate += calculateEmployeeHourlyRate(employee);
+        }
+        return totalHourlyRate; //* upPercentage/100;
     }
 
     @FXML
