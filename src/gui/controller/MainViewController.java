@@ -232,11 +232,12 @@ public class MainViewController {
 
     // method to calculate total hourly rate per team
     public double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam) {
+        //double upPercentage = employeesTeamsDAO.getUPForEmployeeeOnTeam(team, employee);
         double totalHourlyRate = 0;
         for (Employees employee : employeesOfTeam) {
             totalHourlyRate += calculateEmployeeHourlyRate(employee);
         }
-        return totalHourlyRate;
+        return totalHourlyRate * upPercentage/100;
     }
 
     // method to calculate employee hourly rate and save it
@@ -244,6 +245,8 @@ public class MainViewController {
         double annualCost = employee.getSalary() + employee.getConfigurableAmount();
         double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
         double hourlyRate = totalCost / employee.getWorkingHours();
+
+
         return hourlyRate;
     }
 

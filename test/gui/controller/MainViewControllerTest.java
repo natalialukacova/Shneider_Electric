@@ -39,7 +39,7 @@ public class MainViewControllerTest {
 
         double totalHourlyRate = mainViewController.calculateTotalHourlyRateForTeam(employees);
 
-        assertEquals(49.23619047619047, totalHourlyRate, 0.01);
+        assertEquals(49.236, totalHourlyRate, 0.01);
     }
 
     @Test
