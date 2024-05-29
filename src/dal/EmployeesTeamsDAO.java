@@ -1,24 +1,33 @@
 package dal;
 
 import be.Employees;
+import bll.TeamManager;
 import com.microsoft.sqlserver.jdbc.SQLServerException;
 import dal.connector.DatabaseConnector;
 import dal.interfaces.IEmployeesTeamsDAO;
 import gui.controller.MainViewController;
 import gui.utility.ExceptionHandler;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
     private PreparedStatement preparedStatement;
     private DatabaseConnector databaseConnector = DatabaseConnector.getInstance();
     private MainViewController mainViewController;
+    private TeamManager teamManager;
 
 
+    public void setMainViewController(MainViewController mainViewController) {
+        this.mainViewController = mainViewController;
+    }
+
+    public void setTeamManager(TeamManager teamManager) {
+        this.teamManager = teamManager;
+    }
 
     @Override
     public List<Employees> getEmployeesOfTeam(int teamId) {
@@ -70,7 +79,8 @@ public class EmployeesTeamsDAO implements IEmployeesTeamsDAO {
         }
     }
 
-    private boolean isEmployeeInTeam(int teamId, int employeeId) {
+    @Override
+    public boolean isEmployeeInTeam(int teamId, int employeeId) {
         try {
             String sql = "SELECT COUNT(*) FROM employeesTeam WHERE teamId = ? AND employeeId = ?";
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);

@@ -6,25 +6,22 @@ import gui.controller.MainViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import java.awt.*;
 
 public class DeleteTeamController  {
     private MainViewController mainViewController;
-    private Stage stage;
     private Teams selectedTeam;
     private TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
     public Label confirmationLabel;
 
 
-    public void confirmDeleteTeam(){
+    public void confirmDeleteTeam(ActionEvent event){
         teamsDAO.deleteTeam(selectedTeam.getId());
         mainViewController.removeTeamFromTable(selectedTeam);
-        closeWindow(new ActionEvent());
+        closeWindow(event);
     }
 
 

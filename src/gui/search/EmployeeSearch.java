@@ -3,12 +3,7 @@ package gui.search;
 import be.Employees;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.transformation.FilteredList;
-import javafx.collections.transformation.SortedList;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-
-import java.util.List;
 
 public class EmployeeSearch {
 

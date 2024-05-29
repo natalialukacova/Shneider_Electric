@@ -4,6 +4,7 @@ import be.Employees;
 import be.Teams;
 import dal.EmployeesDAO;
 import dal.EmployeesTeamsDAO;
+import dal.TeamsDAO;
 import gui.controller.MainViewController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -11,7 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import java.util.List;
 import java.io.IOException;
 
 public class UtilizationPController {
@@ -24,6 +25,7 @@ public class UtilizationPController {
     private Employees selectedEmployee;
     private Stage stage;
     private double hourlyRateWithUP;
+    private TeamsDAO teamsDAO = new TeamsDAO();
 
 
     public UtilizationPController() {
@@ -49,7 +51,6 @@ public class UtilizationPController {
         this.hourlyRateWithUP = hourlyRateWithUP;
     }
 
-
     @FXML
     public void confirmAssignEmployee(ActionEvent event) {
         Teams selectedTeam = mainController.getSelectedTeam();
@@ -62,6 +63,11 @@ public class UtilizationPController {
 
         stage.close();
     }
+
+    public String getUpTextFieldValue() {
+        return upTxtField.getText();
+    }
+
 
     public void setSelectedEmployee(Employees selectedEmployee) {
         this.selectedEmployee = selectedEmployee;

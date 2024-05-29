@@ -24,4 +24,24 @@ public class EmployeeManager implements IEmployeesDAO {
         employeesDAO.updateEmployee(employees);
     }
 
+    public double calculateEmployeeHourlyRate(Employees employee) {
+        // Step 1: Fetch Employee Details
+        double salary = employee.getSalary();
+        double configurableAmount = employee.getConfigurableAmount();
+        double multiplier = employee.getMultiplier();
+        double overheadCost = employee.getOverheadCost();
+        double workingHours = employee.getWorkingHours();
+
+        // Step 2: Calculate Annual Cost
+        double annualCost = salary + configurableAmount;
+
+        // Step 3: Calculate Total Cost
+        double totalCost = annualCost + (annualCost * (multiplier / 100)) + overheadCost;
+
+        // Step 4: Calculate Hourly Rate
+        double hourlyRate = totalCost / workingHours;
+
+        return hourlyRate;
+    }
+
 }

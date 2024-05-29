@@ -1,5 +1,7 @@
+import bll.TeamManager;
+import dal.EmployeesTeamsDAO;
 import gui.controller.MainViewController;
-import gui.controller.employee.EditEmployeeController;
+import gui.utility.ExceptionHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,7 +25,16 @@ public class Main extends Application {
             scene.getStylesheets().add(css);
 
             MainViewController mainViewController = loader.getController();
-            mainViewController.setDependencies(new EditEmployeeController());
+            // Create and set dependencies
+            EmployeesTeamsDAO employeesTeamsDAO = new EmployeesTeamsDAO();
+            TeamManager teamManager = new TeamManager();
+
+            mainViewController.setEmployeesTeamsDAO(employeesTeamsDAO);
+            mainViewController.setTeamManager(teamManager);
+            employeesTeamsDAO.setMainViewController(mainViewController);
+            employeesTeamsDAO.setTeamManager(teamManager);
+            teamManager.setEmployeesTeamsDAO(employeesTeamsDAO);
+            teamManager.setMainViewController(mainViewController);
 
             root.setOnMousePressed(event -> {
                 x = event.getSceneX();
@@ -36,15 +47,14 @@ public class Main extends Application {
                 primaryStage.setOpacity(.8);
             });
 
-            root.setOnMouseReleased(event -> {
-                primaryStage.setOpacity(1);
-            });
+            root.setOnMouseReleased(event ->
+                primaryStage.setOpacity(1));
 
             primaryStage.initStyle(StageStyle.TRANSPARENT);
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.showAlert("Operation Failed");
         }
     }
 }

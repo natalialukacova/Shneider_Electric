@@ -1,7 +1,6 @@
 package bll;
 
 import be.Countries;
-import be.Teams;
 import dal.CountriesDAO;
 import dal.interfaces.ICountriesDAO;
 
@@ -16,13 +15,4 @@ public class CountryManager implements ICountriesDAO {
             return countriesDAO.getAllCountries();
     }
 
-    @Override
-    public void addCountry(Countries countries) {
-
-    }
-
-    @Override
-    public void updateCountry(Countries countries) {
-
-    }
 }

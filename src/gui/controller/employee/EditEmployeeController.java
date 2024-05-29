@@ -2,6 +2,7 @@ package gui.controller.employee;
 
 import be.Employees;
 import dal.EmployeesDAO;
+import bll.EmployeeManager;
 import gui.controller.MainViewController;
 import gui.utility.ExceptionHandler;
 import javafx.collections.ObservableList;
@@ -9,20 +10,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+
 
 public class EditEmployeeController {
     @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
-    @FXML
-    private ComboBox countryComboBox;
-    private EmployeesDAO employeesDAO = new EmployeesDAO();
+    private EmployeesDAO employeesDAO;
     private MainViewController mainController;
     private Stage stage;
     private Employees selectedEmployee;
     private ObservableList<Employees> employees;
+    private EmployeeManager employeeManager = new EmployeeManager();
 
 
     public void initialize() {
@@ -38,16 +38,16 @@ public class EditEmployeeController {
             return;
         }
         String employeeName = nameTxtField.getText();
-        Double salary = Double.parseDouble(salaryTxtField.getText());
-        Double multiplier = Double.parseDouble(multiplierTxtField.getText());
-        Double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
-        Double workingHours = Double.parseDouble(workingHoursTxtField.getText());
-        Double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
+        double salary = Double.parseDouble(salaryTxtField.getText());
+        double multiplier = Double.parseDouble(multiplierTxtField.getText());
+        double configurableAmount = Double.parseDouble(configurableAmountTxtField.getText());
+        double workingHours = Double.parseDouble(workingHoursTxtField.getText());
+        double overheadCost = Double.parseDouble(overheadCostTxtField.getText());
         String geography = geographyTxtField.getText();
 
         updateSelectedEmployee(employeeName, salary, multiplier,configurableAmount, workingHours, overheadCost, geography);
 
-        Double hourlyRate = mainController.calculateEmployeeHourlyRate(selectedEmployee);
+        double hourlyRate = employeeManager.calculateEmployeeHourlyRate(selectedEmployee);
         selectedEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.updateEmployee(selectedEmployee);
@@ -55,6 +55,11 @@ public class EditEmployeeController {
         stage.close();
     }
 
+    /**
+     * Ensures that required text fields are not null nor empty and that specific fields contain valid numeric values.
+     *
+     * @return true if all validations pass, false otherwise.
+     */
     private boolean validateInput() {
         if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() || geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
             ExceptionHandler.showAlert("Please fill in all required fields.");
@@ -67,7 +72,7 @@ public class EditEmployeeController {
             Double.parseDouble(workingHoursTxtField.getText());
             Double.parseDouble(overheadCostTxtField.getText());
         } catch (NumberFormatException e) {
-            showAlert("Please enter valid numbers for numeric fields.");
+            ExceptionHandler.showAlert("Please enter valid numbers for numeric fields.");
             return false;
         }
         return true;
@@ -96,21 +101,9 @@ public class EditEmployeeController {
         return employee;
     }
 
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
     public void setSelectedEmployee(Employees selectedEmployee) {
         this.selectedEmployee = selectedEmployee;
         fillEmployeeData(selectedEmployee);
-    }
-
-    public Employees getSelectedEmployee(){
-        return selectedEmployee;
     }
 
     public void setMainController(MainViewController controller) {

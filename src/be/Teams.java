@@ -38,10 +38,6 @@ public class Teams {
         return teamName;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
-    }
-
     public int getId() {
         return id;
     }
@@ -62,13 +58,13 @@ public class Teams {
         return countryId;
     }
 
-    public void setCountryId(int countryId) {
-        this.countryId = countryId;
-    }
-
     public String getCountryName() {
         return countryName;
     }
+
+    public double getHourlyRate() { return hourlyRate; }
+
+    public void setHourlyRate(double hourlyRate) { this.hourlyRate = hourlyRate; }
 
     public double getMarkupMultiplier() {
         return markupMultiplier;

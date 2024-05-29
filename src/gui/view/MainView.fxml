@@ -28,7 +28,7 @@
                                                 <Button fx:id="closeWindow" layoutX="1034.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="close" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="15.0">
 
                                                     <graphic>
-                                                        <FontAwesomeIcon glyphName="CLOSE" />
+                                                        <FontAwesomeIcon fill="WHITE" glyphName="CLOSE" />
                                                     </graphic>
                                                 </Button>
 
@@ -70,7 +70,7 @@
                                              </styleClass>
                                           </TableView>
                                        </children></AnchorPane>
-                                    <Button fx:id="addEmplooyeeBtn" layoutX="993.0" layoutY="652.0" mnemonicParsing="false" onAction="#addEmplooyeePopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Employee" />
+                                    <Button fx:id="addEmplooyeeBtn" layoutX="993.0" layoutY="652.0" mnemonicParsing="false" onAction="#addEmployeePopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add Employee" />
                                     <Button layoutX="173.0" layoutY="650.0" mnemonicParsing="false" onAction="#deleteTeamBtn" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Delete" />
                                     <Button fx:id="addMultiplierBtn" layoutX="607.0" layoutY="653.0" mnemonicParsing="false" onAction="#addMultiplierPopUp" prefHeight="30.0" prefWidth="105.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Add multiplier" />
                                     <TableView fx:id="employeeOfTeamTableView" layoutX="744.0" layoutY="53.0" maxWidth="303.0" minWidth="180.0" prefHeight="585.0" prefWidth="186.0" stylesheets="@../css/MainView.css" AnchorPane.bottomAnchor="72.0" AnchorPane.leftAnchor="744.0" AnchorPane.rightAnchor="333.0" AnchorPane.topAnchor="53.0">

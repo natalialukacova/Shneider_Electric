@@ -1,9 +1,8 @@
 package gui.controller;
 
-import be.Countries;
 import be.Employees;
 import be.Teams;
-import dal.CountriesDAO;
+import bll.TeamManager;
 import dal.EmployeesDAO;
 import dal.EmployeesTeamsDAO;
 import dal.TeamsDAO;
@@ -16,7 +15,6 @@ import gui.search.EmployeeSearch;
 import gui.search.EmployeeTeamSearch;
 import gui.search.TeamSearch;
 import gui.utility.ExceptionHandler;
-import javafx.animation.PauseTransition;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -42,8 +40,7 @@ import gui.controller.team.addMultiplierController;
 public class MainViewController {
     private EmployeesDAO employeesDAO;
     private EmployeesTeamsDAO employeesTeamsDAO;
-    private CountriesDAO countriesDAO = new CountriesDAO();
-    private TeamsDAO teamsDAO = new TeamsDAO();
+    private final TeamsDAO teamsDAO = new TeamsDAO();
     @FXML
     public TableView<Teams> teamsTableView;
     @FXML
@@ -67,90 +64,55 @@ public class MainViewController {
     @FXML
     private TableColumn<Teams, Double> gmColumn;
     @FXML
-    private ComboBox<Countries> countryComboBox;
-    @FXML
     private TextField employeeSearchField;
     @FXML
     private TextField teamSearchField;
     @FXML
     private TextField employeeTeamSearchField;
     @FXML
-    private TextField upTxtField;
-    @FXML
-    private TextField markupMultiplierTxtField;
-    @FXML
-    private TextField gmMultiplierTxtField;
-
-    private EmployeeSearch employeeSearch;
-    private TeamSearch teamSearch;
-    private EmployeeTeamSearch employeeTeamSearch;
-    @FXML
     private Button addMultiplierBtn;
-    private EditEmployeeController editEmployeeController;
-    private ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
+    private final ObservableList<Employees> employeesOfTeamList = FXCollections.observableArrayList();
     private ObservableList<Employees> allEmployees;
-    private ObservableList<Employees> allEmployeesOfTeam;
     private ObservableList<Teams> allTeams;
     private Teams selectedTeam;
-    private UtilizationPController utilizationPController;
-
+    private TeamManager teamManager;
     private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
-    // Field to store UP percentage for each team
+    private UtilizationPController utilizationPController;
 
     public void refreshTeamsTable() {
         allTeams.setAll(teamsDAO.getAllTeams());
     }
 
-    public void setDependencies(EditEmployeeController editEmployeeController) {
-        this.editEmployeeController = editEmployeeController;
+    public void setEmployeesTeamsDAO(EmployeesTeamsDAO employeesTeamsDAO) {
+        this.employeesTeamsDAO = employeesTeamsDAO;
+    }
+
+    public void setTeamManager(TeamManager teamManager) {
+        this.teamManager = teamManager;
+    }
+
+    // Getter for employeesTeamsDAO
+    public EmployeesTeamsDAO getEmployeesTeamsDAO() {
+        return employeesTeamsDAO;
     }
 
     public void initialize() {
-
-        // Pass the TextField to UtilizationPController constructor
-       // utilizationPController = new UtilizationPController(upTxtField);
-
         employeesDAO = new EmployeesDAO();
         employeesTeamsDAO = new EmployeesTeamsDAO();
-
-        employeeSearch = new EmployeeSearch();
-
-        teamSearch = new TeamSearch();
-
-        employeeTeamSearch = new EmployeeTeamSearch();
-
 
         setEmployeesTable(employeesTableView);
         setEmployeesOfTeamTable(employeeOfTeamTableView);
         setTeamsTable(teamsTableView);
-        loadCountries();
-       // loadTeams();
 
         teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null){
                 selectedTeam = newSelection;
-                loadEmployeesOfTeam(selectedTeam.getId());}
-        });
-
-
-
-    }
-
-
-    // Method to load teams and initialize upPercentageMap
-    /*private void loadTeams() {
-        allTeams = FXCollections.observableArrayList(teamsDAO.getAllTeams());
-        teamsTableView.setItems(allTeams);
-
-        teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
-            if (newSelection != null) {
-                selectedTeam = newSelection;
-                //updateAddedUPColumn(selectedTeam.getId());
+            loadEmployeesOfTeam(selectedTeam.getId());
+            //updateTeamHourlyRateInView(selectedTeam); // Refresh the view
             }
         });
 
-
-        // Setup DecimalFormatter for hourlyRateColumn
+/*/ Setup DecimalFormatter for hourlyRateColumn
         hourlyRateColumn.setCellFactory(tc -> new TableCell<>() {
             @Override
             protected void updateItem(Double item, boolean empty) {
@@ -163,16 +125,16 @@ public class MainViewController {
             }
         });
 
-        teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+      /*  teamsTableView.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedTeam = newSelection;
                 // Calculate and display hourly rate with UP% for the selected team
                 updateAddedUPColumn(selectedTeam.getId());
 
             }
-        });
+        });*/
 
-    }*/
+    }
 
     public void setEmployeesTable(TableView<Employees> employeesTableView) {
         allEmployees = FXCollections.observableArrayList(employeesDAO.getAllEmployees());
@@ -216,50 +178,9 @@ public class MainViewController {
         teamEmployeeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEmployeeName()));
         employeesOfTeamTableView.setItems(employeesOfTeamList);
 
-        employeeTeamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            EmployeeSearch.search(employeesOfTeamTableView, employeesOfTeamList, newValue);
-        });
+        employeeTeamSearchField.textProperty().addListener((observable, oldValue, newValue) ->
+            EmployeeTeamSearch.search(employeesOfTeamTableView, employeesOfTeamList, newValue));
     }
-
-    // method to calculate total hourly rate per team
-    public double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam) {
-        //double upPercentage = employeesTeamsDAO.getUPForEmployeeeOnTeam(team, employee);
-        double totalHourlyRate = 0;
-        for (Employees employee : employeesOfTeam) {
-            totalHourlyRate += calculateEmployeeHourlyRate(employee);
-        }
-        return totalHourlyRate; //* upPercentage/100;
-    }
-
-    // method to calculate employee hourly rate and save it
-    public double calculateEmployeeHourlyRate(Employees employee) {
-        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
-        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
-        double hourlyRate = totalCost / employee.getWorkingHours();
-
-
-        return hourlyRate;
-    }
-
-    // New method to update added UP column for a given team
-    private void updateAddedUPColumn(int teamId) {
-        if (utilizationPController == null) {
-            // Initialize the utilizationPController variable
-            utilizationPController = new UtilizationPController();
-        }
-        // Now it's safe to use utilizationPController
-        double upPercentage = utilizationPController.getUpPercentage();
-        double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeamList);
-        double hourlyRateWithUP = totalHourlyRate * (1 + (upPercentage / 100));
-        for (Teams team : teamsTableView.getItems()) {
-            if (team.getId() == teamId) {
-                team.setAddedUp(hourlyRateWithUP);
-                teamsTableView.refresh();
-                break;
-            }
-        }
-    }
-
 
     public void assignEmployeeToTeam(ActionEvent event) {
         Employees selectedEmployee = getSelectedEmployee();
@@ -273,23 +194,14 @@ public class MainViewController {
 
                 stage.show();
 
-                UtilizationPController utilizationPController = loader.getController();
+                this.utilizationPController = loader.getController();
                 utilizationPController.setMainController(this);
                 utilizationPController.setStage(stage);
                 utilizationPController.setSelectedEmployee(selectedEmployee);
 
-                /*stage.setOnHiding(event1 -> {
-                    double upPercentage = utilizationPController.getUpPercentage();
-
-                    // Refresh the team table to reflect the new UP percentage
-                    updateAddedUPColumn(selectedTeam.getId());
-
-                    addMultiplierBtn.setDisable(false);
-                });*/
-
 
             } catch (IOException e) {
-                e.printStackTrace();
+                ExceptionHandler.showAlert("Operation Failed");
             }
         } else if (selectedEmployee == null) {
             ExceptionHandler.showAlert("Please select an employee.");
@@ -298,64 +210,25 @@ public class MainViewController {
         }
     }
 
-    private double calculateHourlyRateWithUP(int teamId, double upPercentage) {
-        // Fetch the employees of the team using the teamId
-        List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
+    // method to calculate employee hourly rate and save it
+    public double calculateEmployeeHourlyRate(Employees employee) {
+        double annualCost = employee.getSalary() + employee.getConfigurableAmount();
+        double totalCost = annualCost + (annualCost * (employee.getMultiplier() / 100)) + employee.getOverheadCost();
+        double hourlyRate = totalCost / employee.getWorkingHours();
 
-        // Calculate the total hourly rate for the team
-        double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeam);
 
-        // Calculate the hourly rate with UP percentage
-        double hourlyRateWithUP = totalHourlyRate * (1 + (upPercentage / 100));
-
-        return hourlyRateWithUP;
+        return hourlyRate;
     }
 
-
-    private double calculateHourlyRateWithMultipliers(int teamId, double markupMultiplier, double gmMultiplier) {
-        // Fetch the employees of the team using the teamId
-        List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(teamId);
-
-        // Calculate the total hourly rate for the team
-        double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeam);
-
-        // Calculate the hourly rate with markup and GM multipliers
-        double hourlyRateWithMultipliers = totalHourlyRate * (1 + (markupMultiplier / 100)) * (1 + (gmMultiplier / 100));
-
-        return hourlyRateWithMultipliers;
-    }
-
-    private void addMultipliers(Teams selectedTeam) {
-        // Retrieve markup and GM multipliers from text fields
-        double markupMultiplier = Double.parseDouble(markupMultiplierTxtField.getText());
-        double gmMultiplier = Double.parseDouble(gmMultiplierTxtField.getText());
-
-        if (selectedTeam != null) {
-            // Recalculate hourly rate with UP percentage
-            double upPercentage = utilizationPController.getUpPercentage();
-            double hourlyRateWithUP = calculateHourlyRateWithUP(selectedTeam.getId(), upPercentage);
-
-            // Apply multipliers to the hourly rate with UP
-            double hourlyRateWithMultipliers = hourlyRateWithUP * (1 + (markupMultiplier / 100)) * (1 + (gmMultiplier / 100));
-
-            // Update the hourly rate with multipliers in the selected team
-            updateHourlyRateWithMultipliers(selectedTeam, hourlyRateWithMultipliers);
-
-            // Refresh the teams table
-            //loadTeams();
+    // method to calculate total hourly rate per team
+    public double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam) {
+        //double upPercentage = employeesTeamsDAO.getUPForEmployeeeOnTeam(team, employee);
+        double totalHourlyRate = 0;
+        for (Employees employee : employeesOfTeam) {
+            totalHourlyRate += calculateEmployeeHourlyRate(employee);
         }
-
-}
-    private void updateHourlyRateWithMultipliers(Teams selectedTeam, double hourlyRateWithMultipliers) {
-        for (Teams team : teamsTableView.getItems()) {
-            if (team.getId() == selectedTeam.getId()) {
-                team.setHourlyRateWithMultipliers(hourlyRateWithMultipliers);
-                break;
-            }
-        }
-        teamsTableView.refresh();
+        return totalHourlyRate; //* upPercentage/100;
     }
-
 
 
     public void loadAllEmployees() {
@@ -369,11 +242,6 @@ public class MainViewController {
         ObservableList<Employees> observableList = FXCollections.observableArrayList(employeesOfTeam);
         employeesOfTeamList.setAll(observableList);
 
-    }
-
-    public void loadCountries(){
-        ObservableList<Countries> countries = FXCollections.observableArrayList(countriesDAO.getAllCountries());
-       // countryComboBox.setItems(countries);
     }
 
     public void removeTeamFromTable(Teams team) {
@@ -390,9 +258,9 @@ public class MainViewController {
 
 
     @FXML
-    void addEmplooyeePopUp(ActionEvent event)  {
+    void addEmployeePopUp(ActionEvent event)  {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmplooyee.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/gui/view/addEmployee.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.initStyle(StageStyle.UNDECORATED);
@@ -405,7 +273,7 @@ public class MainViewController {
 
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.showAlert("Operation Failed");
         }
 
     }
@@ -425,7 +293,7 @@ public class MainViewController {
             addMultiplierController controller = loader.getController();
             controller.setMainViewController(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionHandler.showAlert("Operation Failed");
         }
     }
 
@@ -448,7 +316,7 @@ public class MainViewController {
 
                 stage.showAndWait();
             } catch (IOException e) {
-                e.printStackTrace();
+                ExceptionHandler.showAlert("Operation Failed");
             }
         } else {
             ExceptionHandler.showAlert("Please select an employee to edit.");
@@ -487,7 +355,7 @@ public class MainViewController {
                 deleteTeamController.setMainViewController(this);
                 deleteTeamController.setSelectedTeam(selectedTeam);
             } catch (IOException e) {
-                e.printStackTrace();
+                ExceptionHandler.showAlert("Operation Failed");
             }
         } else {
             ExceptionHandler.showAlert("Please select a team to delete.");
@@ -505,7 +373,5 @@ public class MainViewController {
         Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         currentStage.setIconified(true);
     }
-
-
 
 }

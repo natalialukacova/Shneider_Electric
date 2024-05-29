@@ -1,12 +1,11 @@
 package gui.controller.employee;
 
-import be.Countries;
 import be.Employees;
-import dal.CountriesDAO;
 import dal.EmployeesDAO;
 import gui.controller.MainViewController;
-import javafx.collections.FXCollections;
+import gui.utility.ExceptionHandler;
 import javafx.collections.ObservableList;
+import bll.EmployeeManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -17,8 +16,10 @@ public class AddEmployeeController {
 
     @FXML
     public TextField nameTxtField, salaryTxtField, multiplierTxtField, configurableAmountTxtField, workingHoursTxtField, overheadCostTxtField, geographyTxtField;
-    private EmployeesDAO employeesDAO = new EmployeesDAO();
-    private MainViewController mainController = new MainViewController();
+    private EmployeesDAO employeesDAO;
+    private MainViewController mainController;
+    private EmployeeManager employeeManager = new EmployeeManager();
+
     private Stage stage;
     private ObservableList<Employees> employees;
 
@@ -31,10 +32,15 @@ public class AddEmployeeController {
         this.employees = employees;
     }
 
+    /**
+     * Ensures that required text fields are not null nor empty and that specific fields contain valid numeric values.
+     *
+     * @return true if all validations pass, false otherwise.
+     */
     private boolean validateInput() {
-        if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() || geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
-            showAlert("Please fill in all required fields.");
-            System.out.println("employee is null");
+        if (nameTxtField.getText()==null || nameTxtField.getText().isEmpty() ||
+                geographyTxtField.getText()==null || geographyTxtField.getText().isEmpty()) {
+            ExceptionHandler.showAlert("Please fill in all required fields.");
             return false;
         }
         try{
@@ -44,7 +50,7 @@ public class AddEmployeeController {
             Double.parseDouble(workingHoursTxtField.getText());
             Double.parseDouble(overheadCostTxtField.getText());
         } catch (NumberFormatException e) {
-            showAlert("Please enter valid numbers for numeric fields.");
+            ExceptionHandler.showAlert("Please enter valid numbers for numeric fields.");
             return false;
         }
         return true;
@@ -64,20 +70,13 @@ public class AddEmployeeController {
 
         Employees newEmployee = new Employees(0, employeeName, salary, multiplier, configurableAmount, workingHours, overheadCost, geography);
 
-        Double hourlyRate = mainController.calculateEmployeeHourlyRate(newEmployee);
+        // Calculate and set the hourly rate
+        Double hourlyRate = employeeManager.calculateEmployeeHourlyRate(newEmployee);
         newEmployee.setHourlyRate(hourlyRate);
 
         employeesDAO.addEmployee(newEmployee);
         employees.add(newEmployee);
         stage.close();
-    }
-
-    private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
 
     public void setMainController(MainViewController controller) {

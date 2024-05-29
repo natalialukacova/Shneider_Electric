@@ -6,7 +6,6 @@ public class Employees {
     private double salary;
     private double multiplier;
     private double configurableAmount;
-    private String country;
     private String team;
     private double workingHours;
     private double utilizationPercentage;
@@ -56,27 +55,12 @@ public class Employees {
         this.configurableAmount = configurableAmount;
     }
 
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
     public String getTeam() {
         return team;
     }
 
     public void setTeam(String team) {
         this.team = team;
-    }
-    public double getHourlyRateWithUP() {
-        return hourlyRateWithUP;
-    }
-
-    public void setHourlyRateWithUP(double hourlyRateWithUP) {
-        this.hourlyRateWithUP = hourlyRateWithUP;
     }
 
     public double getWorkingHours() {

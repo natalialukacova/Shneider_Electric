@@ -99,27 +99,6 @@ public class TeamsDAO implements ITeamsDAO {
         }
     }
 
-
-    // not using this method
-    public List<Employees> updateHRwithMultipliers(int teamId, double hourlyRateMultipliers){
-        try {
-            String sql = "UPDATE teams SET hourlyRateMultipliers = ? WHERE id = ?";
-            preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
-
-            preparedStatement.setDouble(1, hourlyRateMultipliers);
-            preparedStatement.setInt(2, teamId);
-
-            preparedStatement.executeUpdate();
-
-        } catch (SQLServerException e) {
-            throw new RuntimeException(e);
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return null;
-    }
-
-
     @Override
     public void deleteTeam(int id){
         try {
@@ -172,7 +151,5 @@ public class TeamsDAO implements ITeamsDAO {
         }
         return teams;
     }
-
-
 }
 
