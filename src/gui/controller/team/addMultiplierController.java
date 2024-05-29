@@ -34,17 +34,22 @@ public class addMultiplierController {
         this.mainViewController = mainViewController;
     }
 
+
+
     @FXML
     void addMultipliers(ActionEvent event) {
         try {
+            Teams selectedTeam = mainViewController.getSelectedTeam();
+
             double markupMultiplier = Double.parseDouble(markupMultiplierTxtField.getText());
             double gmMultiplier = Double.parseDouble(gmMultiplierTxtField.getText());
 
-            Teams selectedTeam = mainViewController.getSelectedTeam();
+            selectedTeam.setMarkupMultiplier(Double.parseDouble(markupMultiplierTxtField.getText()));
+            selectedTeam.setGmMultiplier(Double.parseDouble(gmMultiplierTxtField.getText()));
 
             if (selectedTeam != null) {
                 teamsDAO.addMultipliers(selectedTeam.getId(), markupMultiplier, gmMultiplier);
-                mainViewController.refresh();
+                mainViewController.refreshTeamsTable();
                 closeWindow(event);
             } else {
                 showError("Please select a team before saving the multipliers.");

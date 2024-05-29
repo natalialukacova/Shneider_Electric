@@ -63,10 +63,9 @@ public class MainViewController {
     @FXML
     public TableColumn<Employees, String> countryColumn;
     @FXML
-    private TableColumn<Teams, Double> addedMultipliersColumn;
-
+    private TableColumn<Teams, Double> markupColumn;
     @FXML
-    private TableColumn<Teams, Double> addedUPColumn;
+    private TableColumn<Teams, Double> gmColumn;
     @FXML
     private ComboBox<Countries> countryComboBox;
     @FXML
@@ -98,8 +97,8 @@ public class MainViewController {
     private final DecimalFormat decimalFormat = new DecimalFormat("#.##");
     // Field to store UP percentage for each team
 
-    public void refresh() {
-        //loadTeams();
+    public void refreshTeamsTable() {
+        allTeams.setAll(teamsDAO.getAllTeams());
     }
 
     public void setDependencies(EditEmployeeController editEmployeeController) {
@@ -133,7 +132,7 @@ public class MainViewController {
                 loadEmployeesOfTeam(selectedTeam.getId());}
         });
 
-        addedUPColumn.setCellValueFactory(new PropertyValueFactory<>("addedUp"));
+
 
     }
 
@@ -200,20 +199,12 @@ public class MainViewController {
             return new SimpleDoubleProperty(totalHourlyRate).asObject();
         });
 
-        addedUPColumn.setCellValueFactory(cellData -> {
-            List<Employees> employeesOfTeam = employeesTeamsDAO.getEmployeesOfTeam(cellData.getValue().getId());
-            double upPercentage = utilizationPController.getUpPercentage();
-            double totalHourlyRate = calculateTotalHourlyRateForTeam(employeesOfTeamList);
-            double hourlyRateWithUP = totalHourlyRate * (1 + (upPercentage / 100));
-            for (Teams team : teamsTableView.getItems()) {
-                if (team.getId() == selectedTeam.getId()) {
-                team.setAddedUp(hourlyRateWithUP);
-                teamsTableView.refresh();
-                break;
-                }
-            }
-            return new SimpleDoubleProperty(hourlyRateWithUP).asObject();
-        } ); // Updated column reference
+        gmColumn.setCellValueFactory(cellData -> {
+            return new SimpleDoubleProperty(cellData.getValue().getGmMultiplier()).asObject();
+        });
+        markupColumn.setCellValueFactory(cellData -> {
+            return new SimpleDoubleProperty(cellData.getValue().getMarkupMultiplier()).asObject();
+        });
 
 
         teamSearchField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -237,7 +228,7 @@ public class MainViewController {
         for (Employees employee : employeesOfTeam) {
             totalHourlyRate += calculateEmployeeHourlyRate(employee);
         }
-        return totalHourlyRate * upPercentage/100;
+        return totalHourlyRate; //* upPercentage/100;
     }
 
     // method to calculate employee hourly rate and save it

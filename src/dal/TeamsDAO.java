@@ -30,6 +30,8 @@ public class TeamsDAO implements ITeamsDAO {
                             resultSet.getString("teamName"),
                             resultSet.getDouble("teamHourlyRate"),
                             resultSet.getInt("countryId"),
+                            resultSet.getDouble("markupMultiplier"),
+                            resultSet.getDouble("gmMultiplier"),
                             resultSet.getString("countryName"));
                     teams.add(team);
                 }
@@ -62,12 +64,13 @@ public class TeamsDAO implements ITeamsDAO {
     @Override
     public void updateTeam(Teams teams) {
         try {
-            String sql = "UPDATE teams SET teamName = ? WHERE id = ?";
+            String sql = "UPDATE teams SET markupMultiplier = ?, gmMultiplier = ? WHERE id = ?";
             Connection conn = databaseConnector.getConnection();
             preparedStatement = databaseConnector.getConnection().prepareStatement(sql);
 
-            preparedStatement.setString(1, teams.getTeamName());
-            preparedStatement.setInt(2, teams.getId());
+            preparedStatement.setDouble(1, teams.getMarkupMultiplier());
+            preparedStatement.setDouble(2, teams.getGmMultiplier());
+            preparedStatement.setInt(3, teams.getId());
 
             preparedStatement.executeUpdate();
 
@@ -156,6 +159,8 @@ public class TeamsDAO implements ITeamsDAO {
                             resultSet.getString("teamName"),
                             resultSet.getDouble("teamHourlyRate"),
                             resultSet.getInt("countryId"),
+                            resultSet.getDouble("markupMultiplier"),
+                            resultSet.getDouble("gmMultiplier"),
                             resultSet.getString("countryName"));
                     teams.add(team);
                 }

@@ -47,9 +47,11 @@ public class AddTeamController{
         String countryName = selectedCountry.getCountryName();
 
         // HAVE TO BE CHANGED!!!
-        Double teamHourlyRate = (double) 0;
+        double teamHourlyRate = 0;
+        double markupMultiplier = 0;
+        double gmMultiplier = 0;
 
-        Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId, countryName);
+        Teams newTeam = new Teams(0, teamName, teamHourlyRate, countryId, markupMultiplier, gmMultiplier, countryName);
 
         teamsDAO.addTeam(newTeam);
         teams.add(newTeam);

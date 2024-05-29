@@ -60,9 +60,9 @@
                                                 <TableColumn fx:id="teamNameCol" prefWidth="119.99996221065521" text="Team" />
                                                 <TableColumn fx:id="teamCountryCol" prefWidth="111.33338165283203" text="Country" />
                                                 <TableColumn fx:id="hourlyRateColumn" prefWidth="119.99996948242188" text="Hourly Rate" />
-                                                <TableColumn fx:id="UPColumn" prefWidth="106.00003051757812" text="Utilization %" />
-                                                <TableColumn fx:id="GMColumn" prefWidth="124.66668701171875" text="GM Multiplier %" />
-                                                <TableColumn fx:id="MarkupColumn" prefWidth="140.0" text="Markup Multiplier %" />
+                                                <TableColumn fx:id="upColumn" prefWidth="106.00003051757812" text="Utilization %" />
+                                                <TableColumn fx:id="gmColumn" prefWidth="124.66668701171875" text="GM Multiplier %" />
+                                                <TableColumn fx:id="markupColumn" prefWidth="140.0" text="Markup Multiplier %" />
                                              </columns>
                                              <styleClass>
                                                 <String fx:value="table-borders" />

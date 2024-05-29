@@ -70,11 +70,29 @@ public class Teams {
         return countryName;
     }
 
-    public Teams(int id, String teamName, double teamHourlyRate, int countryId, String countryName) {
+    public double getMarkupMultiplier() {
+        return markupMultiplier;
+    }
+
+    public void setMarkupMultiplier(double markupMultiplier) {
+        this.markupMultiplier = markupMultiplier;
+    }
+
+    public double getGmMultiplier() {
+        return gmMultiplier;
+    }
+
+    public void setGmMultiplier(double gmMultiplier) {
+        this.gmMultiplier = gmMultiplier;
+    }
+
+    public Teams(int id, String teamName, double teamHourlyRate, int countryId, double markupMultiplier, double gmMultiplier, String countryName) {
         this.id = id;
         this.teamName = teamName;
         this.teamHourlyRate = teamHourlyRate;
         this.countryId = countryId;
+        this.markupMultiplier = markupMultiplier;
+        this.gmMultiplier = gmMultiplier;
         this.countryName = countryName;
     }
 
