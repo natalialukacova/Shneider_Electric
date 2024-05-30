@@ -350,3 +350,24 @@ public class MainViewController {
     }
 
 }
+
+//    private void addMultipliers(Teams selectedTeam) {
+//        // Retrieve markup and GM multipliers from text fields
+//        double markupMultiplier = Double.parseDouble(markupMultiplierTxtField.getText());
+//        double gmMultiplier = Double.parseDouble(gmMultiplierTxtField.getText());
+//
+//        if (selectedTeam != null) {
+//            // Recalculate hourly rate with UP percentage
+//            double upPercentage = utilizationPController.getUpPercentage();
+//            double hourlyRateWithUP = calculateHourlyRateWithUP(selectedTeam.getId(), upPercentage);
+//
+//            // Apply multipliers to the hourly rate with UP
+//            double hourlyRateWithMultipliers = hourlyRateWithUP * (1 + (markupMultiplier / 100)) * (1 + (gmMultiplier / 100));
+//
+//            // Update the hourly rate with multipliers in the selected team
+//            updateHourlyRateWithMultipliers(selectedTeam, hourlyRateWithMultipliers);
+//
+//            // Refresh the teams table
+//            //loadTeams();
+//        }
+//
