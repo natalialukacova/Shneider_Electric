@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="559.0" prefWidth="516.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.employee.AddEmployeeController">
+    <children>
+        <StackPane layoutX="144.0" layoutY="150.0" prefHeight="600.0" prefWidth="1100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <AnchorPane prefHeight="600.0" prefWidth="1067.0">
+                    <children>
+                        <BorderPane prefHeight="488.0" prefWidth="376.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <top>
+
+                                <AnchorPane prefHeight="35.0" prefWidth="376.0" styleClass="top-form" stylesheets="@../css/MainView.css" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <AnchorPane prefHeight="37.0" prefWidth="516.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
+                                            <children>
+                                                <Button fx:id="closeWindow" layoutX="1034.0" layoutY="6.0" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="close" stylesheets="@../css/MainView.css" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+                        
+                                                    <graphic>
+                                                        <FontAwesomeIcon glyphName="CLOSE" />
+                                                    </graphic>
+                                                </Button>
+                        
+                                                <Button fx:id="minimizeWindow" layoutX="987.0" layoutY="10.0" mnemonicParsing="false" onAction="#minimizeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css" AnchorPane.rightAnchor="67.66666666666674" AnchorPane.topAnchor="5.0">
+                        
+                                                    <graphic>
+                                                        <FontAwesomeIcon glyphName="MINUS" size="1.2EM" />
+                                                    </graphic>
+                                                </Button>
+                                            </children>
+                                        </AnchorPane>
+                                    </children>
+                                </AnchorPane>
+                            </top>
+                     <right>
+                        <AnchorPane prefHeight="492.0" prefWidth="376.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" layoutX="-140.0" prefHeight="443.0" prefWidth="516.0">
+                                 <children>
+                                    <VBox prefHeight="443.0" prefWidth="275.0">
+                                       <children>
+                                          <Label id="label1" stylesheets="@../css/MainView.css" text="Name">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label id="label1" text="Annual Salary">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label id="label1" text="Overhead Multiplier Percentage %">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label id="label1" text="Configurable fixed Amount">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label id="label1" text="Annual Working Hours">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label id="label1" prefHeight="16.0" prefWidth="241.0" text="Overhead Cost ">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                          <Label id="label1" layoutX="50.0" layoutY="105.0" text="Country or Geography">
+                                             <font>
+                                                <Font name="Arial Rounded MT Bold" size="12.0" />
+                                             </font>
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="40.0" />
+                                             </VBox.margin>
+                                          </Label>
+                                       </children>
+                                    </VBox>
+                                    <VBox prefHeight="448.0" prefWidth="200.0">
+                                       <children>
+                                          <TextField fx:id="nameTxtField" alignment="TOP_RIGHT" prefHeight="0.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="35.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="salaryTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="multiplierTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="configurableAmountTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="workingHoursTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="overheadCostTxtField" alignment="TOP_RIGHT" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                          <TextField fx:id="geographyTxtField" alignment="TOP_RIGHT" layoutX="50.0" layoutY="375.0" prefHeight="25.0" prefWidth="120.0" styleClass="table-view" stylesheets="@../css/MainView.css">
+                                             <VBox.margin>
+                                                <Insets left="40.0" top="30.0" />
+                                             </VBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                              <Button layoutX="41.0" layoutY="443.0" mnemonicParsing="false" onAction="#confirmAddEmployee" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm" />
+                              <Button layoutX="128.0" layoutY="443.0" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel" />
+                           </children>
+                        </AnchorPane>
+                     </right>
+                        </BorderPane>
+                    </children>
+                </AnchorPane>
+            </children>
+        </StackPane>
+    </children>
+</AnchorPane>

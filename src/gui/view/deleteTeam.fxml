@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.controller.team.DeleteTeamController">
+   <children>
+      <HBox prefHeight="35.0" prefWidth="400.0" styleClass="main-top-form" stylesheets="@../css/MainView.css">
+         <children>
+            <Button mnemonicParsing="false" onAction="#minimizeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="minimize" stylesheets="@../css/MainView.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="MINUS" size="1.2EM" />
+               </graphic>
+               <HBox.margin>
+                  <Insets left="290.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="closeWindow" mnemonicParsing="false" onAction="#closeWindow" prefHeight="25.0" prefWidth="51.0" styleClass="close" stylesheets="@../css/MainView.css">
+               <graphic>
+                  <FontAwesomeIcon glyphName="CLOSE" />
+               </graphic>
+               <HBox.margin>
+                  <Insets left="5.0" top="5.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="147.0" prefWidth="400.0">
+         <children>
+            <BorderPane prefHeight="147.0" prefWidth="396.0">
+               <center>
+                  <Label fx:id="confirmationLabel" BorderPane.alignment="CENTER" />
+               </center>
+            </BorderPane>
+         </children>
+      </HBox>
+      <HBox prefHeight="18.0" prefWidth="400.0">
+         <children>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#confirmDeleteTeam" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Confirm">
+               <HBox.margin>
+                  <Insets left="200.0" />
+               </HBox.margin>
+            </Button>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#cancelBtn" prefHeight="30.0" prefWidth="67.0" styleClass="addUser-btn" stylesheets="@../css/MainView.css" text="Cancel">
+               <HBox.margin>
+                  <Insets left="20.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>
