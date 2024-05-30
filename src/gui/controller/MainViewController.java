@@ -225,12 +225,11 @@ public class MainViewController {
 
     // method to calculate total hourly rate per team
     public double calculateTotalHourlyRateForTeam(List<Employees> employeesOfTeam) {
-        //double upPercentage = employeesTeamsDAO.getUPForEmployeeeOnTeam(team, employee);
         double totalHourlyRate = 0;
         for (Employees employee : employeesOfTeam) {
             totalHourlyRate += calculateEmployeeHourlyRate(employee);
         }
-        return totalHourlyRate; //* upPercentage/100;
+        return totalHourlyRate;
     }
 
     @FXML
